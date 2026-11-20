@@ -139,7 +139,13 @@ def prepare(shoe, archive):
         *[v for values in facets.values() for v in values],
         *[v["name"] for v in variants],
     ]
-    s.update(slug=shoe["slug"], family=family, variants_count=len(variants))
+    s.update(
+        slug=shoe["slug"],
+        family=family,
+        variants_count=len(variants),
+        catalog_image_url=next((v["image_url"] for v in variants if v.get("image_url")), s.get("image_url")),
+        colors=facets["color"],
+    )
     detail = {k: v for k, v in shoe.items() if k not in ["summary", "metrics", "commerce"]}
     detail["summary"] = s
     # Conversion chart is retained and explicitly not advertised as inventory.

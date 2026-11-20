@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-20T11:04:47.089677+00:00",
+  "imported": 1167,
+  "demo": false,
+  "updated": 1167,
+  "measurements": 27048,
+  "variants": 3845,
+  "offers": 4739,
+  "database_shoes": 1167,
+  "coverage": {
+    "toe_rocker_pct": 217,
+    "interior_forefoot_width_mm": 894,
+    "plate": 685
+  },
+  "input_sha256": "a03d02b1e98caef50807227745f8a779776e77bf50f3750c769523c785fc6308",
+  "null_policy": "preserved",
+  "identity": "RunRepeat shoe_id; exact generations/GTX/kids remain distinct"
+}

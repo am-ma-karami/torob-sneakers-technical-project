@@ -15,6 +15,12 @@ CATEGORIES = {
     "cross-country-shoes": "دو صحرانوردی",
 }
 ALIASES = {
+    "پگاسوس": "pegasus",
+    "نیمباس": "nimbus",
+    "نوابلاست": "novablast",
+    "باندی": "bondi",
+    "کلیفتون": "clifton",
+    "گوست": "ghost",
     "نایک": "nike",
     "نايک": "nike",
     "نایکی": "nike",

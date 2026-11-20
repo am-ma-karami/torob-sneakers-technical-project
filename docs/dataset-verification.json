@@ -1,0 +1,70 @@
+{
+  "source_unchanged": true,
+  "files": [
+    {
+      "name": "README.fa.md",
+      "bytes": 11758,
+      "sha256": "b0515632af51314e8ae5a46c24b41084b371f9de0ba30412a34b9469106e7310"
+    },
+    {
+      "name": "column-guide.csv",
+      "bytes": 7796,
+      "sha256": "b4c40592a9bd7cc25c5e3666cbf515fe75b8c279d8270c8455f76f3ae60746f4"
+    },
+    {
+      "name": "manifest.json",
+      "bytes": 1606,
+      "sha256": "55c677d3d7c2b11233d44d3529e7bacf19225d033b930888e704a9c8bd4d8680"
+    },
+    {
+      "name": "matching-audit.csv",
+      "bytes": 48711,
+      "sha256": "c27cbe81e7ad148ebfcdf10e6872790d28c8c1c2d7fa9eb61f2bb7637e6c52dd"
+    },
+    {
+      "name": "merge-report.json",
+      "bytes": 3230,
+      "sha256": "d1f0ce4076aa33a55538855066acc42eca92d5adc41ebde921098b06f26ef51c"
+    },
+    {
+      "name": "shoes-merged-complete.zip",
+      "bytes": 21564221,
+      "sha256": "1df99abd4f32b4422bfe0176ea60a0e61b60afc97f895731ec1acf257befe2bb"
+    },
+    {
+      "name": "shoes-merged.csv",
+      "bytes": 1004680,
+      "sha256": "47b7643d939c3852bc7a49840aa3f851375e64e758559292d60d4907b6e3ca1f"
+    },
+    {
+      "name": "shoes-ui.json",
+      "bytes": 36325923,
+      "sha256": "a03d02b1e98caef50807227745f8a779776e77bf50f3750c769523c785fc6308"
+    },
+    {
+      "name": "source-differences.csv",
+      "bytes": 54017,
+      "sha256": "92e1d623ef89bdd5947bea14a8525488590a9ee648504cbefa3396c4caaf270e"
+    },
+    {
+      "name": "source-records.jsonl",
+      "bytes": 118913085,
+      "sha256": "4b59f80c76a8b1d0360ab0d34967aa68c445f5435e159e035da25250bd2d9506"
+    },
+    {
+      "name": "unmatched-source-shoes.csv",
+      "bytes": 23785,
+      "sha256": "ed89a9da216aeaa4ee8dfc56d35fb3b524a135ad1e3ddda3678435566b3b65e6"
+    },
+    {
+      "name": "visualization-contract.json",
+      "bytes": 1645,
+      "sha256": "08dc5b7b72fc53f9b0193c977b466c45fd84075d9671f194a7f814b178b1d2ef"
+    },
+    {
+      "name": "visualization-data.json",
+      "bytes": 4362425,
+      "sha256": "5eb6950214a9325cce0fa95910083e8d5502aae30fe0599c74ab34abae2ced64"
+    }
+  ]
+}

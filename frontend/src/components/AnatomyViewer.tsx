@@ -1,5 +1,6 @@
 import { useId, useState } from "react";
-import { Layers3 } from "lucide-react";
+import { Layers3, RotateCcw, Layers } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import type { Shoe } from "../lib/types";
 import { anatomyData, type Mode } from "../lib/anatomy";
 import { features } from "../lib/features";
@@ -27,6 +28,8 @@ export function AnatomyViewer({
   compact?: boolean;
   initialMode?: Mode;
 }) {
+  const reduce = useReducedMotion();
+  const [replay, setReplay] = useState(0);
   const data = anatomyData(shoe),
     s = shoe.summary,
     m = shoe.metrics;
@@ -111,6 +114,28 @@ export function AnatomyViewer({
             </button>
           ))}
         </div>
+        {data.modes.includes("exploded") && (
+          <div className="anatomy-playback">
+            <button
+              className="button secondary"
+              aria-label="بازپخش جداسازی لایه‌ها"
+              onClick={() => {
+                setMode("exploded");
+                setReplay((v) => v + 1);
+              }}
+            >
+              <RotateCcw size={16} /> بازپخش جداسازی
+            </button>
+            {mode === "exploded" && data.modes.includes("assembled") && (
+              <button
+                className="button secondary"
+                onClick={() => setMode("assembled")}
+              >
+                <Layers size={16} /> مونتاژ دوباره
+              </button>
+            )}
+          </div>
+        )}
       </div>
       <div
         className={`anatomy-content ${["fit", "profile"].includes(mode) ? "wide-canvas" : ""}`}
@@ -123,8 +148,12 @@ export function AnatomyViewer({
             </span>
           </div>
           <svg
-            viewBox={mode === "exploded" ? "0 0 760 530" : "0 0 760 430"}
-            role="img"
+            viewBox={
+              ["assembled", "exploded"].includes(mode)
+                ? "0 0 760 530"
+                : "0 0 760 430"
+            }
+            role={["assembled", "exploded"].includes(mode) ? "group" : "img"}
             aria-label={`طرح ${names[mode]} ${s.name}`}
           >
             <defs>
@@ -151,7 +180,7 @@ export function AnatomyViewer({
                 <path d="M0 0L9 9M9 0L0 9" stroke="#171B22" strokeWidth=".6" />
               </pattern>
             </defs>
-            {mode === "profile" || mode === "assembled" ? (
+            {mode === "profile" ? (
               <g>
                 <path d={`M45 ${ground}H710`} stroke="var(--border)" />
                 <path
@@ -167,47 +196,15 @@ export function AnatomyViewer({
                   strokeWidth="1.5"
                   data-testid="sole-profile"
                 />
-                {mode === "assembled" ? (
-                  <g clipPath={`url(#${clip})`}>
-                    {insoleThickness > 0 && (
-                      <path
-                        d={data.top}
-                        fill="none"
-                        stroke={colors.insole}
-                        strokeWidth={insoleThickness * scale * 2}
-                        data-testid="insole-band"
-                        data-thickness-mm={insoleThickness}
-                      />
-                    )}
-                    {outsoleThickness > 0 && (
-                      <path
-                        d={`M${toe} ${tipY} Q150 ${ground} ${rockerX} ${ground} H${bevelX} Q640 ${ground} ${heel} ${rearY}`}
-                        fill="none"
-                        stroke={colors.outsole}
-                        strokeWidth={outsoleThickness * scale * 2}
-                        data-thickness-mm={outsoleThickness}
-                      />
-                    )}
-                    {data.layers.some((l) => l.key === "plate") && (
-                      <path
-                        d={`M115 ${toeTop + 16} Q290 ${foreY + 16} 400 ${foreY + 18} L650 ${heelY + 20}`}
-                        fill="none"
-                        stroke={colors.plate}
-                        strokeWidth="3"
-                      />
-                    )}
-                  </g>
-                ) : (
-                  <g clipPath={`url(#${clip})`}>
-                    <rect
-                      x={toe}
-                      y="0"
-                      width={Math.max(0, rockerX - toe)}
-                      height="400"
-                      fill="var(--accent)"
-                    />
-                  </g>
-                )}
+                <g clipPath={`url(#${clip})`}>
+                  <rect
+                    x={toe}
+                    y="0"
+                    width={Math.max(0, rockerX - toe)}
+                    height="400"
+                    fill="var(--accent)"
+                  />
+                </g>
                 {dimension(
                   600,
                   heelY,
@@ -374,27 +371,64 @@ export function AnatomyViewer({
               })()
             ) : (
               <g>
-                {data.layers.map((layer, i) => {
-                  const y = 22 + i * 95,
+                {[...data.layers].reverse().map((layer) => {
+                  const i = data.layers.findIndex((l) => l.key === layer.key),
                     key = layer.key;
+                  const assembled: Record<string, number> = {
+                    upper: 169,
+                    insole: 205,
+                    midsole: 213,
+                    plate: 224,
+                    outsole: 235,
+                  };
+                  const poses = {
+                    y: mode === "exploded" ? 28 + i * 96 : assembled[key],
+                    x: mode === "exploded" ? (i - 2) * 5 : 0,
+                    rotate: mode === "exploded" ? (i - 2) * 0.8 : 0,
+                  };
                   return (
-                    <g
-                      key={key}
-                      transform={`translate(0 ${y})`}
-                      opacity={selected?.key === key ? 1 : 0.66}
+                    <motion.g
+                      key={`${key}-${replay}`}
+                      initial={
+                        reduce ? false : { y: assembled[key], x: 0, rotate: 0 }
+                      }
+                      animate={{
+                        ...poses,
+                        opacity: selected?.key === key ? 1 : 0.82,
+                      }}
+                      transition={{
+                        duration: reduce ? 0 : 0.82,
+                        delay: reduce ? 0 : i * 0.065,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
                       className="exploded-layer"
+                      data-layer={key}
+                      data-pose={mode}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`لایهٔ ${layer.name} در طرح`}
+                      aria-pressed={selected?.key === key}
                       onClick={() => setSelection(key)}
-                      style={{ cursor: "pointer" }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setSelection(key);
+                        }
+                      }}
+                      style={{
+                        cursor: "pointer",
+                        transformOrigin: "380px 48px",
+                      }}
                     >
                       {key === "upper" ? (
                         <>
                           <path
-                            d="M110 65Q104 27 160 23L337 9Q405-10 430 11L520-11Q580-12 633 25L657 60Q455 84 110 65Z"
+                            d="M110 65Q104 17 160 13L337 -6Q405-55 430-25L520-49Q580-60 633 5L657 60Q455 84 110 65Z"
                             fill={colors.upper}
                             stroke="var(--text)"
                           />
                           <path
-                            d="M110 65Q104 27 160 23L337 9Q405-10 430 11L520-11Q580-12 633 25L657 60Q455 84 110 65Z"
+                            d="M110 65Q104 17 160 13L337 -6Q405-55 430-25L520-49Q580-60 633 5L657 60Q455 84 110 65Z"
                             fill={`url(#mesh-${id})`}
                           />
                         </>
@@ -426,6 +460,14 @@ export function AnatomyViewer({
                           <path
                             d={footprint}
                             transform={`translate(0 ${(key === "insole" ? insoleThickness : outsoleThickness) * scale})`}
+                            data-testid={
+                              key === "insole" ? "insole-band" : undefined
+                            }
+                            data-thickness-mm={
+                              key === "insole"
+                                ? insoleThickness
+                                : outsoleThickness
+                            }
                             fill={key === "insole" ? "#7C6C55" : "#273A4E"}
                           />
                           <path
@@ -451,9 +493,9 @@ export function AnatomyViewer({
                         fill="var(--text)"
                         textAnchor="middle"
                       >
-                        {i + 1}
+                        {mode === "exploded" ? i + 1 : ""}
                       </text>
-                    </g>
+                    </motion.g>
                   );
                 })}
               </g>

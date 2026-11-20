@@ -10,6 +10,8 @@ from pathlib import Path
 parser = argparse.ArgumentParser()
 parser.add_argument("--load-local-env", action="store_true")
 parser.add_argument("--search", action="store_true")
+parser.add_argument("--capabilities", action="store_true")
+parser.add_argument("--logos", nargs="+")
 parser.add_argument("--query", default="animated tabs segmented control")
 args = parser.parse_args()
 print("Credential inherited from parent process:", bool(os.environ.get("API_KEY_21ST")))
@@ -67,6 +69,10 @@ for tool in tools:
         "component" in tool["name"] and "search" in tool["name"]
     ):
         print("Available:", tool["name"])
+if args.capabilities:
+    for tool in tools:
+        if any(term in tool["name"].lower() for term in ["logo", "asset", "usage"]):
+            print(json.dumps(tool, ensure_ascii=False))
 if args.search:
     result = rpc(
         "tools/call",
@@ -75,3 +81,19 @@ if args.search:
     )
     Path(".local/21st-search.json").write_text(json.dumps(result, ensure_ascii=False, indent=2))
     print(json.dumps(result, ensure_ascii=False)[:10000])
+
+if args.logos:
+    import concurrent.futures
+
+    def find_logo(query):
+        result = rpc(
+            "tools/call", {"name": "search_logo", "arguments": {"query": query, "limit": 3}}, ident=4
+        )
+        return query, result
+
+    logos = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        for query, result in pool.map(find_logo, args.logos):
+            logos[query] = result
+            print(query, json.dumps(result, ensure_ascii=False)[:1600])
+    Path(".local/21st-logos.json").write_text(json.dumps(logos, ensure_ascii=False, indent=2))

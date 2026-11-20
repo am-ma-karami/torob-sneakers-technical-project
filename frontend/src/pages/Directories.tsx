@@ -4,6 +4,7 @@ import { ChevronLeft, Footprints } from "lucide-react";
 import { api } from "../lib/api";
 import type { Taxonomy } from "../lib/types";
 import { fa } from "../lib/format";
+import { BrandLogo } from "../components/BrandLogo";
 import { Breadcrumb, ErrorState, Loading } from "../components/Shared";
 export function Directory({ kind }: { kind: "brands" | "categories" }) {
   const query = useQuery({
@@ -27,13 +28,19 @@ export function Directory({ kind }: { kind: "brands" | "categories" }) {
       ) : query.isError ? (
         <ErrorState retry={() => query.refetch()} />
       ) : (
-        <div className="directory-grid">
+        <div
+          className={`directory-grid ${kind === "brands" ? "brand-directory" : "category-directory"}`}
+        >
           {query.data[kind].map((c) => (
             <Link
               key={c.value}
               to={`/shoes?${kind === "brands" ? "brand" : "category"}=${encodeURIComponent(c.value)}#catalog`}
             >
-              <Footprints size={20} />
+              {kind === "brands" ? (
+                <BrandLogo brand={c.value} />
+              ) : (
+                <Footprints size={20} />
+              )}
               <b dir="auto">{c.label}</b>
               <span>{fa(c.count)} کفش</span>
               <ChevronLeft size={18} />

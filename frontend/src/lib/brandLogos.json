@@ -1,0 +1,112 @@
+{
+  "ANTA": {
+    "src": "/media/brands/anta.svg",
+    "source": "https://www.anta.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "Jordan": {
+    "src": "/media/brands/jordan.svg",
+    "source": "https://www.nike.com/jordan",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "New Balance": {
+    "src": "/media/brands/newbalance.svg",
+    "source": "https://www.newbalance.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "Nike": {
+    "src": "/media/brands/nike.svg",
+    "source": "https://www.nike.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "PUMA": {
+    "src": "/media/brands/puma.svg",
+    "source": "https://us.puma.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "Reebok": {
+    "src": "/media/brands/reebok.svg",
+    "source": "https://www.reebok.com/us",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "The North Face": {
+    "src": "/media/brands/thenorthface.svg",
+    "source": "https://www.thenorthface.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "Under Armour": {
+    "src": "/media/brands/underarmour.svg",
+    "source": "https://www.underarmour.com/en-us",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "adidas": {
+    "src": "/media/brands/adidas.svg",
+    "source": "https://www.adidas.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0"
+  },
+  "ASICS": {
+    "src": "/media/brands/asics.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Asics_Logo.svg",
+    "license": "Public domain",
+    "author": "Unknown authorUnknown author",
+    "collection": "Wikimedia Commons",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Asics_Logo.svg"
+  },
+  "Saucony": {
+    "src": "/media/brands/saucony.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Logo_Saucony.svg",
+    "license": "Public domain",
+    "author": "Unknown authorUnknown author",
+    "collection": "Wikimedia Commons",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Logo_Saucony.svg"
+  },
+  "Altra": {
+    "src": "/media/brands/altra.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Altra_Running_logo.svg",
+    "license": "Public domain",
+    "author": "Altra LLC",
+    "collection": "Wikimedia Commons",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Altra_Running_logo.svg"
+  },
+  "Merrell": {
+    "src": "/media/brands/merrell.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Merrell-Logo.svg",
+    "license": "Public domain",
+    "author": "Merrell",
+    "collection": "Wikimedia Commons",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Merrell-Logo.svg"
+  },
+  "Salomon": {
+    "src": "/media/brands/salomon.svg",
+    "source": "https://www.salomon.com/en-us",
+    "license": "Brand trademark; official website header asset",
+    "collection": "Official brand website"
+  }
+}

@@ -1,6 +1,6 @@
 # راد · RAD — footwear, understood
 
-A working Persian/RTL footwear discovery and comparison application, now using the Nocturne dark editorial interface. React 19 + TypeScript + Vite + TanStack Query + Motion + GSAP ScrollTrigger; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
+A working Persian/RTL footwear discovery and comparison application, now using the Glass Studio dark glass interface. React 19 + TypeScript + Vite + TanStack Query + Motion + GSAP ScrollTrigger; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
@@ -14,7 +14,7 @@ The catalog contains all **1167** original models, **27048** measurements, **384
 - A focused home with four real featured shoes; dedicated `/shoes`, `/shoes/:slug`, `/compare`, `/finder`, `/brands`, `/categories` and `/about` pages.
 - Purposeful GSAP/Motion/CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
 
-The redesign report, current verification, before/after images and exact rollback/configuration steps are in [docs/redesign/delivery.md](docs/redesign/delivery.md). The bright baseline remains available on `baseline/bright-ui-2026-11-20`.
+The current refinement report, asset provenance, before/after images and exact recovery steps are in [docs/glass-studio/delivery.md](docs/glass-studio/delivery.md). The previous Nocturne UI is preserved on `baseline/nocturne-ui-2026-11-20`; the older bright baseline remains available independently. Genuine matching 3D meshes were not obtained, so the opening uses explicitly identified processed catalog photography.
 
 ## Run locally
 

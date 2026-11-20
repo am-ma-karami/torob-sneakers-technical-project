@@ -1,6 +1,6 @@
 # Executed verification — 20 November 2026
 
-**Current redesign results:** [redesign delivery and verification](redesign/delivery.md). The matrix below records the preserved bright baseline.
+**Current refinement results:** [Glass Studio delivery and verification](glass-studio/delivery.md). [Previous Nocturne results](redesign/delivery.md). The matrix below records the preserved bright baseline.
 
 | Check | Actual result |
 |---|---|

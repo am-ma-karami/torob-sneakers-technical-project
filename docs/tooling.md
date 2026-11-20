@@ -1,5 +1,7 @@
 # Actual design-tool status
 
+The current [Glass Studio tool record](glass-studio/design-system.md#applied-tools) includes a fresh authenticated 51-tool discovery, free logo searches (successful empty results), and glass-navigation component metadata. It also records the applied UI UX Pro Max glass and motion guidance. The earlier setup and segmented-tab discovery remain below.
+
 ## UI UX Pro Max
 
 Installed locally with `npx --yes ui-ux-pro-max-cli@latest init --ai codex` into `.agents/skills/`. The installed `ui-ux-pro-max/SKILL.md` was read and applied through design-system, UX motion/focus and React query-state searches. The full CLI-generated tool bundle is ignored to keep vendor code out of the app repository. Run the same command to reproduce installation. The skill becomes discoverable on a later Codex turn/restart; its local workflow was executed directly during this implementation.

@@ -1,6 +1,6 @@
 # Review screenshots
 
-**Current dark redesign:** see the [before/after matrix](redesign/delivery.md#before-and-after) and `redesign/after/`. The captures below document the preserved bright baseline.
+**Current Glass Studio:** see the [before/after matrix](glass-studio/delivery.md#before-and-after) and `glass-studio/after/`. [Previous Nocturne captures](redesign/delivery.md#before-and-after) remain preserved. The captures below document the preserved bright baseline.
 
 Captured from the real local PostgreSQL-backed application in Chromium. Full desktop, tablet and mobile journey tests passed. Captures use reduced motion to freeze settled states; the regular journey tests exercise ordinary motion as well.
 

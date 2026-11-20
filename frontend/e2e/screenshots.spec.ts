@@ -4,11 +4,24 @@ import path from "node:path";
 test("capture redesigned destinations and measured modes", async ({
   page,
 }, info) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  const dir = path.resolve(process.cwd(), "../docs/redesign/after");
+  await page.emulateMedia({
+    reducedMotion: info.project.name === "desktop" ? "no-preference" : "reduce",
+  });
+  const dir = path.resolve(process.cwd(), "../docs/glass-studio/after");
   await fs.mkdir(dir, { recursive: true });
   const save = async (name: string) => {
     await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator("main>div")).toHaveCSS("opacity", "1");
+    await page.locator("img").evaluateAll(async (nodes) => {
+      await Promise.all(
+        nodes
+          .filter((el) => {
+            const r = el.getBoundingClientRect();
+            return r.top < innerHeight && r.bottom > 0;
+          })
+          .map((el) => (el as HTMLImageElement).decode().catch(() => {})),
+      );
+    });
     await page.screenshot({
       path: path.join(dir, `${name}-${info.project.name}.png`),
       animations: "disabled",
@@ -18,11 +31,30 @@ test("capture redesigned destinations and measured modes", async ({
   await expect
     .poll(() =>
       page
-        .locator(".hero-photo-stage img")
+        .locator(".studio-product img")
+        .first()
         .evaluate((el: HTMLImageElement) => el.naturalWidth),
     )
     .toBeGreaterThan(0);
+  if (info.project.name === "desktop")
+    await expect(page.locator(".studio-opening")).toHaveClass(/is-pinned/);
   await save("home");
+  if (info.project.name === "desktop") {
+    await page
+      .getByRole("button", { name: "نمایش ASICS Novablast 6", exact: true })
+      .click();
+    await expect(page.locator(".showcase-live .studio-model")).toHaveText(
+      "ASICS Novablast 6",
+    );
+    await page
+      .locator(".showcase-live img")
+      .evaluate((el: HTMLImageElement) => el.decode());
+    await save("showcase-asics");
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/brands");
+  await expect(page.locator(".brand-directory>a").first()).toBeVisible();
+  await save("brands");
   await page.goto("/shoes");
   await expect(page.locator(".shoe-card").first()).toBeVisible();
   await expect

@@ -3,7 +3,7 @@ test("home routes, four real images, bounded transitions and route cleanup", asy
   page,
 }, info) => {
   await page.goto("/");
-  await expect(page.locator(".hero-photo-stage img")).toBeVisible();
+  await expect(page.locator(".studio-product img").first()).toBeVisible();
   await expect(page.locator(".shoe-card")).toHaveCount(0);
   await expect(page.getByRole("searchbox")).toHaveCount(0);
   const featured = await (await page.request.get("/api/featured")).json();
@@ -25,9 +25,9 @@ test("home routes, four real images, bounded transitions and route cleanup", asy
         "data-active-index",
         String(i),
       );
-      await expect(
-        page.locator(".showcase-live .specimen-facts h4"),
-      ).toHaveText(featured.items[i].name);
+      await expect(page.locator(".showcase-live .studio-model")).toHaveText(
+        featured.items[i].name,
+      );
       await expect
         .poll(() =>
           page

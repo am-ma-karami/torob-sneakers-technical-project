@@ -101,7 +101,11 @@ export function Compare() {
     if (!present) return false;
     if (!differences) return true;
     const values = shoes.map((s) =>
-      row.metric ? comparableMetric(s.metrics[row.key]) : s.summary[row.key],
+      row.metric
+        ? comparableMetric(s.metrics[row.key])
+        : row.key.endsWith("_fa")
+          ? s.reviews_fa?.[row.key === "pros_fa" ? "pros" : "cons"]
+          : s.summary[row.key],
     );
     return new Set(values.map((v) => JSON.stringify(v ?? null))).size > 1;
   };

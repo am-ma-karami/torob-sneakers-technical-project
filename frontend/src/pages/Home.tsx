@@ -70,7 +70,12 @@ export function Home() {
           <motion.div
             className="hero-photo-stage"
             initial={{ opacity: 0, scale: 0.96, rotate: 0 }}
-            animate={{ opacity: 1, scale: 1, rotate: -7 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: features.depth ? -7 : 0,
+              rotateY: features.depth ? -6 : 0,
+            }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             {shoe && (

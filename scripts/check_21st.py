@@ -43,5 +43,12 @@ result = rpc('initialize', {'protocolVersion': '2024-11-05', 'capabilities': {},
 print('Initialize:', 'error' if 'error' in result else 'ok')
 rpc('notifications/initialized', ident=None)
 result = rpc('tools/list', ident=2)
-for tool in result.get('result', {}).get('tools', []):
-    print(json.dumps({'name': tool['name'], 'description': tool.get('description','')[:400], 'inputSchema': tool.get('inputSchema')}, ensure_ascii=False))
+tools = result.get('result', {}).get('tools', [])
+print('Discovered tool count:', len(tools))
+for tool in tools:
+    if tool['name'] in ['search', 'get_component', 'get_component_demo'] or ('component' in tool['name'] and 'search' in tool['name']):
+        print(json.dumps(tool, ensure_ascii=False))
+if args.search:
+    result = rpc('tools/call', {'name': 'search', 'arguments': {'query': 'animated tabs segmented control', 'limit': 3}}, ident=3)
+    Path('.local/21st-search.json').write_text(json.dumps(result, ensure_ascii=False, indent=2))
+    print(json.dumps(result, ensure_ascii=False)[:10000])

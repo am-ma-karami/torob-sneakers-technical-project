@@ -35,3 +35,5 @@ playwright-report/
 
 # Reproducible third-party design-tool installation, not application source
 /.agents/
+
+*.tsbuildinfo

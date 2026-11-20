@@ -68,6 +68,35 @@ describe("measured anatomy", () => {
       screen.queryByRole("button", { name: "ساختار کامل" }),
     ).not.toBeInTheDocument();
   });
+  it("can reassemble verified material layers without inventing missing stack dimensions", () => {
+    const partial = {
+      ...shoe,
+      summary: {
+        ...shoe.summary,
+        heel_stack_mm: null,
+        forefoot_stack_mm: null,
+        upper_material: "Mesh",
+        foam: "Lightstrike Pro",
+        outsole_material: null,
+        plate: null,
+        removable_insole: null,
+      },
+      metrics: {},
+    };
+    expect(anatomyData(partial).modes).toEqual(["assembled", "exploded"]);
+    const { container } = render(<AnatomyViewer shoe={partial} />);
+    fireEvent.click(screen.getByRole("button", { name: "لایه‌های جدا" }));
+    fireEvent.click(screen.getByRole("button", { name: "مونتاژ دوباره" }));
+    expect(screen.getByRole("button", { name: "ساختار کامل" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(
+      screen.queryByRole("button", { name: "نمای جانبی" }),
+    ).not.toBeInTheDocument();
+    expect(container.querySelectorAll(".inspector-metric")).toHaveLength(0);
+    expect(partial.summary.heel_stack_mm).toBeNull();
+  });
   it("binds stack, rocker and fit geometry to measurements rather than only replacing labels", () => {
     const { rerender } = render(
       <AnatomyViewer shoe={shoe} initialMode="profile" />,

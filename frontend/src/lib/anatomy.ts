@@ -71,7 +71,7 @@ export function anatomyData(shoe: Shoe) {
     "internal_length_mm",
   ].filter((k) => numeric(m[k]?.value));
   const modes: Mode[] = [
-    ...(profile && layers.length >= 2 ? ["assembled" as const] : []),
+    ...(layers.length >= 2 ? ["assembled" as const] : []),
     ...(profile ? ["profile" as const] : []),
     ...(fit.length >= 2 ? ["fit" as const] : []),
     ...(layers.length >= 2 ? ["exploded" as const] : []),

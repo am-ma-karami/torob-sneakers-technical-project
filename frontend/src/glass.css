@@ -1049,3 +1049,19 @@ body {
     animation: none !important;
   }
 }
+.studio-copy .studio-model {
+  text-wrap: balance;
+}
+.anatomy.compact {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.anatomy.compact .viewer-toolbar {
+  gap: 4px;
+}
+.anatomy.compact .segmented button {
+  font-size: 10px;
+  padding: 6px;
+}

@@ -114,7 +114,7 @@ export function AnatomyViewer({
             </button>
           ))}
         </div>
-        {data.modes.includes("exploded") && (
+        {!compact && data.modes.includes("exploded") && (
           <div className="anatomy-playback">
             <button
               className="button secondary"
@@ -150,7 +150,7 @@ export function AnatomyViewer({
           <svg
             viewBox={
               ["assembled", "exploded"].includes(mode)
-                ? "0 0 760 530"
+                ? `0 0 760 ${data.layers.length > 4 ? 660 : 550}`
                 : "0 0 760 430"
             }
             role={["assembled", "exploded"].includes(mode) ? "group" : "img"}
@@ -374,15 +374,16 @@ export function AnatomyViewer({
                 {[...data.layers].reverse().map((layer) => {
                   const i = data.layers.findIndex((l) => l.key === layer.key),
                     key = layer.key;
+                  const extraY = data.layers.length > 4 ? 65 : 10;
                   const assembled: Record<string, number> = {
-                    upper: 169,
-                    insole: 205,
-                    midsole: 213,
-                    plate: 224,
-                    outsole: 235,
+                    upper: 169 + extraY,
+                    insole: 205 + extraY,
+                    midsole: 213 + extraY,
+                    plate: 224 + extraY,
+                    outsole: 235 + extraY,
                   };
                   const poses = {
-                    y: mode === "exploded" ? 28 + i * 96 : assembled[key],
+                    y: mode === "exploded" ? 85 + i * 110 : assembled[key],
                     x: mode === "exploded" ? (i - 2) * 5 : 0,
                     rotate: mode === "exploded" ? (i - 2) * 0.8 : 0,
                   };

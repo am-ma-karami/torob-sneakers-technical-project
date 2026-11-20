@@ -1,42 +1,42 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { showcaseIndex, showcasePhase, canPinShowcase } from "./features";
-afterEach(() => {
-  vi.unstubAllEnvs();
-  vi.resetModules();
-});
-describe("bounded showcase and independent fallbacks", () => {
-  it("clamps progress at both ends and only crosses four product boundaries", () => {
-    expect(
-      [-1, 0, 0.24, 0.25, 0.5, 0.75, 1, 2, NaN].map((p) => showcaseIndex(p, 4)),
-    ).toEqual([0, 0, 0, 1, 2, 3, 3, 3, 0]);
-  });
-  it("uses native flow for mobile, reduced motion, save-data and low power", () => {
-    expect(canPinShowcase(1440, false)).toBe(true);
-    expect(canPinShowcase(390, false)).toBe(false);
-    expect(canPinShowcase(1440, true)).toBe(false);
-    expect(canPinShowcase(1440, false, true)).toBe(false);
-    expect(canPinShowcase(1440, false, false, 2)).toBe(false);
-  });
-  it("disables depth independently from scrolling and vice versa", async () => {
-    vi.stubEnv("VITE_ENABLE_DEPTH", "false");
-    vi.resetModules();
-    let module = await import("./features");
-    expect(module.features.depth).toBe(false);
-    expect(module.features.scrollShowcase).toBe(true);
-    vi.stubEnv("VITE_ENABLE_DEPTH", "true");
-    vi.stubEnv("VITE_ENABLE_SCROLL_SHOWCASE", "false");
-    vi.resetModules();
-    module = await import("./features");
-    expect(module.features.depth).toBe(true);
-    expect(module.canPinShowcase(1440, false)).toBe(false);
-  });
-});
+import { chapterStart, studioFrame } from "../components/shoe-studio/sequence";
 
-it("keeps the final chapter pose continuous at the scroll boundary", () => {
-  expect(showcasePhase(0, 4)).toBe(0);
-  expect(showcasePhase(0.25, 4)).toBe(0);
-  expect(showcasePhase(0.99, 4)).toBeCloseTo(0.96);
-  expect(showcasePhase(1, 4)).toBe(1);
-  expect(showcasePhase(2, 4)).toBe(1);
-  expect(showcasePhase(NaN, 4)).toBe(0);
+afterEach(() => vi.unstubAllEnvs());
+
+describe("3D scroll sequence", () => {
+  it("targets each of the four chapters with the position controls", () => {
+    for (let index = 0; index < 4; index++) {
+      expect(studioFrame(chapterStart(index, 4), 4).active).toBe(index);
+    }
+  });
+
+  it("turns a full revolution and tilts to display both upper and outsole", () => {
+    const start = studioFrame(0, 4);
+    const end = studioFrame(0.84 / 4, 4);
+    expect(end.yaw - start.yaw).toBeCloseTo(2 * Math.PI);
+    expect(studioFrame(0.27 / 4, 4).tilt).toBeGreaterThan(0.95);
+    expect(studioFrame(0.57 / 4, 4).tilt).toBeLessThan(-0.66);
+  });
+
+  it("switches the product halfway through the handoff and keeps the final product visible", () => {
+    expect(studioFrame(0.895 / 4, 4).active).toBe(0);
+    expect(studioFrame(0.905 / 4, 4).active).toBe(1);
+    expect(studioFrame(1, 4)).toMatchObject({
+      index: 3,
+      blend: 0,
+      turn: 1,
+      active: 3,
+    });
+  });
+
+  it("leaves anatomy depth enabled when the introduction is switched off", async () => {
+    vi.stubEnv("VITE_ENABLE_3D_INTRO", "false");
+    vi.stubEnv("VITE_ENABLE_DEPTH", "true");
+    vi.resetModules();
+    const { features } = await import("./features");
+    const { allowStudio } =
+      await import("../components/shoe-studio/eligibility");
+    expect(allowStudio()).toBe(false);
+    expect(features.depth).toBe(true);
+  });
 });

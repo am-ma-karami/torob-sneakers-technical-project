@@ -1,356 +1,346 @@
-import { useEffect, useRef, useState, type Ref } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight, ArrowUpLeft } from "lucide-react";
-import type { FeaturedShoe } from "../lib/types";
 import {
-  canPinShowcase,
-  features,
-  showcaseIndex,
-  showcasePhase,
-} from "../lib/features";
+  ArrowDown,
+  ArrowUpLeft,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import type { FeaturedShoe } from "../lib/types";
 import { fa, value } from "../lib/format";
-import rawMedia from "../lib/featuredMedia.json";
-type Media = {
-  src: string;
-  small: string;
-  variant_key: string;
-  shoe_id: number;
-  slug: string;
-  name: string;
-  kind: string;
-  model_url: null;
-};
-export const featuredMedia: Record<number, Media> = rawMedia;
-const editorial = [
-  {
-    title: "سبکی، در هر قدم.",
-    copy: "فوم Lightstrike Pro و ساختاری سبک؛ برای شناختن تفاوت فرم و احساس حرکت.",
-    accent: "#B8CDDF",
-  },
-  {
-    title: "همراهِ مسیر هر روز.",
-    copy: "ترکیب ReactX و Air Zoom؛ یک نگاه نزدیک به جزئیات مدل آشنای پگاسوس.",
-    accent: "#B9BDC9",
-  },
-  {
-    title: "فضا برای حرکت.",
-    copy: "ارتفاع زیره، فضای داخلی و حس فوم را کنار هم ببین؛ انتخاب از همین تفاوت‌ها شروع می‌شود.",
-    accent: "#D8C9B6",
-  },
-  {
-    title: "ریتم را عوض کن.",
-    copy: "فوم PWRRUN PB و انحنای SPEEDROLL؛ جزئیات کفشی برای سرعت‌های مختلف.",
-    accent: "#C6D899",
-  },
-];
-function FloatingShoe({
+import mediaCatalog from "../lib/featuredMedia.json";
+import { allowStudio, modeledShoeIds } from "./shoe-studio/eligibility";
+import { chapterStart, studioFrame } from "./shoe-studio/sequence";
+import "./shoe-studio/intro.css";
+
+const media = mediaCatalog as Record<number, (typeof mediaCatalog)["40586"]>;
+
+function ProductPoster({
   shoe,
-  eager = false,
-  onReady,
+  eager,
 }: {
   shoe: FeaturedShoe;
-  eager?: boolean;
-  onReady?: () => void;
+  eager: boolean;
 }) {
-  const [broken, setBroken] = useState(false);
-  const media = featuredMedia[shoe.shoe_id];
-  return !media || broken ? (
-    <div className="studio-image-fallback">{shoe.name}</div>
-  ) : (
+  const [failed, setFailed] = useState(false);
+  const image = media[shoe.shoe_id];
+  return image && !failed ? (
     <img
-      src={media.src}
-      srcSet={`${media.small} 640w, ${media.src} 1200w`}
-      sizes="(max-width:700px) 90vw, (max-width:1023px) 65vw, 55vw"
+      src={image.src}
+      srcSet={`${image.small} 640w, ${image.src} 1200w`}
+      sizes="(max-width: 700px) 94vw, 65vw"
       width="1200"
       height="570"
       alt={shoe.name}
       loading={eager ? "eager" : "lazy"}
-      decoding={eager ? "sync" : "async"}
-      onLoad={onReady}
-      onError={() => setBroken(true)}
+      decoding="async"
+      onError={() => setFailed(true)}
     />
+  ) : (
+    <span className="intro-missing" dir="ltr">
+      {shoe.name}
+    </span>
   );
 }
-function Specimen({
+
+function ProductInfo({
   shoe,
-  index,
-  driftRef,
-  eager = false,
+  modeled,
 }: {
   shoe: FeaturedShoe;
-  index: number;
-  driftRef?: Ref<HTMLDivElement>;
-  eager?: boolean;
+  modeled: boolean;
 }) {
-  const e = editorial[index % 4],
-    media = featuredMedia[shoe.shoe_id];
+  const image = media[shoe.shoe_id];
+  const specs = [
+    { data: shoe.weight_g, label: "وزن", unit: "g" },
+    { data: shoe.heel_stack_mm, label: "پاشنه", unit: "mm" },
+    { data: shoe.drop_mm, label: "دراپ", unit: "mm" },
+  ];
   return (
-    <article
-      className="featured-specimen studio-chapter"
-      style={{ "--shoe-accent": e.accent } as React.CSSProperties}
-      data-shoe-id={shoe.shoe_id}
-      data-renderer="catalog-photo"
-    >
-      <div className="studio-stage" aria-label={`نمای محصول ${shoe.name}`}>
-        <div className="studio-light" aria-hidden="true" />
-        <div className="studio-contact-shadow" aria-hidden="true" />
-        <div className="studio-drift" ref={driftRef}>
-          <div className="studio-product">
-            <FloatingShoe key={shoe.shoe_id} shoe={shoe} eager={eager} />
-          </div>
-        </div>
+    <div className="intro-product-info" aria-live="polite" aria-atomic="true">
+      <h2 dir="ltr">{shoe.name}</h2>
+      <dl>
+        {specs
+          .filter(({ data }) => data != null)
+          .map(({ data, label, unit }) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd dir="ltr">{value(data, unit)}</dd>
+            </div>
+          ))}
+      </dl>
+      <div className="intro-product-footer">
+        <Link
+          className="quiet-link"
+          to={`/shoes/${shoe.slug}${image ? `?colorway=${image.variant_key}` : ""}`}
+        >
+          جزئیات کفش <ArrowUpLeft size={15} />
+        </Link>
+        {modeled && <span>بازسازی تقریبی سه‌بعدی</span>}
       </div>
-      <div className="studio-copy">
-        <span className="studio-brand" dir="ltr">
-          {shoe.brand}
-        </span>
-        <h2 className="studio-model" dir="ltr">
-          {shoe.name}
-        </h2>
-        <h3>{e.title}</h3>
-        <p>{e.copy}</p>
-        <dl className="studio-specs">
-          {[
-            [shoe.weight_g, "وزن", "g"],
-            [shoe.heel_stack_mm, "پاشنه", "mm"],
-            [shoe.drop_mm, "دراپ", "mm"],
-          ]
-            .filter(([v]) => v != null)
-            .map(([v, title, unit]) => (
-              <div key={String(title)}>
-                <dt>{title}</dt>
-                <dd dir="ltr">{value(v, String(unit))}</dd>
-              </div>
-            ))}
-        </dl>
-        <div className="studio-actions">
-          <Link to="/shoes" className="button">
-            کشف کفش‌ها <ArrowUpLeft size={17} />
-          </Link>
-          <Link
-            className="quiet-link"
-            to={`/shoes/${shoe.slug}${media ? `?colorway=${media.variant_key}` : ""}`}
-          >
-            جزئیات این مدل <ChevronLeft size={16} />
-          </Link>
-        </div>
-      </div>
-    </article>
+    </div>
   );
 }
+
+const faCount = (index: number, total: number) =>
+  `${fa(index + 1)} از ${fa(total)}`;
+
 export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
-  const root = useRef<HTMLElement>(null),
-    pin = useRef<HTMLDivElement>(null),
-    drift = useRef<HTMLDivElement>(null),
-    trigger = useRef<{ start: number; end: number } | null>(null),
-    activeRef = useRef(0);
-  const [active, setActive] = useState(0),
-    [pinned, setPinned] = useState(false),
-    reduce = useReducedMotion();
-  const [wide, setWide] = useState(() => window.innerWidth >= 1024);
+  const root = useRef<HTMLElement>(null);
+  const sticky = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const [allowed, setAllowed] = useState(allowStudio);
+  const [status, setStatus] = useState<"pending" | "live" | "fallback">(
+    "pending",
+  );
+  const [active, setActive] = useState(0);
+  const idKey = shoes.map((shoe) => shoe.shoe_id).join(",");
+  const tried =
+    allowed &&
+    shoes.length > 0 &&
+    shoes.every((shoe) => modeledShoeIds.includes(shoe.shoe_id));
+  const live = tried && status === "live";
+  const flow = !tried || status === "fallback";
+  const shoe = shoes[Math.min(active, shoes.length - 1)];
+
   useEffect(() => {
-    const q = window.matchMedia("(min-width: 1024px)");
-    const change = () => setWide(q.matches);
-    q.addEventListener("change", change);
-    return () => q.removeEventListener("change", change);
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const change = () => {
+      setAllowed(allowStudio());
+      setStatus("pending");
+      setActive(0);
+    };
+    motion.addEventListener("change", change);
+    return () => motion.removeEventListener("change", change);
   }, []);
+
   useEffect(() => {
-    if (!pinned) return;
+    const element = root.current,
+      stage = sticky.current,
+      display = canvas.current;
+    if (!tried || !element || !stage || !display) return;
+    let destroyed = false;
     let frame = 0;
-    let cancelled = false;
-    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      if (!cancelled)
-        frame = requestAnimationFrame(() => ScrollTrigger.refresh());
-    });
-    return () => {
-      cancelled = true;
+    let preload = 0;
+    let dispose: (() => void) | undefined;
+    let observer: ResizeObserver | undefined;
+    let schedule: (() => void) | undefined;
+    let previous = -1;
+    let progress = -1;
+    const ids = idKey.split(",").map(Number);
+    const failed = () => {
+      if (!destroyed) setStatus("fallback");
+    };
+    const lost = (event: Event) => {
+      event.preventDefault();
+      removeListeners();
+      dispose?.();
+      dispose = undefined;
+      failed();
+    };
+    function removeListeners() {
       cancelAnimationFrame(frame);
-    };
-  }, [pinned]);
-  useEffect(() => {
-    let cancelled = false;
-    let revert: (() => void) | undefined;
-    if (!shoes.length) return;
-    const saveData = !!(
-      navigator as Navigator & { connection?: { saveData?: boolean } }
-    ).connection?.saveData;
-    if (
-      !canPinShowcase(
-        window.innerWidth,
-        !!reduce,
-        saveData,
-        navigator.hardwareConcurrency || 8,
-      )
-    ) {
-      setPinned(false);
-      return;
+      window.clearTimeout(preload);
+      if (schedule) {
+        window.removeEventListener("scroll", schedule);
+        document.removeEventListener("visibilitychange", schedule);
+      }
+      observer?.disconnect();
+      display?.removeEventListener("webglcontextlost", lost);
     }
-    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(
-      ([{ gsap }, { ScrollTrigger }]) => {
-        if (cancelled || !root.current || !pin.current) return;
-        gsap.registerPlugin(ScrollTrigger);
-        const media = gsap.matchMedia();
-        media.add(
-          "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
-          () => {
-            setPinned(true);
-            const instance = ScrollTrigger.create({
-              id: "rad-featured-showcase",
-              trigger: root.current,
-              start: "top top+=84",
-              end: "+=1200",
-              pin: pin.current,
-              pinSpacing: true,
-              anticipatePin: 1,
-              onUpdate: (self) => {
-                const phase = showcasePhase(self.progress, shoes.length);
-                if (drift.current)
-                  gsap.set(drift.current, {
-                    x: (phase - 0.5) * 38,
-                    y: Math.sin(phase * Math.PI) * -14,
-                    rotation: features.depth ? (phase - 0.5) * 7 : 0,
-                  });
-                const next = showcaseIndex(self.progress, shoes.length);
-                if (next !== activeRef.current) {
-                  activeRef.current = next;
-                  setActive(next);
-                }
-              },
-            });
-            trigger.current = instance;
-            const refresh = () => {
-              if (!cancelled) ScrollTrigger.refresh();
-            };
-            const images = Array.from(
-              root.current?.querySelectorAll("img") || [],
-            );
-            images.forEach((image) =>
-              image.addEventListener("load", refresh, { once: true }),
-            );
-            document.fonts.ready.then(refresh);
-            return () => {
-              images.forEach((image) =>
-                image.removeEventListener("load", refresh),
-              );
-              trigger.current = null;
-              setPinned(false);
-              instance.kill(true);
-            };
-          },
-          root,
-        );
-        revert = () => media.revert();
-      },
-    );
-    return () => {
-      cancelled = true;
-      revert?.();
-    };
-  }, [shoes, reduce, wide]);
-  const select = (next: number) => {
-    next = Math.max(0, Math.min(shoes.length - 1, next));
-    const t = trigger.current;
-    if (t) {
-      window.scrollTo({
-        top: t.start + ((next + 0.5) / shoes.length) * (t.end - t.start),
-        behavior: "instant",
+    import("./shoe-studio/scene")
+      .then(({ createShoeScene }) => {
+        if (destroyed) return;
+        const scene = createShoeScene(display, ids);
+        dispose = scene.dispose;
+        scene.draw(0);
+        setStatus("live");
+        const tick = () => {
+          frame = 0;
+          if (destroyed || document.hidden) return;
+          const { top } = element.getBoundingClientRect();
+          const stageRect = stage.getBoundingClientRect();
+          if (stageRect.bottom <= 0 || stageRect.top >= window.innerHeight)
+            return;
+          const distance = Math.max(
+            1,
+            element.offsetHeight - stage.offsetHeight,
+          );
+          const inset = parseFloat(getComputedStyle(stage).top) || 0;
+          const next = Math.min(1, Math.max(0, (inset - top) / distance));
+          const selected = studioFrame(next, ids.length).active;
+          if (selected !== previous) {
+            previous = selected;
+            setActive(selected);
+          }
+          if (progress !== next) {
+            progress = next;
+            try {
+              scene.draw(next);
+            } catch {
+              removeListeners();
+              dispose?.();
+              dispose = undefined;
+              failed();
+            }
+          }
+        };
+        schedule = () => {
+          if (!frame) frame = requestAnimationFrame(tick);
+        };
+        observer = new ResizeObserver(() => {
+          progress = -1;
+          schedule?.();
+        });
+        observer.observe(element);
+        observer.observe(display);
+        window.addEventListener("scroll", schedule, { passive: true });
+        document.addEventListener("visibilitychange", schedule);
+        display.addEventListener("webglcontextlost", lost);
+        // Prepare the next geometry between paints, then shortly ahead of its chapter.
+        let warm = 1;
+        const prepareNext = () => {
+          if (document.hidden) {
+            preload = window.setTimeout(prepareNext, 750);
+            return;
+          }
+          scene.prepare(warm++);
+          if (warm < ids.length) preload = window.setTimeout(prepareNext, 220);
+        };
+        if (ids.length > 1) preload = window.setTimeout(prepareNext, 180);
+        schedule();
+      })
+      .catch(() => {
+        removeListeners();
+        dispose?.();
+        dispose = undefined;
+        failed();
       });
-    } else {
-      activeRef.current = next;
-      setActive(next);
-    }
-  };
-  if (!shoes.length) return null;
+    return () => {
+      destroyed = true;
+      removeListeners();
+      dispose?.();
+    };
+  }, [tried, idKey]);
+
+  function select(index: number) {
+    const element = root.current,
+      stage = sticky.current;
+    if (!element || !stage) return;
+    const inset = parseFloat(getComputedStyle(stage).top) || 0;
+    const offset = element.getBoundingClientRect().top + window.scrollY - inset;
+    const distance = element.offsetHeight - stage.offsetHeight;
+    window.scrollTo({
+      top: offset + chapterStart(index, shoes.length) * distance,
+      behavior: "instant",
+    });
+  }
+
+  if (!shoe) return null;
   return (
     <section
       ref={root}
-      className={`featured-showcase studio-opening ${pinned ? "is-pinned" : "is-flow"}`}
-      aria-label="چهار کفش منتخب"
-      style={
-        {
-          "--active-accent": editorial[active % 4].accent,
-        } as React.CSSProperties
-      }
+      className={`shoe-intro ${live ? "is-live" : ""} ${flow ? "is-flow" : ""}`}
+      style={{ "--intro-count": shoes.length } as React.CSSProperties}
+      aria-label="معرفی کفش‌های منتخب"
+      data-renderer={live ? "webgl" : "catalog-photo"}
     >
-      <div className="showcase-pin studio-pin" ref={pin}>
-        <div className="studio-heading">
-          <span className="eyebrow">راد / نگاهی نزدیک‌تر به کفش</span>
-          <h1>فرمِ حرکت را کشف کن.</h1>
-          <p>کفش را ببین، جزئیاتش را بشناس، برای مسیر خودت انتخاب کن.</p>
+      <div ref={sticky} className="intro-sticky">
+        <div className="intro-top">
+          <h1>هر کفش، از هر زاویه</h1>
+          <a
+            className="intro-skip"
+            href="#home-content"
+            onClick={(event) => {
+              const target = document.getElementById("home-content");
+              if (!target) return;
+              event.preventDefault();
+              target.focus({ preventScroll: true });
+              target.scrollIntoView({ block: "start", behavior: "instant" });
+            }}
+          >
+            رفتن به صفحهٔ اصلی <ArrowDown size={16} />
+          </a>
         </div>
-        {pinned ? (
-          <>
-            <div
-              className="showcase-live"
-              data-active-index={active}
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  className="studio-presence"
-                  key={shoes[active].shoe_id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: reduce ? 0 : 0.34 }}
-                >
-                  <Specimen
-                    shoe={shoes[active]}
-                    index={active}
-                    driftRef={drift}
-                    eager
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <div className="showcase-controls studio-controls">
-              <button
-                className="icon-button"
-                aria-label="کفش منتخب قبلی"
-                disabled={active === 0}
-                onClick={() => select(active - 1)}
+        {flow ? (
+          <div className="intro-flow">
+            {shoes.map((item, index) => (
+              <article
+                className="intro-chapter"
+                key={item.shoe_id}
+                data-shoe-id={item.shoe_id}
               >
-                <ChevronRight size={18} />
-              </button>
-              <div className="showcase-positions">
-                {shoes.map((shoe, i) => (
-                  <button
-                    key={shoe.shoe_id}
-                    aria-label={`نمایش ${shoe.name}`}
-                    aria-pressed={active === i}
-                    onClick={() => select(i)}
-                  >
-                    <span />
-                    {fa(i + 1)}
-                  </button>
-                ))}
-              </div>
-              <button
-                className="icon-button"
-                aria-label="کفش منتخب بعدی"
-                disabled={active === shoes.length - 1}
-                onClick={() => select(active + 1)}
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <Link to="/shoes" className="studio-skip">
-                رفتن به کاتالوگ <ChevronLeft size={14} />
-              </Link>
-            </div>
-          </>
-        ) : (
-          <div className="featured-flow studio-flow">
-            {shoes.map((shoe, i) => (
-              <Specimen
-                shoe={shoe}
-                index={i}
-                key={shoe.shoe_id}
-                eager={i === 0}
-              />
+                <div className="intro-poster">
+                  <ProductPoster shoe={item} eager={index === 0} />
+                </div>
+                <ProductInfo shoe={item} modeled={false} />
+              </article>
             ))}
           </div>
+        ) : (
+          <>
+            <article
+              className="intro-chapter intro-live-chapter"
+              data-shoe-id={shoe.shoe_id}
+              data-active-index={active}
+            >
+              <div className="intro-visual">
+                {!live && (
+                  <div className="intro-poster">
+                    <ProductPoster shoe={shoe} eager />
+                  </div>
+                )}
+                <canvas
+                  ref={canvas}
+                  className="intro-canvas"
+                  aria-hidden="true"
+                />
+              </div>
+              <ProductInfo shoe={shoe} modeled={live} />
+            </article>
+            <div className="intro-bottom">
+              <div
+                className="intro-progress"
+                aria-label={faCount(active, shoes.length)}
+              >
+                <button
+                  type="button"
+                  className="icon-button"
+                  aria-label="کفش منتخب قبلی"
+                  disabled={!live || active === 0}
+                  onClick={() => select(active - 1)}
+                >
+                  <ChevronRight size={18} />
+                </button>
+                {shoes.map((item, index) => (
+                  <button
+                    type="button"
+                    className="intro-position"
+                    key={item.shoe_id}
+                    disabled={!live}
+                    aria-label={`نمایش ${item.name}`}
+                    aria-pressed={index === active}
+                    onClick={() => select(index)}
+                  >
+                    <span />
+                    {fa(index + 1)}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className="icon-button"
+                  aria-label="کفش منتخب بعدی"
+                  disabled={!live || active === shoes.length - 1}
+                  onClick={() => select(active + 1)}
+                >
+                  <ChevronLeft size={18} />
+                </button>
+              </div>
+              <p>
+                <ArrowDown size={16} /> برای چرخاندن کفش اسکرول کن
+              </p>
+            </div>
+          </>
         )}
       </div>
     </section>

@@ -1,0 +1,349 @@
+.shoe-intro {
+  --studio-dark: #101319;
+  --studio-focus: #d0b793;
+  --intro-top: 84px;
+  --intro-height: calc(100svh - var(--intro-top) - 22px);
+  --intro-step: clamp(380px, 63svh, 560px);
+  position: relative;
+  background: var(--studio-dark);
+  border-radius: 23px;
+}
+
+.shoe-intro.is-live {
+  min-height: calc(
+    var(--intro-height) + var(--intro-count) * var(--intro-step)
+  );
+}
+
+.intro-sticky,
+.intro-loading {
+  min-height: var(--intro-height, calc(100svh - 106px));
+  box-sizing: border-box;
+}
+
+.intro-sticky {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: clamp(20px, 4vh, 46px) clamp(20px, 4.4vw, 72px);
+  background:
+    radial-gradient(
+      ellipse at 35% 42%,
+      #303a47 0%,
+      #1d2530 30%,
+      transparent 68%
+    ),
+    linear-gradient(141deg, #181d25, var(--studio-dark) 76%);
+  border-radius: inherit;
+  border: 1px solid #35404d;
+  overflow: clip;
+}
+
+.shoe-intro.is-live .intro-sticky {
+  position: sticky;
+  top: var(--intro-top);
+}
+
+.intro-loading {
+  display: grid;
+  place-items: center;
+  background: #171d26;
+  border-radius: 23px;
+  color: var(--muted);
+}
+
+.intro-top,
+.intro-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.intro-top h1 {
+  margin: 0;
+  font-weight: 550;
+  font-size: clamp(19px, 2.2vw, 32px);
+}
+
+.intro-top .intro-skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.intro-skip:hover,
+.intro-skip:focus-visible {
+  color: var(--studio-focus);
+}
+
+.intro-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(235px, 28%);
+  align-items: center;
+  direction: ltr;
+}
+
+.intro-live-chapter {
+  min-height: min(64svh, 680px);
+}
+
+.intro-visual {
+  position: relative;
+  width: 100%;
+  height: min(68svh, 740px);
+  min-height: 300px;
+}
+
+.intro-canvas,
+.intro-visual .intro-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.intro-poster {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 22px;
+}
+
+.intro-poster img {
+  height: auto;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 16px #0007);
+}
+
+.intro-product-info {
+  direction: rtl;
+  padding-inline-start: 16px;
+  min-width: 0;
+  position: relative;
+}
+
+.intro-product-info h2 {
+  color: var(--ink);
+  margin: 0 0 25px;
+  text-align: right;
+  font:
+    450 clamp(32px, 4vw, 59px)/1.02 "Bodoni Moda Variable",
+    serif;
+  text-wrap: balance;
+}
+
+.intro-product-info dl {
+  display: flex;
+  gap: clamp(12px, 2vw, 28px);
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.intro-product-info dd {
+  font: 450 14px var(--mono);
+  color: var(--ink);
+  margin: 6px 0 0;
+}
+
+.intro-product-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.intro-product-footer a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+}
+
+.intro-bottom {
+  border-top: 1px solid #b0c4da28;
+  padding-top: 12px;
+}
+
+.intro-bottom p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.intro-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.intro-progress .icon-button,
+.intro-position {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.intro-position {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  align-items: center;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  background: none;
+  border: 0;
+}
+
+.intro-position span {
+  width: 24px;
+  height: 2px;
+  background: #536070;
+}
+
+.intro-position[aria-pressed="true"] {
+  color: var(--studio-focus);
+}
+
+.intro-position[aria-pressed="true"] span {
+  background: var(--studio-focus);
+}
+
+.intro-flow .intro-chapter {
+  min-height: min(50svh, 430px);
+  padding-block: 24px;
+}
+
+.intro-flow .intro-chapter + .intro-chapter {
+  border-top: 1px solid #b0c4da28;
+}
+
+.home-main {
+  scroll-margin-top: 96px;
+}
+
+.home-main-heading {
+  padding: clamp(50px, 9vh, 112px) 24px 0;
+  text-align: center;
+}
+
+.home-main-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(25px, 4vw, 48px);
+}
+
+.home-main-heading p {
+  color: var(--muted);
+  margin: 12px 0 20px;
+}
+
+@media (max-width: 760px) {
+  .shoe-intro {
+    --intro-step: clamp(340px, 55svh, 450px);
+    border-radius: 16px;
+  }
+  .intro-sticky {
+    padding: 14px 17px 17px;
+  }
+  .intro-top h1 {
+    font-size: 17px;
+  }
+  .intro-top .intro-skip {
+    font-size: 11px;
+    gap: 5px;
+  }
+  .intro-chapter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+  .intro-live-chapter {
+    min-height: 0;
+  }
+  .intro-visual {
+    height: clamp(260px, 45svh, 470px);
+    min-height: 0;
+  }
+  .intro-poster {
+    padding: 6px;
+  }
+  .intro-product-info {
+    padding: 0 6px;
+  }
+  .intro-product-info h2 {
+    font-size: clamp(29px, 8vw, 44px);
+    margin-bottom: 13px;
+  }
+  .intro-product-info dl {
+    margin-bottom: 9px;
+  }
+  .intro-product-footer {
+    gap: 4px 12px;
+  }
+  .intro-bottom {
+    padding-top: 5px;
+    justify-content: center;
+  }
+  .intro-bottom p {
+    display: none;
+  }
+  .intro-progress {
+    gap: 3px;
+  }
+  .intro-flow .intro-chapter {
+    min-height: auto;
+    padding-block: 18px;
+  }
+  .intro-flow .intro-poster {
+    min-height: 155px;
+  }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  .intro-sticky {
+    padding-block: 8px;
+  }
+  .intro-chapter {
+    display: grid;
+  }
+  .intro-live-chapter,
+  .intro-visual {
+    min-height: 0;
+    height: 57svh;
+  }
+  .intro-product-info h2 {
+    font-size: clamp(22px, 4vw, 34px);
+  }
+  .intro-product-info dl {
+    margin-bottom: 0;
+  }
+  .intro-bottom {
+    padding-top: 1px;
+  }
+}
+
+@media (max-width: 700px) {
+  .shoe-intro {
+    --intro-top: 74px;
+    --intro-height: calc(100svh - var(--intro-top) - 14px);
+  }
+  .home-main {
+    scroll-margin-top: 86px;
+  }
+}

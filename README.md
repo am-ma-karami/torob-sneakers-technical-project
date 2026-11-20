@@ -1,17 +1,20 @@
 # راد · RAD — footwear, understood
 
-A working Persian/RTL footwear discovery and comparison application. React 19 + TypeScript + Vite + TanStack Query + Motion; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
+A working Persian/RTL footwear discovery and comparison application, now using the Nocturne dark editorial interface. React 19 + TypeScript + Vite + TanStack Query + Motion + GSAP ScrollTrigger; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
 The catalog contains all **1167** original models, **27048** measurements, **3845** verified colorway records and **4739** dated offers. Imported data is in PostgreSQL; the browser never downloads the raw archive. Exact generations and variants retain their identity.
 
 - Debounced Persian/English search with aliases, server pagination, disjunctive multi-select facets, numeric ranges and shareable URLs.
-- Category and brand directories, real product photography, verified color selections and matching retailer offers.
-- Custom parameterized SVG anatomy: assembled, exploded, side profile and internal fit; mouse/touch/keyboard layer selection, provenance and missing-data fallbacks.
+- Category and brand directories, real product photography, verified color galleries, with stale retailer offers retained internally and removed from the interface.
+- Custom parameterized SVG anatomy: assembled, exploded, side profile and internal fit; mouse/touch/keyboard layer selection, internal provenance and data-based mode availability.
 - Up to four shoes in a persistent comparison tray; shareable comparison, color selection, differences-only and expandable technical groups.
 - Preference discovery with transparent activity/width/weight/cushion rules; source scores and measurement methods stay separate.
-- Purposeful Motion/CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
+- A focused home with four real featured shoes; dedicated `/shoes`, `/shoes/:slug`, `/compare`, `/finder`, `/brands`, `/categories` and `/about` pages.
+- Purposeful GSAP/Motion/CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
+
+The redesign report, current verification, before/after images and exact rollback/configuration steps are in [docs/redesign/delivery.md](docs/redesign/delivery.md). The bright baseline remains available on `baseline/bright-ui-2026-11-20`.
 
 ## Run locally
 
@@ -75,6 +78,6 @@ Backend tests use explicitly created temporary PostgreSQL schemas and four small
 
 ## Sources
 
-RunRepeat laboratory measurements, supplied review excerpts and externally hosted product photography are credited per product. ShoeGeometry (2026), Running-shoe geometry dataset, version 2026-11-14, [CC BY 4.0](https://shoegeometry.com/data). [SoleHunt public data](https://solehunt.app/data), CC BY 4.0. Diagram adaptations are schematic, not factory CAD. Font redistribution notices ship at `/font-licenses.txt`.
+RunRepeat laboratory measurements, supplied review excerpts and externally hosted product photography are credited on the discreet About/credits page; per-record provenance remains internal. ShoeGeometry (2026), Running-shoe geometry dataset, version 2026-11-14, [CC BY 4.0](https://shoegeometry.com/data). [SoleHunt public data](https://solehunt.app/data), CC BY 4.0. Diagram adaptations are schematic, not factory CAD. Font redistribution notices ship at `/font-licenses.txt`.
 
 Development branch: `feat/shoe-discovery`, connected to the requested GitHub repository. Commits preserve the existing primary author and include the requested co-author. No push, public deployment or merge is part of this delivery.

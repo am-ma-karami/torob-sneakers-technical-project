@@ -1,5 +1,7 @@
 # Review screenshots
 
+**Current dark redesign:** see the [before/after matrix](redesign/delivery.md#before-and-after) and `redesign/after/`. The captures below document the preserved bright baseline.
+
 Captured from the real local PostgreSQL-backed application in Chromium. Full desktop, tablet and mobile journey tests passed. Captures use reduced motion to freeze settled states; the regular journey tests exercise ordinary motion as well.
 
 | Screen | Desktop · 1440×1000 | Mobile · 390×844 |

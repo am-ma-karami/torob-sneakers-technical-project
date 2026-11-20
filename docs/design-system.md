@@ -1,5 +1,7 @@
 # راد / RAD — footwear, understood
 
+**Current interface:** [Nocturne tokens and motion](redesign/design-system.md). The document below records the preserved bright baseline.
+
 A Persian-first catalog for people choosing shoes by fit and construction. The single job of the catalog is to narrow choices and open a measured anatomy. The signature is a fine-line, exploded shoe instrument diagram, paired with real product photography.
 
 ## Tools and references

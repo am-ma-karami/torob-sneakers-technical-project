@@ -15,7 +15,7 @@ test("search, filter, inspect layers, select a verified color and compare two mo
     .getByRole("link", { name: "بررسی adidas Adizero EVO SL", exact: true })
     .click();
   await page
-    .getByRole("button", { name: "رنگ Black (JP7149)", exact: true })
+    .getByRole("button", { name: "رنگ مشکی · JP7149", exact: true })
     .click();
   await expect(page).toHaveURL(/colorway=1986833/);
   const product = page.locator(".main-product-image img");
@@ -56,6 +56,7 @@ test("search, filter, inspect layers, select a verified color and compare two mo
   await expect(
     page.getByRole("checkbox", { name: "فقط تفاوت‌ها" }),
   ).toBeChecked();
+  await expect(table.getByText("نقاط قوت", { exact: true })).toBeVisible();
   await page
     .getByRole("button", { name: "حذف Nike Pegasus 41 از مقایسه", exact: true })
     .click();
@@ -106,10 +107,10 @@ test("reduced motion, sparse geometry and interrupted state changes remain usabl
     page.getByRole("button", { name: "فضای داخلی", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "نمای جانبی", exact: true }).click();
-  await expect(
-    page.getByText("داده راکر ثبت نشده؛ فقط مقطع ساده ابعاد"),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "بازنشانی ساختار" }).click();
+  await expect(page.locator('[data-measurement="toe_rocker_pct"]')).toHaveCount(
+    0,
+  );
+  await page.getByRole("button", { name: "ساختار کامل", exact: true }).click();
   const layer = page.getByRole("button", {
     name: "انتخاب زیره خارجی",
     exact: true,
@@ -167,7 +168,7 @@ test("preference finder explains real recommendations", async ({ page }) => {
 test("numeric bounds apply together and restore from the URL", async ({
   page,
 }, info) => {
-  await page.goto("/");
+  await page.goto("/shoes");
   if (info.project.name !== "desktop")
     await page
       .getByRole("button", { name: /فیلترها/ })

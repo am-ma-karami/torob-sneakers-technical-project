@@ -1,5 +1,7 @@
 # Architecture, actual controls and tradeoffs
 
+The current dark redesign adds a dedicated home, canonical catalog/product routes, read-only Persian presentation fields and empirical score context. See [redesign delivery](redesign/delivery.md) for current routing, UI contracts and motion cleanup. Original data/security decisions below remain in force.
+
 The API is a modular monolith. Routes handle HTTP/dependencies and delegate to catalog services and repositories. Pydantic validates query, summary and import contracts. SQLAlchemy models and Alembic persist brands, categories, conservative browsing families, exact shoes, chosen measurements with full provenance, verified variants, dated offers and original JSONB source payloads. PostgreSQL GIN indexes cover normalized text with pg_trgm and JSONB facets; ordinary indexes support stable numeric sorting. No separate search service or WebGL is needed at this scale.
 
 React uses route-based code splitting, TanStack Query keys/cancellation, URL search parameters and a bounded localStorage comparison selection. Detail and comparison requests do not contain the raw archive. The only animation dependency is Motion; CSS handles small feedback and native dialog entry. SVG input values are clamped for rendering while original measured values remain visible. Outlines are always labeled schematic. Known layer thickness, platform width, stack, rocker, bevel and internal dimensions affect the view. Unknown fields never become apparent measured zeroes.

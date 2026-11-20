@@ -1,5 +1,7 @@
 # Executed verification — 20 November 2026
 
+**Current redesign results:** [redesign delivery and verification](redesign/delivery.md). The matrix below records the preserved bright baseline.
+
 | Check | Actual result |
 |---|---|
 | Project-local dataset copy | 13 filenames, byte counts and SHA-256 hashes verified |

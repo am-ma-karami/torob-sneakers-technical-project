@@ -1,31 +1,30 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs/promises";
 import path from "node:path";
-test("capture catalog, assembled anatomy, exploded anatomy and comparison", async ({
+test("capture redesigned destinations and measured modes", async ({
   page,
 }, info) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const dir = path.resolve(process.cwd(), "../docs/screenshots");
+  const dir = path.resolve(process.cwd(), "../docs/redesign/after");
   await fs.mkdir(dir, { recursive: true });
-  const save = async (name: string) =>
-    page.screenshot({
+  const save = async (name: string) => {
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({
       path: path.join(dir, `${name}-${info.project.name}.png`),
       animations: "disabled",
     });
+  };
   await page.goto("/");
-  await expect(page.locator(".shoe-card").first()).toBeVisible();
-  await page.evaluate(() => document.fonts.ready);
   await expect
     .poll(() =>
       page
-        .locator(".hero-shoe img")
+        .locator(".hero-photo-stage img")
         .evaluate((el: HTMLImageElement) => el.naturalWidth),
     )
     .toBeGreaterThan(0);
   await save("home");
-  await page
-    .locator("#catalog")
-    .evaluate((el) => el.scrollIntoView({ block: "start" }));
+  await page.goto("/shoes");
+  await expect(page.locator(".shoe-card").first()).toBeVisible();
   await expect
     .poll(() =>
       page
@@ -43,46 +42,43 @@ test("capture catalog, assembled anatomy, exploded anatomy and comparison", asyn
       .every((el) => (el as HTMLImageElement).complete),
   );
   await save("catalog");
-  await page.goto("/shoe/adidas-adizero-evo-sl?colorway=1986833");
-  await expect(
-    page.getByRole("heading", { name: "adidas Adizero EVO SL", exact: true }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "ساختار کامل", exact: true }).click();
-  await page
-    .locator(".anatomy")
-    .evaluate((el) => el.scrollIntoView({ block: "start" }));
-  await save("anatomy");
-  await page.getByRole("button", { name: "لایه‌های جدا", exact: true }).click();
-  await page.getByRole("button", { name: "کفی داخلی", exact: true }).click();
-  await page
-    .locator(".anatomy")
-    .evaluate((el) => el.scrollIntoView({ block: "start" }));
+  await page.goto("/shoes/adidas-adizero-evo-sl?colorway=1986833");
+  await expect(page.locator(".product-summary h1")).toHaveText(
+    "adidas Adizero EVO SL",
+  );
   await expect
     .poll(() =>
       page
-        .locator(".shoe-layer")
-        .first()
-        .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42),
+        .locator(".main-product-image img")
+        .evaluate((el: HTMLImageElement) => el.naturalWidth),
     )
-    .toBeCloseTo(105, 0);
-  await save("exploded");
+    .toBeGreaterThan(0);
+  await save("product");
+  for (const [mode, name] of [
+    ["ساختار کامل", "anatomy"],
+    ["نمای جانبی", "profile"],
+    ["فضای داخلی", "fit"],
+    ["لایه‌های جدا", "exploded"],
+  ]) {
+    await page.getByRole("button", { name: mode, exact: true }).click();
+    await page
+      .locator(".anatomy")
+      .evaluate((el) => el.scrollIntoView({ block: "start" }));
+    if (mode === "لایه‌های جدا")
+      await page
+        .getByRole("button", { name: "انتخاب کفی داخلی", exact: true })
+        .click();
+    await save(name);
+  }
   await page.goto("/compare?ids=40586,40390");
   await expect(page.locator(".comparison-product")).toHaveCount(2);
   await page
     .locator(".comparison-scroll")
     .evaluate((el) => el.scrollIntoView({ block: "start" }));
-  await expect
-    .poll(() =>
-      page
-        .locator(".comparison-product img")
-        .first()
-        .evaluate((el: HTMLImageElement) => el.naturalWidth),
-    )
-    .toBeGreaterThan(0);
   await save("comparison");
   expect(
     await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth,
+      () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
 });

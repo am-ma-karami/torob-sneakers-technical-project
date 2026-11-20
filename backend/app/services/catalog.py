@@ -1,6 +1,7 @@
 from app.core.taxonomy import CATEGORIES
 from app.repositories.catalog import CatalogRepository
-from app.schemas.catalog import FinderRequest
+from app.schemas.catalog import Card, FinderRequest
+from app.services.presentation import empirical_distribution, present_detail, reference_price
 
 
 class NotFound(Exception):
@@ -15,14 +16,14 @@ class CatalogService:
         rows = self.repository.details(slug=slug)
         if not rows:
             raise NotFound("Shoe not found")
-        return rows[0]
+        return present_detail(rows[0])
 
     def compare(self, ids: list[int]):
         unique = list(dict.fromkeys(ids))
         rows = self.repository.details(identifiers=unique)
         if len(rows) != len(unique):
             raise NotFound("One or more shoes not found")
-        return {"items": rows}
+        return {"items": [present_detail(s) for s in rows]}
 
     def finder(self, preferences: FinderRequest):
         if preferences.category not in CATEGORIES:
@@ -30,7 +31,14 @@ class CatalogService:
         ranked = []
         for summary, detail in self.repository.finder_candidates(preferences.category):
             score, reasons, unknown = rank_shoe(summary, preferences)
-            ranked.append({"shoe": summary, "points": score, "reasons": reasons, "unknown": unknown})
+            ranked.append(
+                {
+                    "shoe": dict(summary, reference_price=reference_price(summary)),
+                    "points": score,
+                    "reasons": reasons,
+                    "unknown": unknown,
+                }
+            )
         ranked.sort(
             key=lambda x: (-x["points"], -(x["shoe"].get("runrepeat_score") or -1), x["shoe"]["shoe_id"])
         )
@@ -85,3 +93,42 @@ def rank_shoe(s: dict, p: FinderRequest):
             score += 20
             reasons.append("سفتی فوم متناسب با ترجیح")
     return score, reasons, unknown
+
+
+FEATURED_IDS = [40586, 40390, 41349, 40830]
+
+
+def featured_catalog(repository):
+    return {
+        "items": [
+            dict(
+                Card.model_validate(s["summary"]).model_dump(),
+                foam=s["summary"].get("foam"),
+                plate=s["summary"].get("plate"),
+                image_url=next(
+                    (v["image_url"] for v in s["variants"] if v.get("image_url")),
+                    s["summary"].get("image_url"),
+                ),
+            )
+            for s in repository.details(identifiers=FEATURED_IDS)
+        ]
+    }
+
+
+def score_context(repository, slug):
+    shoe = CatalogService(repository).detail(slug)
+    category = shoe["summary"]["categories"][0]
+    usage = shoe.get("scores", {}).get("runrepeat", {}).get("usage", {})
+    peers = repository.score_population(category)
+    rows = []
+    for key, value in usage.items():
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            continue
+        distribution = empirical_distribution([p.get(key) for p in peers if isinstance(p, dict)], value)
+        rows.append({"key": key, "value": value, "unit": "score_0_100", "distribution": distribution})
+    return {
+        "category": category,
+        "source_key": "runrepeat_usage",
+        "rows": rows,
+        "population_definition": "مدل‌های هم‌دسته با همین شاخص ارزیابی؛ توزیع محاسبه‌شده در کاتالوگ راد",
+    }

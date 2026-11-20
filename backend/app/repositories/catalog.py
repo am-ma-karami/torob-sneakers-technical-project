@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.core.taxonomy import CATEGORIES, normalize
 from app.models.catalog import Measurement, Offer, Shoe, Variant
 from app.schemas.catalog import FACET_KEYS, CatalogQuery
+from app.services.presentation import reference_price
 
 
 class CatalogRepository:
@@ -66,7 +67,7 @@ class CatalogRepository:
             .limit(query.page_size)
         ).all()
         return {
-            "items": list(rows),
+            "items": [dict(row, reference_price=reference_price(row)) for row in rows],
             "total": total,
             "page": query.page,
             "page_size": query.page_size,
@@ -129,3 +130,10 @@ class CatalogRepository:
 
     def count(self):
         return self.session.scalar(select(func.count()).select_from(Shoe)) or 0
+
+    def score_population(self, category):
+        return self.session.scalars(
+            select(Shoe.detail["scores"]["runrepeat"]["usage"]).where(
+                Shoe.summary["categories"][0].as_string() == category
+            )
+        ).all()

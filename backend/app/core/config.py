@@ -1,6 +1,8 @@
+from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -13,6 +15,8 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://127.0.0.1:5173", "http://localhost:5173"]
     environment: str = "development"
     rate_limit: int = 240
+    reference_usd_toman: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    reference_rate_at: datetime | None = None
 
     @property
     def resolved_data_dir(self) -> Path:

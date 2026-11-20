@@ -142,6 +142,7 @@ class Card(BaseModel):
     forefoot_stack_mm: float | None = None
     drop_mm: float | None = None
     geometry_status: str
+    reference_price: dict[str, Any] | None = None
 
 
 class CatalogResponse(BaseModel):

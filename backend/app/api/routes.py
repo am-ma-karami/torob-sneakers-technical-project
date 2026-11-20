@@ -5,10 +5,11 @@ from pydantic import PositiveInt
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app.core.config import get_settings
 from app.db.session import get_session
 from app.repositories.catalog import CatalogRepository
 from app.schemas.catalog import CatalogQuery, CatalogResponse, DetailResponse, FinderRequest
-from app.services.catalog import CatalogService
+from app.services.catalog import CatalogService, featured_catalog, score_context
 
 router = APIRouter(prefix="/api")
 
@@ -62,3 +63,25 @@ def compare(repo: Repo, ids: Annotated[list[PositiveInt], Query(min_length=1, ma
 @router.post("/finder")
 def finder(preferences: FinderRequest, repo: Repo):
     return CatalogService(repo).finder(preferences)
+
+
+@router.get("/featured")
+def featured(repo: Repo):
+    return featured_catalog(repo)
+
+
+@router.get("/presentation")
+def presentation():
+    from app.services.presentation import reference_price
+
+    settings = get_settings()
+    return {
+        "reference_price_enabled": reference_price({"msrp_usd": 1}, settings) is not None,
+        "price_kind": "converted_msrp_reference",
+        "price_currency": "IRT",
+    }
+
+
+@router.get("/shoes/{slug}/scores")
+def scores(slug: Annotated[str, Path(max_length=240, pattern=r"^[a-z0-9-]+$")], repo: Repo):
+    return score_context(repo, slug)

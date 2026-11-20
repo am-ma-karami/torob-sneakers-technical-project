@@ -1,6 +1,6 @@
 # راد · RAD — footwear, understood
 
-A working Persian/RTL footwear discovery and comparison application, now using the Glass Studio dark glass interface. React 19 + TypeScript + Vite + TanStack Query + Motion + GSAP ScrollTrigger; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
+A working Persian/RTL footwear discovery and comparison application, now using the Glass Studio dark glass interface. React 19 + TypeScript + Vite + TanStack Query + Motion + Three.js; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
@@ -12,9 +12,9 @@ The catalog contains all **1167** original models, **27048** measurements, **384
 - Up to four shoes in a persistent comparison tray; shareable comparison, color selection, differences-only and expandable technical groups.
 - Preference discovery with transparent activity/width/weight/cushion rules; source scores and measurement methods stay separate.
 - A focused home with four real featured shoes; dedicated `/shoes`, `/shoes/:slug`, `/compare`, `/finder`, `/brands`, `/categories` and `/about` pages.
-- Purposeful GSAP/Motion/CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
+- Native scroll, Motion and CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
 
-The current refinement report, asset provenance, before/after images and exact recovery steps are in [docs/glass-studio/delivery.md](docs/glass-studio/delivery.md). The previous Nocturne UI is preserved on `baseline/nocturne-ui-2026-11-20`; the older bright baseline remains available independently. Genuine matching 3D meshes were not obtained, so the opening uses explicitly identified processed catalog photography.
+The opening is a dark WebGL studio with four volumetric reconstructions. The [3D introduction report](docs/3d-intro/delivery.md) covers the models, recorded tour, switches, and previous Glass Studio baseline (`baseline/glass-studio-2026-11-21`).
 
 ## Run locally
 

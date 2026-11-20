@@ -4,10 +4,8 @@ import path from "node:path";
 test("capture redesigned destinations and measured modes", async ({
   page,
 }, info) => {
-  await page.emulateMedia({
-    reducedMotion: info.project.name === "desktop" ? "no-preference" : "reduce",
-  });
-  const dir = path.resolve(process.cwd(), "../docs/glass-studio/after");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const dir = path.resolve(process.cwd(), "../.local/captures");
   await fs.mkdir(dir, { recursive: true });
   const save = async (name: string) => {
     await page.evaluate(() => document.fonts.ready);
@@ -27,31 +25,6 @@ test("capture redesigned destinations and measured modes", async ({
       animations: "disabled",
     });
   };
-  await page.goto("/");
-  await expect
-    .poll(() =>
-      page
-        .locator(".studio-product img")
-        .first()
-        .evaluate((el: HTMLImageElement) => el.naturalWidth),
-    )
-    .toBeGreaterThan(0);
-  if (info.project.name === "desktop")
-    await expect(page.locator(".studio-opening")).toHaveClass(/is-pinned/);
-  await save("home");
-  if (info.project.name === "desktop") {
-    await page
-      .getByRole("button", { name: "نمایش ASICS Novablast 6", exact: true })
-      .click();
-    await expect(page.locator(".showcase-live .studio-model")).toHaveText(
-      "ASICS Novablast 6",
-    );
-    await page
-      .locator(".showcase-live img")
-      .evaluate((el: HTMLImageElement) => el.decode());
-    await save("showcase-asics");
-  }
-  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/brands");
   await expect(page.locator(".brand-directory>a").first()).toBeVisible();
   await save("brands");

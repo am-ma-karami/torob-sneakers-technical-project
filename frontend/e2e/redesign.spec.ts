@@ -1,70 +1,11 @@
 import { test, expect } from "@playwright/test";
-test("home routes, four real images, bounded transitions and route cleanup", async ({
-  page,
-}, info) => {
-  await page.goto("/");
-  await expect(page.locator(".studio-product img").first()).toBeVisible();
-  await expect(page.locator(".shoe-card")).toHaveCount(0);
-  await expect(page.getByRole("searchbox")).toHaveCount(0);
-  const featured = await (await page.request.get("/api/featured")).json();
-  expect(featured.items.map((s: { shoe_id: number }) => s.shoe_id)).toEqual([
-    40586, 40390, 41349, 40830,
-  ]);
-  if (info.project.name === "desktop") {
-    await expect(page.locator(".featured-showcase")).toHaveClass(/is-pinned/);
-    await expect(page.locator(".pin-spacer")).toHaveCount(1);
-    await page.locator(".featured-showcase").scrollIntoViewIfNeeded();
-    for (let i = 0; i < 4; i++) {
-      await page
-        .getByRole("button", {
-          name: `نمایش ${featured.items[i].name}`,
-          exact: true,
-        })
-        .click();
-      await expect(page.locator(".showcase-live")).toHaveAttribute(
-        "data-active-index",
-        String(i),
-      );
-      await expect(page.locator(".showcase-live .studio-model")).toHaveText(
-        featured.items[i].name,
-      );
-      await expect
-        .poll(() =>
-          page
-            .locator(".showcase-live img")
-            .evaluate((el: HTMLImageElement) => el.naturalWidth),
-        )
-        .toBeGreaterThan(0);
-    }
-    await page
-      .getByRole("link", { name: "رفتن به کاتالوگ", exact: true })
-      .click();
-    await expect(page.locator(".pin-spacer")).toHaveCount(0);
-    await page.goBack();
-    await expect(page.locator(".pin-spacer")).toHaveCount(1);
-  } else {
-    await expect(page.locator(".featured-flow article")).toHaveCount(4);
-    await expect(page.locator(".pin-spacer")).toHaveCount(0);
-    for (const img of await page.locator(".featured-flow img").all()) {
-      await img.scrollIntoViewIfNeeded();
-      await expect
-        .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
-        .toBeGreaterThan(0);
-    }
-  }
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
-});
 test("reduced motion exposes all products and catalog browser back preserves filters", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".featured-flow article")).toHaveCount(4);
-  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator(".intro-flow article")).toHaveCount(4);
+  await expect(page.locator(".intro-canvas")).toHaveCount(0);
   await page.goto("/shoes?brand=Nike&q=Pegasus&sort=weight");
   await page
     .getByRole("link", { name: "بررسی Nike Pegasus 41", exact: true })

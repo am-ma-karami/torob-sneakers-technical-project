@@ -35,51 +35,11 @@ test("brand artwork stays correctly mapped, readable and undistorted", async ({
     ),
   ).toBe(true);
 });
-test("opening uses transparent real-product assets and works without WebGL", async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    const original = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function (type, ...args) {
-      if (String(type).startsWith("webgl")) return null;
-      return Reflect.apply(original, this, [type, ...args]);
-    } as typeof original;
-  });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  await expect(page.locator(".studio-chapter")).toHaveCount(4);
-  for (const img of await page.locator(".studio-product img").all()) {
-    await img.scrollIntoViewIfNeeded();
-    await img.evaluate((el: HTMLImageElement) => el.decode());
-    expect(
-      await img.evaluate((el: HTMLImageElement) => {
-        const c = document.createElement("canvas");
-        c.width = el.naturalWidth;
-        c.height = el.naturalHeight;
-        const ctx = c.getContext("2d")!;
-        ctx.drawImage(el, 0, 0, c.width, c.height);
-        return ctx.getImageData(0, 0, 1, 1).data[3];
-      }),
-    ).toBe(0);
-    expect(
-      await img.evaluate((el) => getComputedStyle(el).backgroundColor),
-    ).toBe("rgba(0, 0, 0, 0)");
-  }
-  expect(
-    await page
-      .locator(".studio-chapter")
-      .evaluateAll((nodes) =>
-        nodes.every((n) => n.getAttribute("data-renderer") === "catalog-photo"),
-      ),
-  ).toBe(true);
-  await page.locator(".studio-actions a.button").first().click();
-  await expect(page).toHaveURL(/\/shoes$/);
-});
 test("layers separate, reassemble, replay and remain selectable after homepage navigation", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.locator(".studio-actions a.quiet-link").first().click();
+  await page.locator(".intro-product-footer a").first().click();
   const upper = page.locator(".exploded-layer[data-layer=upper]");
   const y = () => upper.evaluate((el: SVGGraphicsElement) => el.getCTM()!.f);
   await page.locator(".anatomy").scrollIntoViewIfNeeded();

@@ -1,47 +1,86 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import { MotionConfig } from "motion/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it } from "vitest";
 import { AnatomyViewer } from "./AnatomyViewer";
+import { anatomyData } from "../lib/anatomy";
 import { shoe } from "../test/fixtures";
 describe("measured anatomy", () => {
-  it("keeps layer selection and mode changes usable with reduced motion", async () => {
-    vi.mocked(window.matchMedia).mockReturnValue({
-      matches: true,
-      media: "(prefers-reduced-motion: reduce)",
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    });
-    const { container } = render(
-      <MotionConfig reducedMotion="always">
-        <AnatomyViewer shoe={shoe} />
-      </MotionConfig>,
-    );
+  it("selects useful layers by keyboard and renders genuinely distinct exploded shapes", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<AnatomyViewer shoe={shoe} />);
     const layer = screen.getByRole("button", { name: "انتخاب کفی داخلی" });
-    fireEvent.keyDown(layer, { key: "Enter" });
+    layer.focus();
+    await user.keyboard("{Enter}");
     expect(layer).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByText("2.4 mm")).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "لایه‌های جدا" }));
-    expect(
-      screen.getByRole("button", { name: "لایه‌های جدا" }),
-    ).toHaveAttribute("aria-pressed", "true");
-    await waitFor(() =>
-      expect(
-        container.querySelector(".shoe-layer")?.getAttribute("style"),
-      ).toContain("translateY"),
+    expect(screen.getByTestId("insole-band")).toHaveAttribute(
+      "data-thickness-mm",
+      "2.4",
     );
+    fireEvent.click(screen.getByRole("button", { name: "لایه‌های جدا" }));
+    const shapes = Array.from(
+      container.querySelectorAll(".exploded-layer>path"),
+    ).map((p) => p.getAttribute("d"));
+    expect(new Set(shapes).size).toBeGreaterThan(2);
     fireEvent.click(screen.getByRole("button", { name: "فضای داخلی" }));
-    expect(screen.getByText("فضای شست")).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "بازنشانی ساختار" }));
-    expect(screen.getByRole("button", { name: "ساختار کامل" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
+    expect(screen.getByTestId("fit-outline")).toBeVisible();
+  });
+  it("hides unmeasured modes/layers and never fills missing fields", () => {
+    const sparse = {
+      ...shoe,
+      summary: {
+        ...shoe.summary,
+        heel_stack_mm: null,
+        forefoot_stack_mm: null,
+        plate: null,
+        foam: null,
+        upper_material: null,
+        outsole_material: null,
+        removable_insole: null,
+      },
+      metrics: {},
+    };
+    const { container } = render(<AnatomyViewer shoe={sparse} />);
+    expect(container).toBeEmptyDOMElement();
+    expect(sparse.summary.heel_stack_mm).toBeNull();
+    expect(anatomyData(sparse).modes).toEqual([]);
+  });
+  it("binds stack, rocker and fit geometry to measurements rather than only replacing labels", () => {
+    const { rerender } = render(
+      <AnatomyViewer shoe={shoe} initialMode="profile" />,
+    );
+    const before = screen.getByTestId("sole-profile").getAttribute("d");
+    const changed = {
+      ...shoe,
+      summary: { ...shoe.summary, heel_stack_mm: 20, forefoot_stack_mm: 15 },
+    };
+    rerender(<AnatomyViewer shoe={changed} initialMode="profile" />);
+    expect(screen.getByTestId("sole-profile").getAttribute("d")).not.toBe(
+      before,
+    );
+    expect(anatomyData(changed).ground - anatomyData(changed).heelY).toBe(40);
+    fireEvent.click(screen.getByRole("button", { name: "فضای داخلی" }));
+    const originalFit = screen.getByTestId("fit-outline").getAttribute("d");
+    rerender(
+      <AnatomyViewer
+        shoe={{
+          ...shoe,
+          metrics: {
+            ...shoe.metrics,
+            interior_forefoot_width_mm: {
+              ...shoe.metrics.interior_forefoot_width_mm,
+              value: 110,
+            },
+          },
+        }}
+        initialMode="profile"
+      />,
+    );
+    expect(screen.getByTestId("fit-outline").getAttribute("d")).not.toBe(
+      originalFit,
     );
   });
-  it("does not invent a rocker or plate for sparse data", () => {
+  it("omits missing rocker dimensions and unknown plates while keeping measured stacks", () => {
     const sparse = {
       ...shoe,
       summary: {
@@ -51,41 +90,19 @@ describe("measured anatomy", () => {
         plate: null,
       },
     };
-    render(<AnatomyViewer shoe={sparse} initialMode="profile" />);
+    const { container } = render(
+      <AnatomyViewer shoe={sparse} initialMode="profile" />,
+    );
     expect(
-      screen.getByText("داده راکر ثبت نشده؛ فقط مقطع ساده ابعاد"),
-    ).toBeVisible();
+      container.querySelector("[data-measurement=toe_rocker_pct]"),
+    ).toBeNull();
+    expect(
+      container.querySelector("[data-measurement=heel_stack_mm]"),
+    ).not.toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "ساختار کامل" }));
     expect(
       screen.queryByRole("button", { name: "انتخاب صفحه تقویتی" }),
     ).not.toBeInTheDocument();
-    expect(screen.getByText(/اطلاعات نامشخص/)).toBeVisible();
-  });
-  it("changes measured paths across shoes and supports Space layer selection", () => {
-    const { container, rerender } = render(
-      <AnatomyViewer shoe={shoe} initialMode="profile" />,
-    );
-    const before = container
-      .querySelector("svg[aria-label] path")
-      ?.getAttribute("d");
-    rerender(
-      <AnatomyViewer
-        shoe={{
-          ...shoe,
-          summary: {
-            ...shoe.summary,
-            heel_stack_mm: 20,
-            forefoot_stack_mm: 15,
-          },
-        }}
-        initialMode="profile"
-      />,
-    );
-    expect(
-      container.querySelector("svg[aria-label] path")?.getAttribute("d"),
-    ).not.toEqual(before);
-    fireEvent.click(screen.getByRole("button", { name: "ساختار کامل" }));
-    const layer = screen.getByRole("button", { name: "انتخاب رویه" });
-    fireEvent.keyDown(layer, { key: " " });
-    expect(layer).toHaveAttribute("aria-pressed", "true");
+    expect(container.textContent).not.toMatch(/ثبت نشده|نامشخص|اسکن یا CAD/);
   });
 });

@@ -1,20 +1,5 @@
 import type { Shoe } from "../lib/types";
 import { value } from "../lib/format";
-const usage: Record<string, string> = {
-  daily_running: "دویدن روزانه",
-  tempo: "تمرین سرعت",
-  race: "مسابقه",
-  stability: "پایداری",
-};
-const shLabels: Record<string, string> = {
-  core_score: "امتیاز اصلی",
-  comfort_score: "راحتی",
-  durability_score: "دوام",
-  performance_score: "عملکرد",
-  value_score: "ارزش خرید",
-  fit_score: "قالب",
-  score_estimated: "برآورد امتیاز طبق ادعای منبع",
-};
 const materialLabels: Record<string, string> = {
   upper: "رویه",
   insole: "کفی",
@@ -24,122 +9,118 @@ const materialLabels: Record<string, string> = {
   heel_counter: "نگهدارنده پاشنه",
 };
 const specific: [string, string, string][] = [
-  ["toebox_width_mm", "عرض پنجه · تعریف SoleHunt", "mm"],
+  ["toebox_width_mm", "عرض پنجه · گزارش تجمیعی", "mm"],
   ["midsole_hardness_hc", "سختی فوم · Shore C", "HC"],
-  ["breathability_score", "امتیاز تهویه · SoleHunt", ""],
-  ["outsole_grip_score", "امتیاز چسبندگی · SoleHunt", ""],
-  ["flexibility_score", "امتیاز انعطاف · SoleHunt", ""],
+  ["breathability_score", "تهویه گزارش‌شده", ""],
+  ["outsole_grip_score", "چسبندگی گزارش‌شده", ""],
+  ["flexibility_score", "انعطاف گزارش‌شده", ""],
   ["energy_return_pct", "بازگشت انرژی گزارش‌شده", "%"],
   ["sustainability_pct", "پایداری محیطی گزارش‌شده", "%"],
 ];
 export function SourceScores({ shoe }: { shoe: Shoe }) {
   const construction = shoe.construction.solehunt as
     Record<string, unknown> | undefined;
-  const hasSH = Object.values(shoe.scores.solehunt).some((v) => v != null);
+  const materials = Object.entries(materialLabels).filter(
+    ([k]) => construction?.[k] != null && construction[k] !== "",
+  );
+  const rows = specific.filter(
+    ([k]) => shoe.solehunt_source_specific[k] != null,
+  );
+  const scoreLabels: Record<string, string> = {
+    core_score: "امتیاز کلی تکمیلی",
+    comfort_score: "راحتی",
+    durability_score: "دوام",
+    performance_score: "عملکرد",
+    value_score: "ارزش خرید",
+    fit_score: "قالب",
+  };
+  const scores = Object.entries(scoreLabels).filter(
+    ([k]) => typeof shoe.scores.solehunt[k] === "number",
+  );
+  if (
+    !materials.length &&
+    !rows.length &&
+    !scores.length &&
+    !shoe.fit.width_variants.length
+  )
+    return null;
   return (
     <section className="source-scores panel">
-      <h2>امتیازها و مشخصات تکمیلی منابع</h2>
-      <p className="muted">
-        امتیازها برداشت همان منبع‌اند؛ با هم میانگین نشده‌اند. اطلاعات تجمیعی
-        SoleHunt، اندازه‌گیری مستقل آزمایشگاه نیست.
-      </p>
-      <div className="source-score-grid">
+      <h2>مواد و مشخصات تکمیلی</h2>
+      {materials.length > 0 && (
         <details>
-          <summary>RunRepeat · کاربردها</summary>
+          <summary>مواد و فناوری‌ها</summary>
           <dl className="spec-list">
-            {Object.entries(shoe.scores.runrepeat.usage || {}).map(
-              ([key, n]) => (
-                <div key={key}>
-                  <dt>{usage[key] || key}</dt>
-                  <dd dir="ltr">{value(n)} / 100</dd>
-                </div>
-              ),
-            )}
+            {materials.map(([k, title]) => (
+              <div key={k}>
+                <dt>{title}</dt>
+                <dd dir="auto">{value(construction?.[k])}</dd>
+              </div>
+            ))}
           </dl>
         </details>
+      )}
+      {scores.length > 0 && (
         <details>
-          <summary>SoleHunt · امتیازهای جداگانه</summary>
-          {hasSH ? (
-            <dl className="spec-list">
-              {Object.entries(shoe.scores.solehunt)
-                .filter(([, v]) => v != null)
-                .map(([k, v]) => (
-                  <div key={k}>
-                    <dt>{shLabels[k] || k}</dt>
-                    <dd dir="auto">
-                      {typeof v === "boolean" ? (v ? "بله" : "خیر") : value(v)}
-                    </dd>
-                  </div>
-                ))}
-            </dl>
-          ) : (
-            <p className="fine-print">امتیازی از این منبع ثبت نشده.</p>
-          )}
+          <summary>ارزیابی تکمیلی · مقیاس مستقل</summary>
+          <p className="fine-print">
+            این ارزیابی با امتیاز کاربردها ترکیب نشده است.
+            {shoe.scores.solehunt.score_estimated
+              ? " اعداد این بخش برآوردی‌اند."
+              : ""}
+          </p>
+          <dl className="spec-list">
+            {scores.map(([k, title]) => (
+              <div key={k}>
+                <dt>{title}</dt>
+                <dd dir="ltr">{value(shoe.scores.solehunt[k])}</dd>
+              </div>
+            ))}
+          </dl>
         </details>
-      </div>
-      <details>
-        <summary>نتایج گزارش‌شده SoleHunt · روش‌های مستقل</summary>
-        <p className="fine-print">
-          این مقادیر به دلیل تفاوت تعریف یا روش، جای اندازه‌گیری RunRepeat
-          ننشسته‌اند. پیوند فیلدبه‌فیلد در داده عمومی این منبع موجود نیست.
-        </p>
-        <dl className="spec-list">
-          {specific.map(([key, title, unit]) => (
-            <div key={key}>
-              <dt>{title}</dt>
-              <dd dir="ltr">
-                {value(shoe.solehunt_source_specific[key], unit)}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="fine-print">
-          تاریخ رکورد:{" "}
-          <bdi>{value(shoe.solehunt_source_specific.updated_at)}</bdi>
-        </p>
-      </details>
-      <details>
-        <summary>مواد و فناوری‌های گزارش‌شده SoleHunt</summary>
-        <dl className="spec-list">
-          {Object.entries(materialLabels).map(([k, title]) => (
-            <div key={k}>
-              <dt>{title}</dt>
-              <dd dir="auto">{value(construction?.[k])}</dd>
-            </div>
-          ))}
-        </dl>
-      </details>
+      )}
       {shoe.fit.width_variants.length > 0 && (
         <details>
-          <summary>نسخه‌های عرض مجزا در منبع</summary>
-          <p className="fine-print">
-            این رکوردها جای ابعاد نسخه استاندارد را نگرفته‌اند. عرض پنجه طبق
-            تعریف SoleHunt است.
-          </p>
+          <summary>نسخه‌های عرض دیگر</summary>
           {shoe.fit.width_variants.map((variant, i) => (
             <div className="width-variant" key={i}>
-              <h3 dir="auto">{value(variant.name)}</h3>
-              <p dir="auto">{value(variant.fit_note)}</p>
-              <span>
-                عرض‌های اعلام‌شده:{" "}
-                <bdi>
-                  {Array.isArray(variant.width_options)
-                    ? variant.width_options.join(" · ")
-                    : "ثبت نشده"}
-                </bdi>
-              </span>
+              {variant.name != null && (
+                <h3 dir="auto">{String(variant.name)}</h3>
+              )}
               <dl className="spec-list">
-                <div>
-                  <dt>عرض پنجه SoleHunt</dt>
-                  <dd dir="ltr">{value(variant.toebox_width_mm, "mm")}</dd>
-                </div>
-                <div>
-                  <dt>ارتفاع پنجه SoleHunt</dt>
-                  <dd dir="ltr">{value(variant.toebox_height_mm, "mm")}</dd>
-                </div>
+                {[
+                  ["toebox_width_mm", "عرض پنجه گزارش‌شده"],
+                  ["toebox_height_mm", "ارتفاع پنجه گزارش‌شده"],
+                ]
+                  .filter(([k]) => variant[k] != null)
+                  .map(([k, title]) => (
+                    <div key={k}>
+                      <dt>{title}</dt>
+                      <dd dir="ltr">{value(variant[k], "mm")}</dd>
+                    </div>
+                  ))}
               </dl>
             </div>
           ))}
+        </details>
+      )}
+      {rows.length > 0 && (
+        <details>
+          <summary>گزارش‌های تجمیعی · روش مستقل</summary>
+          <p className="fine-print">
+            این اندازه‌ها با روش جداگانه گزارش شده‌اند و جای نتایج آزمایشگاهی
+            ننشسته‌اند.
+          </p>
+          <dl className="spec-list">
+            {rows.map(([k, title, unit]) => (
+              <div key={k}>
+                <dt>{title}</dt>
+                <dd dir="ltr">
+                  {value(shoe.solehunt_source_specific[k], unit)}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </details>
       )}
     </section>

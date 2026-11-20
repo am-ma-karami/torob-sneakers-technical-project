@@ -19,6 +19,9 @@ export const categories: Record<string, string> = {
 };
 export const translations: Record<string, string> = {
   Road: "جاده",
+  Jogging: "دویدن آرام",
+  Treadmill: "تردمیل",
+  Walking: "پیاده‌روی",
   Trail: "تریل",
   Neutral: "خنثی",
   Stability: "پایدار",

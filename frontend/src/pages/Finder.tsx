@@ -186,9 +186,6 @@ export function Finder() {
                   <div className="match-explanation">
                     <b>{fa(item.points)} امتیاز قواعد</b>
                     <p>{item.reasons.join(" · ")}</p>
-                    {item.unknown.length > 0 && (
-                      <small>داده نامشخص: {item.unknown.join("، ")}</small>
-                    )}
                   </div>
                   <ShoeCard shoe={item.shoe} index={i} />
                 </div>

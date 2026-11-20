@@ -21,27 +21,20 @@ const basics: Row[] = [
   { title: "خانواده", key: "family" },
   { title: "دسته", key: "categories" },
   { title: "سال عرضه", key: "release_year" },
-  { title: "قیمت فهرست سازنده · USD", key: "msrp_usd" },
   { title: "کاربری", key: "uses" },
   { title: "مسیر", key: "terrain" },
   { title: "حمایت قوس", key: "arch_support" },
   { title: "بازخورد سایز", key: "fit_label" },
-  { title: "سایز آزمون · عین منبع", key: "tested_size_raw" },
+  { title: "سایز آزمون", key: "tested_size_raw" },
   { title: "رویه", key: "upper_material" },
   { title: "فوم", key: "foam" },
   { title: "زیره خارجی", key: "outsole_material" },
   { title: "صفحه تقویتی", key: "plate" },
   { title: "کفی جداشدنی", key: "removable_insole" },
   { title: "بازتابنده", key: "reflective" },
-  { title: "امتیاز RunRepeat / 100", key: "runrepeat_score" },
-  { title: "امتیاز SoleHunt · مقیاس منبع", key: "solehunt_score" },
-  { title: "راحتی · SoleHunt", key: "solehunt_comfort_score" },
-  { title: "دوام · SoleHunt", key: "solehunt_durability_score" },
-  { title: "عملکرد · SoleHunt", key: "solehunt_performance_score" },
-  { title: "ارزش خرید · SoleHunt", key: "solehunt_value_score" },
-  { title: "قالب · SoleHunt", key: "solehunt_fit_score" },
-  { title: "مزایا · متن منبع", key: "pros" },
-  { title: "ملاحظات · متن منبع", key: "cons" },
+  { title: "امتیاز کلی / ۱۰۰", key: "runrepeat_score" },
+  { title: "نقاط قوت", key: "pros_fa" },
+  { title: "ملاحظات", key: "cons_fa" },
 ];
 const groups = [
   { title: "مدل، کاربرد، جنس و امتیاز", rows: basics },
@@ -98,6 +91,14 @@ export function Compare() {
           : stored.find((s) => s.shoe_id === shoe.shoe_id)?.selected_colorway),
     );
   const visible = (row: Row) => {
+    const present = shoes.some((s) =>
+      row.metric
+        ? s.metrics[row.key]?.value != null
+        : row.key.endsWith("_fa")
+          ? s.reviews_fa?.[row.key === "pros_fa" ? "pros" : "cons"].length
+          : s.summary[row.key] != null,
+    );
+    if (!present) return false;
     if (!differences) return true;
     const values = shoes.map((s) =>
       row.metric ? comparableMetric(s.metrics[row.key]) : s.summary[row.key],
@@ -117,8 +118,8 @@ export function Compare() {
           <span>انتخاب خودت را پیدا کن.</span>
         </h1>
         <p>
-          تا چهار کفش را با واحد، روش و منبع هر اندازه مقایسه کن. عدد بزرگ‌تر
-          همیشه انتخاب بهتر نیست.
+          تا چهار کفش را با واحد و روش هر اندازه مقایسه کن. عدد بزرگ‌تر همیشه
+          انتخاب بهتر نیست.
         </p>
       </div>
       {!valid ? (
@@ -130,7 +131,7 @@ export function Compare() {
               : "کفش‌هایت را برای مقایسه انتخاب کن."}
           </h2>
           <p>از کاتالوگ، کنار هر کفش علامت + را بزن.</p>
-          <Link className="button" to="/">
+          <Link className="button" to="/shoes">
             کشف کفش‌ها
           </Link>
         </div>
@@ -184,7 +185,7 @@ export function Compare() {
               {copied ? <Check size={16} /> : <Copy size={16} />}{" "}
               {copied ? "پیوند کپی شد" : "کپی پیوند"}
             </button>
-            <Link to="/" className="text-link">
+            <Link to="/shoes" className="text-link">
               <Plus size={16} /> افزودن کفش
             </Link>
           </div>
@@ -234,7 +235,7 @@ export function Compare() {
                       >
                         <X size={15} />
                       </button>
-                      <Link to={`/shoe/${s.slug}`} aria-label={s.summary.name}>
+                      <Link to={`/shoes/${s.slug}`} aria-label={s.summary.name}>
                         <ProductImage
                           key={selected(s)?.key || "primary"}
                           src={
@@ -275,7 +276,7 @@ export function Compare() {
               <tbody>
                 <tr>
                   <th className="row-label">
-                    هندسه و ساختار<small>طرح شماتیک؛ نه اسکن کارخانه</small>
+                    هندسه و ساختار<small>اندازه‌ها و فرم</small>
                   </th>
                   {shoes.map((s) => (
                     <td key={s.shoe_id} className="comparison-geometry">
@@ -311,11 +312,15 @@ export function Compare() {
                           const m = row.metric ? s.metrics[row.key] : undefined;
                           const raw = row.metric
                             ? m?.value
-                            : s.summary[row.key];
+                            : row.key.endsWith("_fa")
+                              ? s.reviews_fa?.[
+                                  row.key === "pros_fa" ? "pros" : "cons"
+                                ]
+                              : s.summary[row.key];
                           return (
                             <td key={s.shoe_id}>
                               {raw == null ? (
-                                <span className="missing">ثبت نشده</span>
+                                <span className="missing">—</span>
                               ) : (
                                 <>
                                   <span
@@ -336,27 +341,12 @@ export function Compare() {
                                           )}
                                   </span>
                                   {m && (
-                                    <>
-                                      <small>
-                                        {origins[m.origin] || m.origin} ·{" "}
-                                        {m.source}
-                                      </small>
-                                      <small dir="auto">
-                                        {m.methodology_version ||
-                                          m.method_version ||
-                                          "روش در منبع"}
-                                      </small>
-                                      {m.source_url && (
-                                        <a
-                                          className="metric-link"
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          href={m.source_url}
-                                        >
-                                          منبع و روش
-                                        </a>
-                                      )}
-                                    </>
+                                    <small>
+                                      {origins[m.origin]}
+                                      {m.test_size_raw
+                                        ? ` · سایز ${m.test_size_raw}`
+                                        : ""}
+                                    </small>
                                   )}
                                 </>
                               )}
@@ -367,83 +357,11 @@ export function Compare() {
                     ))}
                 </tbody>
               ))}
-              <tbody>
-                <tr className="comparison-group-row">
-                  <th colSpan={shoes.length + 1}>پیشنهادهای فروشگاه و منشأ</th>
-                </tr>
-                <tr>
-                  <th className="row-label">
-                    پیشنهادهای ثبت‌شده<small>ارزها بدون تبدیل</small>
-                  </th>
-                  {shoes.map((s) => {
-                    const v = selected(s),
-                      offers = s.offers.filter(
-                        (o) => !v || o.variant_key === v.key,
-                      );
-                    return (
-                      <td key={s.shoe_id}>
-                        {offers.length ? (
-                          offers.map((o) => (
-                            <a
-                              key={o.key}
-                              href={o.url}
-                              className="compare-offer"
-                              target="_blank"
-                              rel="noopener noreferrer sponsored"
-                            >
-                              <b dir="ltr">
-                                {value(o.price, o.currency || "?")}
-                              </b>
-                              <span>{o.retailer}</span>
-                              <small>
-                                {o.snapshot?.slice(0, 10) || "تاریخ نامشخص"} ·{" "}
-                                {o.country || "کشور نامشخص"}
-                              </small>
-                            </a>
-                          ))
-                        ) : (
-                          <span className="missing">
-                            پیشنهاد متناظر ثبت نشده
-                          </span>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-                <tr>
-                  <th className="row-label">منابع و عدم قطعیت</th>
-                  {shoes.map((s) => (
-                    <td key={s.shoe_id}>
-                      {s.sources.map((source) => (
-                        <a
-                          className="source-link"
-                          href={source.url}
-                          key={source.name}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {source.name} · {source.license || "حقوق محفوظ"}
-                        </a>
-                      ))}
-                      <small>
-                        هندسه عکس: طول مرجع ۳۰۰ میلی‌متر. فرم رویه و لایه‌ها
-                        شماتیک است.
-                      </small>
-                      {s.quality_flags.map((f) => (
-                        <small dir="auto" key={f}>
-                          {f}
-                        </small>
-                      ))}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
             </table>
           </div>
           <p className="comparison-note">
-            قیمت فهرست USD از پیشنهادهای EUR جداست. امتیازهای منابع، Asker C،
-            Shore A، BR و روش قدیمی تهویه با هم میانگین نشده‌اند. مقدار ثبت‌نشده
-            در رتبه‌بندی صفر فرض نمی‌شود.
+            واحدها و روش‌های اندازه‌گیری مستقل‌اند؛ عدد بزرگ‌تر لزوماً بهتر نیست.
+            هندسهٔ تخمینی با طول مرجع ۳۰۰ میلی‌متر نمایش داده می‌شود.
           </p>
         </>
       )}

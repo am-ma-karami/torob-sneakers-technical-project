@@ -2010,7 +2010,84 @@ small,
   }
 }
 
-.specimen-stage{border-radius:50%;background:#f4f3ef;box-shadow:0 26px 55px #090b0f55;overflow:hidden;height:280px}
-.specimen-stage:before{display:none}.specimen-stage img{height:70%;width:80%}.specimen-halo{pointer-events:none}.featured-flow .specimen-stage{height:230px}.featured-flow .specimen-stage img{height:70%;width:80%}
-.anatomy .section-head .eyebrow>svg{width:15px;height:15px;flex-shrink:0}
-@media(max-width:700px){.featured-flow .specimen-stage{height:190px}.featured-flow .specimen-stage img{height:68%;width:83%}}
+.specimen-stage {
+  border-radius: 50%;
+  background: #f4f3ef;
+  box-shadow: 0 26px 55px #090b0f55;
+  overflow: hidden;
+  height: 280px;
+}
+.specimen-stage:before {
+  display: none;
+}
+.specimen-stage img {
+  height: 70%;
+  width: 80%;
+}
+.specimen-halo {
+  pointer-events: none;
+}
+.featured-flow .specimen-stage {
+  height: 230px;
+}
+.featured-flow .specimen-stage img {
+  height: 70%;
+  width: 80%;
+}
+.anatomy .section-head .eyebrow > svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .featured-flow .specimen-stage {
+    height: 190px;
+  }
+  .featured-flow .specimen-stage img {
+    height: 68%;
+    width: 83%;
+  }
+}
+.gallery .photo-thumbnails {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 14px;
+  max-width: 100%;
+  height: 86px;
+  align-items: center;
+  scrollbar-width: thin;
+}
+.gallery .photo-thumbnails > button {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 54px;
+}
+.gallery .photo-thumbnails > .thumbnail-page {
+  flex-basis: 36px;
+  width: 36px;
+  background: var(--interactive);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+}
+.site-header {
+  position: sticky;
+  top: 0;
+}
+.anatomy {
+  scroll-margin-top: 100px;
+}
+.anatomy .technical-canvas > svg {
+  max-height: 570px;
+}
+.showcase-pin {
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      color-mix(in srgb, var(--active-accent, #c7a67a) 7%, transparent),
+      transparent 65%
+    ),
+    var(--alternate);
+}

@@ -199,6 +199,11 @@ export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
     <section
       className={`featured-showcase ${pinned ? "is-pinned" : "is-flow"}`}
       ref={root}
+      style={
+        {
+          "--active-accent": editorial[active % 4].accent,
+        } as React.CSSProperties
+      }
       aria-label="چهار کفش منتخب"
     >
       <div ref={pin} className="showcase-pin">

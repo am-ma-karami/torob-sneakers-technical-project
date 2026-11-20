@@ -35,6 +35,16 @@ export function App() {
   const location = useLocation(),
     { items } = useComparison();
   useEffect(() => {
+    const titles: Record<string, string> = {
+      "/": "راد | از فرم تا احساس حرکت",
+      "/shoes": "راد | کشف و مقایسه کفش",
+      "/compare": "راد | مقایسه کفش‌ها",
+      "/finder": "راد | کفش مناسب من",
+      "/brands": "راد | برندها",
+      "/categories": "راد | دسته‌های کفش",
+      "/about": "راد | درباره ما",
+    };
+    if (titles[location.pathname]) document.title = titles[location.pathname];
     window.scrollTo({ top: 0 });
     document.getElementById("main")?.focus({ preventScroll: true });
   }, [location.pathname]);

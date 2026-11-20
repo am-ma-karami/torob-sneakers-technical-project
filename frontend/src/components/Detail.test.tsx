@@ -1,49 +1,103 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { DetailContent } from "../pages/Detail";
 import { ComparisonProvider } from "../lib/comparison";
 import { shoe } from "../test/fixtures";
-describe("verified product variants", () => {
-  it("changes the corresponding image and limits offers to the selected colorway", async () => {
-    render(
-      <MemoryRouter>
-        <ComparisonProvider>
-          <DetailContent shoe={shoe} />
-        </ComparisonProvider>
-      </MemoryRouter>,
-    );
-    expect(screen.getByText("Black shop")).toBeVisible();
-    expect(screen.getByText("White shop")).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "رنگ Black (JP7149)" }));
-    await waitFor(() =>
-      expect(
-        screen.getByRole("img", { name: shoe.summary.name }),
-      ).toHaveAttribute("src", "https://cdn.runrepeat.com/black.jpg"),
-    );
-    expect(screen.getByText("Black shop")).toBeVisible();
-    expect(screen.queryByText("White shop")).not.toBeInTheDocument();
+import { galleryImages } from "../lib/gallery";
+import type { Shoe } from "../lib/types";
+function show(product: Shoe = shoe, url = "/") {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
   });
-  it("restores a colorway from the URL and has an honest unknown-color fallback", () => {
-    const { unmount } = render(
-      <MemoryRouter initialEntries={["/?colorway=white"]}>
+  client.setQueryData(["scores", product.slug], {
+    rows: [],
+    category: product.summary.categories[0],
+  });
+  return render(
+    <QueryClientProvider client={client}>
+      <MemoryRouter initialEntries={[url]}>
         <ComparisonProvider>
-          <DetailContent shoe={shoe} />
+          <DetailContent shoe={product} />
         </ComparisonProvider>
-      </MemoryRouter>,
+      </MemoryRouter>
+    </QueryClientProvider>,
+  );
+}
+describe("verified galleries and quiet product presentation", () => {
+  it("changes main image and thumbnails together without stale retailer offers", () => {
+    const { container } = show();
+    fireEvent.click(screen.getByRole("button", { name: "رنگ مشکی · JP7149" }));
+    expect(container.querySelector(".main-product-image img")).toHaveAttribute(
+      "src",
+      "https://cdn.runrepeat.com/black.jpg",
+    );
+    expect(container.querySelectorAll(".photo-thumbnails button")).toHaveLength(
+      1,
+    );
+    expect(container.querySelector(".photo-thumbnails img")).toHaveAttribute(
+      "src",
+      "https://cdn.runrepeat.com/black.jpg",
+    );
+    expect(screen.queryByText("Black shop")).not.toBeInTheDocument();
+    expect(screen.queryByText("White shop")).not.toBeInTheDocument();
+    expect(container.textContent).not.toMatch(
+      /RunRepeat|SoleHunt|ShoeGeometry|MSRP|USD|ثبت نشده/,
+    );
+  });
+  it("paginates general thumbnails instead of requesting the whole archive at once", () => {
+    const product = {
+      ...shoe,
+      media: {
+        images: Array.from(
+          { length: 30 },
+          (_, i) => `https://example.com/photo-${i}.jpg`,
+        ),
+      },
+    };
+    const { container } = show(product);
+    expect(container.querySelectorAll(".photo-thumbnails img")).toHaveLength(7);
+    fireEvent.click(screen.getByRole("button", { name: "تصاویر کوچک بعدی" }));
+    expect(container.querySelectorAll(".photo-thumbnails img")).toHaveLength(7);
+    expect(container.querySelector(".photo-thumbnails img")).toHaveAttribute(
+      "src",
+      "https://example.com/photo-6.jpg",
+    );
+  });
+  it("restores colorway URLs and keeps unmapped images out of color views", () => {
+    const { container } = show(shoe, "/?colorway=white");
+    expect(
+      screen.getByRole("button", { name: "رنگ سفید · JR1912" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    expect(container.querySelector(".main-product-image img")).toHaveAttribute(
+      "src",
+      "https://cdn.runrepeat.com/white.jpg",
     );
     expect(
-      screen.getByRole("button", { name: "رنگ White (JR1912)" }),
-    ).toHaveAttribute("aria-pressed", "true");
-    expect(screen.queryByText("Black shop")).not.toBeInTheDocument();
-    unmount();
-    render(
-      <MemoryRouter>
-        <ComparisonProvider>
-          <DetailContent shoe={{ ...shoe, variants: [] }} />
-        </ComparisonProvider>
-      </MemoryRouter>,
-    );
-    expect(screen.getByText(/رنگ تأییدشده ثبت نشده/)).toBeVisible();
+      galleryImages(
+        { ...shoe, variants: [{ ...shoe.variants[0], image_url: null }] },
+        "black",
+      ),
+    ).toEqual([]);
+    expect(galleryImages(shoe, "nonexistent")).toEqual([]);
+  });
+  it("shows stored Persian reviews and only an explicit toman reference", () => {
+    show({
+      ...shoe,
+      reviews_fa: { pros: ["وزن کم"], cons: ["کیفیت پایین بندها"] },
+      reference_price: {
+        amount_toman: 10500000,
+        kind: "converted_msrp_reference",
+        original_amount: 150,
+        original_currency: "USD",
+        rate_toman_per_usd: 70000,
+        rate_at: "2026-11-20T00:00:00Z",
+      },
+    });
+    expect(screen.getByText("وزن کم")).toBeVisible();
+    expect(screen.getByText("کیفیت پایین بندها")).toBeVisible();
+    expect(screen.getByText(/۱۰٬۵۰۰٬۰۰۰ تومان/)).toBeVisible();
+    expect(screen.getByText("قیمت مرجع تبدیل‌شده")).toBeVisible();
   });
 });

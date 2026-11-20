@@ -29,16 +29,18 @@ export function MetricGauges({ shoe }: { shoe: Shoe }) {
       note: "نیروی خم‌کردن؛ مقیاس نمایش ۰–۵۰ N",
     },
   ];
+  const available = gauges.filter((g) => shoe.metrics[g.key]?.value != null);
+  if (!available.length) return null;
   return (
     <section className="gauge-section">
       <div className="section-head">
         <div>
           <span className="eyebrow">حس حرکت، با اعداد قابل پیگیری</span>
-          <h2>سه نگاه به تجربه کفش</h2>
+          <h2>حس حرکت</h2>
         </div>
       </div>
       <div className="gauge-grid">
-        {gauges.map((g) => {
+        {available.map((g) => {
           const metric = shoe.metrics[g.key];
           return (
             <div key={g.key} className="gauge-card">
@@ -62,7 +64,7 @@ export function MetricGauges({ shoe }: { shoe: Shoe }) {
               <p>{g.note}</p>
               <small>
                 {metric
-                  ? `${origins[metric.origin] || metric.origin} · ${metric.source}`
+                  ? `${origins[metric.origin] || ""}`
                   : "اندازه‌گیری ثبت نشده"}
               </small>
             </div>

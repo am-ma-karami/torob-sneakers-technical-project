@@ -10,6 +10,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser()
 parser.add_argument("--load-local-env", action="store_true")
 parser.add_argument("--search", action="store_true")
+parser.add_argument("--query", default="animated tabs segmented control")
 args = parser.parse_args()
 print("Credential inherited from parent process:", bool(os.environ.get("API_KEY_21ST")))
 if args.load_local_env:
@@ -65,11 +66,11 @@ for tool in tools:
     if tool["name"] in ["search", "get_component", "get_component_demo"] or (
         "component" in tool["name"] and "search" in tool["name"]
     ):
-        print(json.dumps(tool, ensure_ascii=False))
+        print("Available:", tool["name"])
 if args.search:
     result = rpc(
         "tools/call",
-        {"name": "search", "arguments": {"query": "animated tabs segmented control", "limit": 3}},
+        {"name": "search", "arguments": {"query": args.query, "limit": 3}},
         ident=3,
     )
     Path(".local/21st-search.json").write_text(json.dumps(result, ensure_ascii=False, indent=2))

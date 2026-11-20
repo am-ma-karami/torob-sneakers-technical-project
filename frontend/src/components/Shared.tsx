@@ -67,11 +67,11 @@ export function Breadcrumb({
 }) {
   return (
     <nav className="breadcrumb" aria-label="مسیر صفحه">
-      <Link to="/">کشف کفش</Link>
+      <Link to="/shoes">کاتالوگ کفش</Link>
       <span>/</span>
       {category && (
         <>
-          <Link to={`/?category=${encodeURIComponent(category)}`}>
+          <Link to={`/shoes?category=${encodeURIComponent(category)}`}>
             دسته‌بندی
           </Link>
           <span>/</span>

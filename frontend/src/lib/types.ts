@@ -46,6 +46,7 @@ export type DetailedSummary = {
   foam: string | null;
   upper_material: string | null;
   outsole_material: string | null;
+  reference_price?: ReferencePrice | null;
   pros: string | null;
   cons: string | null;
   terrain: string | null;
@@ -81,7 +82,7 @@ export type Summary = Pick<
   | "forefoot_stack_mm"
   | "drop_mm"
   | "geometry_status"
-> & { selected_colorway?: unknown };
+> & { selected_colorway?: unknown; reference_price?: ReferencePrice | null };
 export type Variant = {
   key: string;
   name: string;
@@ -103,6 +104,8 @@ export type Offer = {
   colorway: string | null;
 };
 export type Shoe = {
+  reviews_fa?: { pros: string[]; cons: string[] };
+  reference_price?: ReferencePrice | null;
   shoe_id: number;
   slug: string;
   summary: DetailedSummary;
@@ -170,4 +173,35 @@ export type FinderResult = {
     unknown: string[];
   }[];
   rules: Record<string, unknown>;
+};
+
+export type ReferencePrice = {
+  amount_toman: number;
+  kind: string;
+  original_amount: number;
+  original_currency: string;
+  rate_toman_per_usd: number;
+  rate_at: string;
+};
+export type FeaturedShoe = Summary & {
+  foam: string | null;
+  plate: string | null;
+};
+export type ScoreDistribution = {
+  bins: number[];
+  range: number[];
+  population_size: number;
+  selected: number;
+  percentile: number;
+  method: string;
+};
+export type ScoreContext = {
+  category: string;
+  rows: {
+    key: string;
+    value: number;
+    unit: string;
+    distribution: ScoreDistribution | null;
+  }[];
+  population_definition: string;
 };

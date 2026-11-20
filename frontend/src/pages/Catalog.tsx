@@ -14,15 +14,12 @@ import {
   Dumbbell,
   PersonStanding,
   ScanLine,
-  Layers3,
-  ArrowUpLeft,
 } from "lucide-react";
 import { api } from "../lib/api";
-import type { CatalogResult, FacetResult, Shoe, Taxonomy } from "../lib/types";
-import { fa, label, value } from "../lib/format";
+import type { CatalogResult, FacetResult, Taxonomy } from "../lib/types";
+import { fa, label } from "../lib/format";
 import { apiParams, facetTitles, toggleFacet } from "../lib/catalogState";
-import { AnatomyViewer } from "../components/AnatomyViewer";
-import { ErrorState, Loading, ProductImage } from "../components/Shared";
+import { ErrorState, Loading } from "../components/Shared";
 import { FilterPanel } from "../components/FilterPanel";
 import { ShoeCard } from "../components/ShoeCard";
 const icons: Record<string, typeof Footprints> = {
@@ -32,129 +29,6 @@ const icons: Record<string, typeof Footprints> = {
   "training-shoes": Dumbbell,
   "walking-shoes": PersonStanding,
 };
-function Intro({ total }: { total: number }) {
-  const [anatomy, setAnatomy] = useState(false);
-  const { data: shoe } = useQuery({
-    queryKey: ["shoe", "adidas-adizero-evo-sl"],
-    queryFn: ({ signal }) => api<Shoe>("/shoes/adidas-adizero-evo-sl", signal),
-  });
-  return (
-    <section className="catalog-intro">
-      <div className="intro-copy">
-        <span className="eyebrow">
-          <span className="tiny-rule" /> شناخت کفش، فراتر از ظاهر
-        </span>
-        <h1>
-          پشت هر قدم،
-          <br />
-          یک <span>انتخاب دقیق.</span>
-        </h1>
-        <p>
-          از فرم پنجه تا لایه‌های زیره؛ کفش‌ها را با داده‌های واقعی بشناس، کنار
-          هم بگذار و مناسب خودت را پیدا کن.
-        </p>
-        <div className="intro-actions">
-          <a href="#catalog" className="button">
-            کشف کفش‌ها <Search size={16} />
-          </a>
-          <Link to="/finder" className="intro-secondary">
-            کفش مناسب من <ArrowUpLeft size={17} />
-          </Link>
-        </div>
-        <div className="intro-proof">
-          <span>
-            <b>{fa(total)}</b> مدل کفش
-          </span>
-          <span>
-            <b>۳</b> منبع تخصصی
-          </span>
-          <span>
-            <b>بدون</b> نیاز به ثبت‌نام
-          </span>
-        </div>
-      </div>
-      <div className={`intro-object ${anatomy ? "show-anatomy" : ""}`}>
-        <div className="intro-object-top">
-          <span className="technical-word">THE DETAILS MATTER</span>
-          <button
-            className="object-toggle"
-            onClick={() => setAnatomy(!anatomy)}
-            aria-pressed={anatomy}
-          >
-            <Layers3 size={15} />
-            {anatomy ? "عکس محصول" : "کشف ساختار"}
-          </button>
-        </div>
-        {shoe ? (
-          <AnimatePresence mode="wait" initial={false}>
-            {anatomy ? (
-              <motion.div
-                key="anatomy"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <AnatomyViewer shoe={shoe} compact initialMode="exploded" />
-              </motion.div>
-            ) : (
-              <motion.div
-                className="hero-shoe"
-                key="photo"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <span className="hero-orbit" />
-                <ProductImage
-                  src={shoe.variants[0]?.image_url || shoe.summary.image_url}
-                  name={shoe.summary.name}
-                  eager
-                />
-                <div className="hero-annotation annotation-weight">
-                  <span>وزن اندازه‌گیری‌شده</span>
-                  <b dir="ltr">
-                    {value(shoe.summary.weight_g)} <small>g</small>
-                  </b>
-                  <i />
-                </div>
-                <div className="hero-annotation annotation-stack">
-                  <span>ارتفاع پاشنه</span>
-                  <b dir="ltr">
-                    {value(shoe.summary.heel_stack_mm)} <small>mm</small>
-                  </b>
-                  <i />
-                </div>
-                <div className="hero-annotation annotation-foam">
-                  <Layers3 size={15} />
-                  <span dir="ltr">{shoe.summary.foam || "جنس فوم نامشخص"}</span>
-                  <i />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        ) : (
-          <div className="hero-loading" />
-        )}
-        <div className="intro-object-bottom">
-          <div>
-            <span dir="ltr">
-              {shoe?.summary.name || "adidas Adizero EVO SL"}
-            </span>
-            <small>اندازه‌گیری RunRepeat · تخمین هندسه ShoeGeometry</small>
-          </div>
-          <Link
-            to="/shoe/adidas-adizero-evo-sl"
-            className="icon-button"
-            aria-label="بررسی Adizero EVO SL"
-          >
-            <ArrowUpLeft size={20} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
 export function Catalog() {
   const [params, setParams] = useSearchParams();
   const q = params.get("q") || "";
@@ -233,7 +107,6 @@ export function Catalog() {
   };
   return (
     <>
-      <Intro total={taxonomy.data?.total || 1167} />
       <section id="catalog" className="catalog-section">
         <div className="section-head catalog-heading">
           <div>
@@ -315,9 +188,9 @@ export function Catalog() {
               onChange={(e) => update("sort", e.target.value)}
             >
               <option value="relevance">مرتبط‌ترین</option>
-              <option value="score">امتیاز RunRepeat</option>
+              <option value="score">امتیاز کلی</option>
               <option value="weight">سبک‌ترین</option>
-              <option value="price">قیمت MSRP · دلار</option>
+
               <option value="newest">جدیدترین</option>
               <option value="name">نام مدل</option>
             </select>

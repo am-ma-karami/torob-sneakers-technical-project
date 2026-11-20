@@ -1,7 +1,16 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { Layers3, SlidersHorizontal } from "lucide-react";
+import {
+  Link,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+  useParams,
+  Navigate,
+} from "react-router-dom";
+import { Layers3, Search } from "lucide-react";
 import { motion } from "motion/react";
+import { Home } from "./pages/Home";
 import { Catalog } from "./pages/Catalog";
 import { Loading } from "./components/Shared";
 import { ComparisonTray } from "./components/ComparisonTray";
@@ -45,9 +54,7 @@ export function App() {
             </strong>
           </Link>
           <nav aria-label="ناوبری اصلی">
-            <NavLink to="/" end>
-              کشف کفش
-            </NavLink>
+            <NavLink to="/shoes">کشف کفش</NavLink>
             <NavLink to="/brands" className="nav-brands">
               برندها
             </NavLink>
@@ -57,7 +64,9 @@ export function App() {
             </NavLink>
           </nav>
           <span className="header-note">
-            <SlidersHorizontal size={15} /> انتخاب، با شناخت بیشتر
+            <Link to="/shoes" aria-label="جستجوی کفش" className="nav-search">
+              <Search size={18} /> جستجو
+            </Link>
           </span>
         </div>
       </header>
@@ -70,8 +79,10 @@ export function App() {
         >
           <Suspense fallback={<Loading />}>
             <Routes>
-              <Route path="/" element={<Catalog />} />
-              <Route path="/shoe/:slug" element={<Detail />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/shoes" element={<Catalog />} />
+              <Route path="/shoes/:slug" element={<Detail />} />
+              <Route path="/shoe/:slug" element={<LegacyDetail />} />
               <Route path="/compare" element={<Compare />} />
               <Route path="/finder" element={<Finder />} />
               <Route path="/brands" element={<Directory kind="brands" />} />
@@ -85,7 +96,7 @@ export function App() {
                 element={
                   <div className="state-panel">
                     <h1>این مسیر پیدا نشد.</h1>
-                    <Link className="button" to="/">
+                    <Link className="button" to="/shoes">
                       برگشت به کاتالوگ
                     </Link>
                   </div>
@@ -106,15 +117,18 @@ export function App() {
           <Link to="/categories">دسته‌بندی‌ها</Link>
           <Link to="/brands">برندها</Link>
           <Link to="/finder">کفش مناسب من</Link>
-          <Link to="/about">داده‌ها و روش‌ها</Link>
+          <Link to="/about">درباره راد</Link>
         </nav>
-        <p className="footer-credit">
-          با داده‌های RunRepeat، ShoeGeometry و SoleHunt.
-          <br />
-          اعتبار و مجوزهای CC BY 4.0 در صفحه منابع هر محصول.
-        </p>
       </footer>
       <ComparisonTray />
     </>
+  );
+}
+
+function LegacyDetail() {
+  const { slug } = useParams();
+  const location = useLocation();
+  return (
+    <Navigate to={`/shoes/${slug}${location.search}${location.hash}`} replace />
   );
 }

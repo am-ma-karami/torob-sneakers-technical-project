@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MotionConfig } from "motion/react";
 import "@fontsource-variable/vazirmatn";
 import "@fontsource-variable/manrope";
+import "@fontsource-variable/bodoni-moda";
 import "@fontsource-variable/jetbrains-mono";
 import "./styles.css";
+import "./theme.css";
 import { App } from "./App";
 import { ComparisonProvider } from "./lib/comparison";
 const client = new QueryClient({

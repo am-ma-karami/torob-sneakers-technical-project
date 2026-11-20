@@ -2,7 +2,7 @@ export const fa = (n: number) =>
   new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 1 }).format(n);
 export const value = (n: unknown, unit = "") =>
   n == null
-    ? "ثبت نشده"
+    ? "—"
     : `${typeof n === "number" ? new Intl.NumberFormat("en", { maximumFractionDigits: 2 }).format(n) : String(n)}${unit ? " " + unit : ""}`;
 export const categories: Record<string, string> = {
   "running-shoes": "دویدن",
@@ -128,7 +128,7 @@ export const metricGroups: { title: string; keys: [string, string][] }[] = [
     ],
   },
   {
-    title: "شاخص‌های تبدیل‌شده ShoeGeometry",
+    title: "شاخص‌های هندسی تبدیل‌شده",
     keys: [
       ["geometry_stiffness_score", "شاخص سفتی"],
       ["geometry_firmness_score", "شاخص سختی"],

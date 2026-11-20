@@ -214,23 +214,15 @@ export function FilterPanel({
         params={params}
         update={update}
       />
-      <Range
-        title="قیمت فهرست سازنده"
-        field="price"
-        unit="USD"
-        max={10000}
-        params={params}
-        update={update}
-      />
       <details className="filter-group">
         <summary>
-          حداقل امتیاز RunRepeat
+          حداقل امتیاز کلی
           <ChevronDown size={15} />
         </summary>
         <label className="score-filter">
           از ۱۰۰
           <select
-            aria-label="حداقل امتیاز RunRepeat"
+            aria-label="حداقل امتیاز کلی"
             value={params.get("score_min") || ""}
             onChange={(e) => update("score_min", e.target.value)}
           >

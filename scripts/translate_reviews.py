@@ -68,6 +68,27 @@ def translate_batch(texts):
     return []
 
 
+def normalize_footwear(source, target):
+    """Deterministic context-specific terminology; editorial overrides run last."""
+    pairs = []
+    if re.search(r"grip|traction", source, re.I):
+        pairs += [("گرفتن", "چسبندگی"), ("کشش", "چسبندگی")]
+    if re.search(r"stack", source, re.I):
+        pairs += [("پشته", "زیره")]
+    if re.search(r"plush", source, re.I):
+        pairs += [("مخملی", "نرم"), ("شیک", "نرم")]
+    if re.search(r"solid", source, re.I):
+        pairs += [("جامد", "قابل اتکا")]
+    if re.search(r"striker", source, re.I):
+        pairs += [
+            ("مهاجمان میانی پا", "دوندگان با فرود روی میانه پا"),
+            ("مهاجمان جلوی پا", "دوندگان با فرود روی پنجه"),
+        ]
+    for old, new in pairs:
+        target = target.replace(old, new)
+    return target
+
+
 def main():
     shoes = json.loads((ROOT / "shoes-ui.json").read_text())["shoes"]
     phrases = sorted(
@@ -81,6 +102,7 @@ def main():
     )
     cache = json.loads(OUTPUT.read_text()) if OUTPUT.exists() else {}
     overrides = json.loads(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
+    cache = {source: normalize_footwear(source, target) for source, target in cache.items()}
     cache.update(overrides)
     pending = [s for s in phrases if s not in cache]
     batches = [pending[i : i + 40] for i in range(0, len(pending), 40)]
@@ -89,10 +111,11 @@ def main():
         for texts, translated in zip(batches, pool.map(translate_batch, batches)):
             for source, target in zip(texts, translated):
                 if re.search("[\u0600-\u06ff]", target):
-                    cache[source] = target
+                    cache[source] = normalize_footwear(source, target)
             cache.update(json.loads(OVERRIDES.read_text()) if OVERRIDES.exists() else {})
             OUTPUT.write_text(json.dumps(cache, ensure_ascii=False, indent=2) + "\n")
             print(f"Translated {len(cache)}/{len(phrases)} public review phrases", flush=True)
+    OUTPUT.write_text(json.dumps(cache, ensure_ascii=False, indent=2) + "\n")
     print("Stored translations complete; originals retained unchanged.")
 
 

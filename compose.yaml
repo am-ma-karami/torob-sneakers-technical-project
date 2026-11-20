@@ -1,0 +1,66 @@
+name: rad-shoes
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: rad
+      POSTGRES_USER: rad
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U rad -d rad"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    restart: unless-stopped
+  backend:
+    image: rad-backend:local
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://rad:${POSTGRES_PASSWORD}@db:5432/rad
+      DATA_DIR: /data
+      ENVIRONMENT: production
+      CORS_ORIGINS: '["http://127.0.0.1:8080","http://localhost:8080"]'
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD-SHELL, "wget -q -O /dev/null http://127.0.0.1:8080/"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+  importer:
+    image: rad-backend:local
+    profiles: [tools]
+    environment:
+      DATABASE_URL: postgresql+psycopg://rad:${POSTGRES_PASSWORD}@db:5432/rad
+      DATA_DIR: /data
+    entrypoint: [python, -m, app.importers.catalog]
+    volumes:
+      - ./shoes-ui.json:/data/shoes-ui.json:ro
+      - ./visualization-data.json:/data/visualization-data.json:ro
+      - ./source-records.jsonl:/data/source-records.jsonl:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+volumes:
+  postgres_data:

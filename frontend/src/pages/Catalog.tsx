@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { api } from "../lib/api";
 import type { CatalogResult, FacetResult, Shoe, Taxonomy } from "../lib/types";
-import { fa, label } from "../lib/format";
+import { fa, label, value } from "../lib/format";
 import { apiParams, facetTitles, toggleFacet } from "../lib/catalogState";
 import { AnatomyViewer } from "../components/AnatomyViewer";
 import { ErrorState, Loading, ProductImage } from "../components/Shared";
@@ -114,20 +114,20 @@ function Intro({ total }: { total: number }) {
                 <div className="hero-annotation annotation-weight">
                   <span>وزن اندازه‌گیری‌شده</span>
                   <b dir="ltr">
-                    223 <small>g</small>
+                    {value(shoe.summary.weight_g)} <small>g</small>
                   </b>
                   <i />
                 </div>
                 <div className="hero-annotation annotation-stack">
                   <span>ارتفاع پاشنه</span>
                   <b dir="ltr">
-                    36.1 <small>mm</small>
+                    {value(shoe.summary.heel_stack_mm)} <small>mm</small>
                   </b>
                   <i />
                 </div>
                 <div className="hero-annotation annotation-foam">
                   <Layers3 size={15} />
-                  <span dir="ltr">Lightstrike Pro</span>
+                  <span dir="ltr">{shoe.summary.foam || "جنس فوم نامشخص"}</span>
                   <i />
                 </div>
               </motion.div>
@@ -161,13 +161,22 @@ export function Catalog() {
   const [input, setInput] = useState(q);
   const dialog = useRef<HTMLDialogElement>(null);
   const update = useCallback(
-    (key: string, value: string, append = false) => {
+    (
+      key: string,
+      value: string,
+      append = false,
+      extra?: Record<string, string>,
+    ) => {
       setParams(
         (previous) => {
           if (append) return toggleFacet(previous, key, value);
           const next = new URLSearchParams(previous);
           next.delete(key);
           if (value) next.set(key, value);
+          Object.entries(extra || {}).forEach(([k, v]) => {
+            next.delete(k);
+            if (v) next.set(k, v);
+          });
           if (key !== "page") next.delete("page");
           return next;
         },

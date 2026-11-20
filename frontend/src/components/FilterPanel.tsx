@@ -3,7 +3,12 @@ import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
 import type { FacetOption, FacetResult } from "../lib/types";
 import { fa, label } from "../lib/format";
 import { facetKeys, facetTitles } from "../lib/catalogState";
-type Update = (key: string, value: string, append?: boolean) => void;
+type Update = (
+  key: string,
+  value: string,
+  append?: boolean,
+  extra?: Record<string, string>,
+) => void;
 function FacetGroup({
   name,
   options,
@@ -105,7 +110,7 @@ function Range({
 }) {
   const id = useId();
   return (
-    <details className="filter-group">
+    <details className="filter-group" data-testid={"range-" + field}>
       <summary>
         {title}
         <span className="range-unit" dir="ltr">
@@ -128,8 +133,7 @@ function Range({
             form.reportValidity();
             return;
           }
-          update(field + "_min", a);
-          update(field + "_max", b);
+          update(field + "_min", a, false, { [field + "_max"]: b });
         }}
       >
         <div className="range-inputs">

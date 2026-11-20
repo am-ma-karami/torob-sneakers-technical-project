@@ -1,0 +1,2916 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-20T11:04:47.089677+00:00",
+  "count": 4,
+  "shoes": [
+    {
+      "shoe_id": 40586,
+      "slug": "adidas-adizero-evo-sl",
+      "summary": {
+        "shoe_id": 40586,
+        "name": "adidas Adizero EVO SL",
+        "brand": "adidas",
+        "categories": ["running-shoes"],
+        "gender": "Men | Women",
+        "release_year": 2024,
+        "pros": "100% Lightstrike Pro superfoam | Exceptional value-to-performance ratio | Low weight | Ultra-breathable upper | Unmatched versatility | Agile and fun ride | Handles short and long runs with ease | Striking Evo 1-inspired aesthetics",
+        "cons": "Poor-quality laces | Short, non-gusseted tongue | Toebox durability",
+        "image_url": "https://cdn.runrepeat.com/storage/gallery/product_primary/40586/adidas-adizero-evo-sl-22256345-720.jpg",
+        "msrp_usd": 150,
+        "runrepeat_score": 94,
+        "solehunt_score": null,
+        "solehunt_comfort_score": null,
+        "solehunt_durability_score": null,
+        "solehunt_performance_score": null,
+        "solehunt_value_score": null,
+        "solehunt_fit_score": null,
+        "terrain": "Road",
+        "uses": "Jogging | Treadmill",
+        "arch_support": "Neutral",
+        "width_options": { "runrepeat": "Normal | Wide" },
+        "fit_label": "True to size",
+        "fit_note": null,
+        "size_range": null,
+        "tested_size_raw": "9",
+        "size_fit_votes": 1202,
+        "size_fit_rating": 2.81,
+        "weight_g": 223,
+        "heel_stack_mm": 36.1,
+        "forefoot_stack_mm": 28.1,
+        "drop_mm": 8,
+        "internal_length_mm": 272.6,
+        "interior_forefoot_width_mm": 97.5,
+        "toebox_width_mm": 71.6,
+        "toebox_height_mm": 28.1,
+        "midsole_width_forefoot_mm": 116.3,
+        "midsole_width_heel_mm": 87.3,
+        "stated_heel_stack_mm": 38.5,
+        "stated_forefoot_stack_mm": 32.0,
+        "stated_drop_mm": 6.5,
+        "toe_rocker_pct": 40.59,
+        "rocker_radius_pct": 44.0,
+        "rocker_rise_angle_deg": 27.21,
+        "toe_angle_deg": 56.0,
+        "rocker_onset_pct": 66.8,
+        "toe_tip_height_mm": 45.71,
+        "heel_bevel_pct": 6.72,
+        "heel_bevel_height_mm": 18.62,
+        "toe_box_shape_pct": null,
+        "toe_spring_relative_pct": 20.3,
+        "geometry_stiffness_score": 9,
+        "geometry_firmness_score": 89,
+        "bending_force_30deg_n": 9.8,
+        "midsole_firmness_asker_c": 43.5,
+        "midsole_softness_shore_a": 21.3,
+        "energy_return_heel_pct": 74.3,
+        "energy_return_forefoot_pct": 73.54,
+        "shock_absorption_heel_sa": 146.95077149155,
+        "shock_absorption_forefoot_sa": 125.8558195731,
+        "traction_coefficient": 0.4,
+        "breathability_br": 76,
+        "breathability_score_5": 5,
+        "outsole_wear_mm": 0.55,
+        "tongue_padding_mm": 1.5,
+        "lug_depth_mm": null,
+        "plate": "none",
+        "foam": "Lightstrike Pro",
+        "upper_material": "Mesh",
+        "outsole_material": null,
+        "removable_insole": true,
+        "orthotic_friendly": "True",
+        "reflective": false,
+        "source_count": 2,
+        "geometry_status": "profile_ready",
+        "geometry_photos": 4.0,
+        "runrepeat_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+        "shoegeometry_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+        "solehunt_url": null,
+        "offer_records": 12,
+        "best_offer_price": 96,
+        "offer_currency": "EUR",
+        "offer_country": "DE"
+      },
+      "metrics": {
+        "weight_g": {
+          "value": 223,
+          "unit": "g",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__weight",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "heel_stack_mm": {
+          "value": 36.1,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__heel_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "forefoot_stack_mm": {
+          "value": 28.1,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "drop_mm": {
+          "value": 8,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__drop",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "internal_length_mm": {
+          "value": 272.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__internal_length",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "interior_forefoot_width_mm": {
+          "value": 97.5,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_widest_part",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "toebox_width_mm": {
+          "value": 71.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_big_toe",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "toebox_height_mm": {
+          "value": 28.1,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_height",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_width_forefoot_mm": {
+          "value": 116.3,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_width_heel_mm": {
+          "value": 87.3,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "stated_heel_stack_mm": {
+          "value": 38.5,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__heel_height"
+        },
+        "stated_forefoot_stack_mm": {
+          "value": 32.0,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__forefoot_height"
+        },
+        "stated_drop_mm": {
+          "value": 6.5,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__heel_to_toe_drop"
+        },
+        "toe_rocker_pct": {
+          "value": 40.59,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "toe_rocker_pct",
+          "confidence": 0.37,
+          "method_version": "0.3-bc1",
+          "photos": 4.0,
+          "photos_min": 33.89,
+          "photos_max": 47.35,
+          "uncertain": true,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM1-3.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "rocker_radius_pct": {
+          "value": 44.0,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "rocker_radius_pct",
+          "confidence": 0.37,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM1-3.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "rocker_rise_angle_deg": {
+          "value": 27.21,
+          "unit": "deg",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "rocker_rise_angle_deg",
+          "confidence": 0.37,
+          "method_version": "0.3-bc1",
+          "photos": 4.0,
+          "photos_min": 22.86,
+          "photos_max": 31.23,
+          "uncertain": true,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM1-3.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "toe_angle_deg": {
+          "value": 56.0,
+          "unit": "deg",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "toe_angle_deg",
+          "confidence": 0.43,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM0-1.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "rocker_onset_pct": {
+          "value": 66.8,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "rocker_onset_pct",
+          "confidence": 0.43,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM0-1.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "toe_tip_height_mm": {
+          "value": 45.71,
+          "unit": "mm",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "toe_tip_height_mm",
+          "confidence": 0.43,
+          "method_version": "0.3-bc1",
+          "photos": 4.0,
+          "photos_min": 41.19,
+          "photos_max": 49.99,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM0-1.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": 300,
+          "precision": "exported_numeric"
+        },
+        "heel_bevel_pct": {
+          "value": 6.72,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "heel_bevel_pct",
+          "confidence": 0.37,
+          "method_version": "0.3-bc1",
+          "photos": 4.0,
+          "photos_min": 6.62,
+          "photos_max": 10.06,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM1-3.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "heel_bevel_height_mm": {
+          "value": 18.62,
+          "unit": "mm",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "heel_bevel_height_mm",
+          "confidence": 0.43,
+          "method_version": "0.3-bc1",
+          "photos": 4.0,
+          "photos_min": 15.1,
+          "photos_max": 21.8,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM0-1.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": 300,
+          "precision": "exported_numeric"
+        },
+        "toe_spring_relative_pct": {
+          "value": 20.3,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "photo_estimated",
+          "source_field": "toe_spring_relative_pct",
+          "confidence": 0.39,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=A1AESM1-1.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "geometry_stiffness_score": {
+          "value": 9,
+          "unit": "0-100",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "derived",
+          "source_field": "stiffness_score",
+          "confidence": 0.75,
+          "method_version": "Method: lab_bending_force_score, version 1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://runrepeat.com/adidas-adizero-evo-sl",
+          "original_publisher": "derived",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "geometry_firmness_score": {
+          "value": 89,
+          "unit": "0-100",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "origin": "derived",
+          "source_field": "firmness_score",
+          "confidence": 0.75,
+          "method_version": "Method: lab_midsole_firmness_score, version 1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://runrepeat.com/adidas-adizero-evo-sl",
+          "original_publisher": "derived",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "bending_force_30deg_n": {
+          "value": 9.8,
+          "unit": "N",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__flexibility_stiffness",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_firmness_asker_c": {
+          "value": 43.5,
+          "unit": "Asker C",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness_22",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_softness_shore_a": {
+          "value": 21.3,
+          "unit": "Shore A",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "energy_return_heel_pct": {
+          "value": 74.3,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "energy_return_forefoot_pct": {
+          "value": 73.54,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "shock_absorption_heel_sa": {
+          "value": 146.95077149155,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "shock_absorption_forefoot_sa": {
+          "value": 125.8558195731,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "traction_coefficient": {
+          "value": 0.4,
+          "unit": "coefficient",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_traction",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "breathability_br": {
+          "value": 76,
+          "unit": "BR",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__breathability_25",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "breathability_score_5": {
+          "value": 5,
+          "unit": "1-5",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__breathability",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "outsole_wear_mm": {
+          "value": 0.55,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__outsole_durability",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "tongue_padding_mm": {
+          "value": 1.5,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "origin": "lab_measured",
+          "source_field": "lab__tongue_padding",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        }
+      },
+      "visualization": {
+        "reference_length_mm": 300,
+        "illustrative": true,
+        "physical_scan": false,
+        "side_profile": {
+          "status": "profile_ready",
+          "heel_stack_mm": 36.1,
+          "forefoot_stack_mm": 28.1,
+          "drop_mm": 8,
+          "toe_rocker_pct": 40.59,
+          "toe_tip_height_mm": 45.71,
+          "rocker_radius_pct": 44.0,
+          "heel_bevel_pct": 6.72,
+          "heel_bevel_height_mm": 18.62,
+          "rocker_apex_from_heel_pct": 59.41
+        },
+        "fit_section": {
+          "internal_length_mm": 272.6,
+          "interior_forefoot_width_mm": 97.5,
+          "toebox_width_mm": 71.6,
+          "toebox_height_mm": 28.1,
+          "tested_size_raw": "9",
+          "fit_label": "True to size"
+        },
+        "top_outline": {
+          "status": "no_outline_estimate",
+          "toe_box_shape_pct": null,
+          "midsole_width_forefoot_mm": 116.3,
+          "midsole_width_heel_mm": 87.3,
+          "note": "Photo outline ratio and lab dimensions describe different boundaries; never substitute internal toe width for outside outline"
+        },
+        "gauges": {
+          "bending_force": {
+            "value": 9.8,
+            "unit": "N",
+            "meaning": "force to bend 30 degrees; lower is more flexible"
+          },
+          "firmness": {
+            "value": 43.5,
+            "unit": "Asker C",
+            "meaning": "higher is firmer; separate from Shore A and Shore C"
+          },
+          "energy_return_heel": {
+            "value": 74.3,
+            "unit": "%",
+            "meaning": "higher is more rebound in this lab test"
+          }
+        },
+        "missing_value_policy": "Keep null; do not draw a measured curve or render a numeric zero when source data is absent"
+      },
+      "fit": {
+        "size_chart": [
+          {
+            "id": 1,
+            "brand_id": 18,
+            "foot": 221,
+            "mm": 220,
+            "usm": null,
+            "usw": 5,
+            "ukm": null,
+            "ukw": 3.5,
+            "eum": null,
+            "euw": 36,
+            "eum_slug": "eu_360",
+            "euw_slug": "eu_360",
+            "usm_slug": "us_40",
+            "usw_slug": "us_50",
+            "ukm_slug": "uk_35",
+            "ukw_slug": "uk_35",
+            "slugs": {
+              "m": ["eu_360", "eu_355", "us_40", "us_35", "uk_35", "uk_30"],
+              "w": ["eu_360", "eu_355", "us_50", "us_45", "uk_35", "uk_30"]
+            }
+          },
+          {
+            "id": 2,
+            "brand_id": 18,
+            "foot": 225,
+            "mm": 225,
+            "usm": null,
+            "usw": 5.5,
+            "ukm": null,
+            "ukw": 4,
+            "eum": null,
+            "euw": 36.667,
+            "eum_slug": "eu_365",
+            "euw_slug": "eu_365",
+            "usm_slug": "us_45",
+            "usw_slug": "us_55",
+            "ukm_slug": "uk_40",
+            "ukw_slug": "uk_40",
+            "slugs": {
+              "m": ["eu_365", "us_45", "uk_40"],
+              "w": ["eu_365", "us_55", "uk_40"]
+            }
+          }
+        ],
+        "brand_specs": {
+          "spec__heel_height__men": "38.5 mm",
+          "spec__heel_height__women": "38.7 mm",
+          "spec__heel_height": "Men: 38.5 mm | Women: 38.7 mm",
+          "spec__forefoot_height__men": "32 mm",
+          "spec__forefoot_height__women": "32.2 mm",
+          "spec__forefoot_height": "Men: 32 mm | Women: 32.2 mm",
+          "spec__weight__men": "7.9 oz / 224g",
+          "spec__weight__women": "6.6 oz / 188g",
+          "spec__weight": "Men: 7.9 oz / 224g | Women: 6.6 oz / 188g",
+          "spec__width": "Normal | Wide"
+        },
+        "solehunt": {
+          "width_options": null,
+          "size_range": null,
+          "fit_note": null,
+          "arch_support": null,
+          "orthotic_friendly": null
+        },
+        "duplicate_source_records": [],
+        "width_variants": []
+      },
+      "construction": {
+        "runrepeat_material": "Mesh",
+        "foam": "Lightstrike Pro",
+        "solehunt": {}
+      },
+      "scores": {
+        "runrepeat": {
+          "overall": 94,
+          "usage": {
+            "daily_running": 90,
+            "tempo": 92,
+            "race": 85,
+            "stability": 77
+          }
+        },
+        "solehunt": {
+          "core_score": null,
+          "comfort_score": null,
+          "durability_score": null,
+          "performance_score": null,
+          "value_score": null,
+          "fit_score": null,
+          "score_estimated": null
+        },
+        "geometry": { "stiffness": 9, "firmness": 89 }
+      },
+      "solehunt_source_specific": {
+        "toebox_width_mm": null,
+        "midsole_hardness_hc": null,
+        "breathability_score": null,
+        "outsole_grip_score": null,
+        "flexibility_score": null,
+        "sustainability_pct": null,
+        "energy_return_pct": null,
+        "current_low_usd": null,
+        "updated_at": null,
+        "score_estimated": null
+      },
+      "commerce": {
+        "runrepeat": {
+          "offers": [
+            {
+              "price": 105.29,
+              "price_local": 96,
+              "shop_id": 526,
+              "affiliate_link": "https://runningxpert.com/de/adidas-men-s-adizero-evo-sl-jp7149.html?utm_source=runrepeat&utm_medium=cpa&utm_campaign=sponsored_product_listings&utm_content=product_clicks",
+              "is_any_color": true,
+              "offers_count": 6,
+              "sizes_available": "0-78",
+              "available_widths": 3,
+              "discount_replacement": "",
+              "discount_percentage": 36,
+              "price_formatted": "96 €",
+              "color": {
+                "id": 0,
+                "image": {
+                  "size": 720,
+                  "width": 720,
+                  "height": 480,
+                  "cdn_path": "storage/gallery/product_primary/40586/adidas-adizero-evo-sl-22256345"
+                }
+              },
+              "shop": {
+                "id": 526,
+                "name": "RunningXpert",
+                "ga_name": "RunningXpert DE",
+                "ranking": 0.31,
+                "custom_text": "Free Shipping",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 105.29,
+              "price_local": 96,
+              "shop_id": 526,
+              "affiliate_link": "https://runningxpert.com/de/adidas-men-s-adizero-evo-sl-jp7149.html?utm_source=runrepeat&utm_medium=cpa&utm_campaign=sponsored_product_listings&utm_content=product_clicks",
+              "color": {
+                "id": 1986833,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 286,
+                  "cdn_path": "i/adidas/40586/adidas-adizero-evo-sl-men-s-shoes-black-white-black-black-white-black-6470"
+                },
+                "name_suffix": " - Black (JP7149)"
+              },
+              "offers_count": 5,
+              "sizes_available": "0-1,3-5,9-29,31-39,41-42,44-45,48-64,66-67,69-70,73-78",
+              "available_widths": 3,
+              "discount_replacement": "",
+              "discount_percentage": 36,
+              "price_formatted": "96 €",
+              "shop": {
+                "id": 526,
+                "name": "RunningXpert",
+                "ga_name": "RunningXpert DE",
+                "ranking": 0.31,
+                "custom_text": "Free Shipping",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 105.29,
+              "price_local": 96,
+              "shop_id": 526,
+              "affiliate_link": "https://runningxpert.com/de/adidas-men-s-adizero-evo-sl-jh6206.html?utm_source=runrepeat&utm_medium=cpa&utm_campaign=sponsored_product_listings&utm_content=product_clicks",
+              "color": {
+                "id": 1999801,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 265,
+                  "cdn_path": "i/adidas/40586/adidas-adizero-evo-sl-woven-men-s-shoes-white-black-gry-white-black-gry-2528"
+                },
+                "name_suffix": " - White (JR1912)"
+              },
+              "offers_count": 6,
+              "sizes_available": "0-2,7-29,31-39,41-43,47-64,66-68,72-78",
+              "available_widths": 3,
+              "discount_replacement": "",
+              "discount_percentage": 36,
+              "price_formatted": "96 €",
+              "shop": {
+                "id": 526,
+                "name": "RunningXpert",
+                "ga_name": "RunningXpert DE",
+                "ranking": 0.31,
+                "custom_text": "Free Shipping",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            }
+          ],
+          "currency": "EUR",
+          "country": "DE",
+          "snapshot": "2026-11-20T10:08:38.301262+00:00"
+        },
+        "solehunt": {
+          "current_low_usd": null,
+          "retailers": [],
+          "record_updated_at": null,
+          "live_price_verified": false
+        }
+      },
+      "media": {
+        "images": [
+          "https://cdn.runrepeat.com/storage/gallery/product_primary/40586/adidas-adizero-evo-sl-22256345-720.jpg",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-22263028-720.jpg"
+        ],
+        "videos": [
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-cut.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-energy-return.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-foam.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-foam.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-lsp.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-plate.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-gel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-toebox-volume.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-stretch-mesh.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-traction-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-run-front.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-neutral.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-lateral-stability-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-torsional-rigidity.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-counter-stiffness.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-forefoot-landing.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-bevel-back.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-toebox.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-heel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-outsole.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-rubber-grip.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-breathability-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-cut.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-energy-return.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-foam.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-foam.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-lsp.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-plate.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-gel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-toebox-volume.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-stretch-mesh.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-traction-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-run-front.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-neutral.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-lateral-stability-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-torsional-rigidity.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-counter-stiffness.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-forefoot-landing.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-heel-bevel-back.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-toebox.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-heel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-dremel-outsole.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-rubber-grip.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-breathability-test.webm"
+        ]
+      },
+      "sources": [
+        {
+          "name": "RunRepeat",
+          "url": "https://runrepeat.com/uk/adidas-adizero-evo-sl",
+          "extracted_at": "2026-11-20T10:08:38.301262+00:00",
+          "review_updated_at": "2026-07-24T00:00:00+00:00"
+        },
+        {
+          "name": "ShoeGeometry",
+          "url": "https://shoegeometry.com/shoes/adidas-adizero-evo-sl",
+          "dataset_version": "2026-11-14",
+          "license": "CC BY 4.0",
+          "attribution": "ShoeGeometry (2026). Running-shoe geometry dataset, version 2026-11-14. https://shoegeometry.com/data. CC BY 4.0."
+        }
+      ],
+      "quality_flags": [
+        "One or more photo estimates have unusually wide photo disagreement"
+      ]
+    },
+    {
+      "shoe_id": 40390,
+      "slug": "nike-pegasus-41",
+      "summary": {
+        "shoe_id": 40390,
+        "name": "Nike Pegasus 41",
+        "brand": "Nike",
+        "categories": ["running-shoes"],
+        "gender": "Men | Women",
+        "release_year": 2024,
+        "pros": "Enhanced for heel strikers | New ReactX foam! | Improved breathability | Plush upper | Good durability | Several stability enhancements | Newly designed rocker and bevel | Solid performance | Superior lockdown | Sustainable features",
+        "cons": "Price increased by $10 | Worse than the v40 in cold temperatures | Poor grip",
+        "image_url": "https://cdn.runrepeat.com/storage/gallery/product_primary/40390/nike-pegasus-41-21635997-720.jpg",
+        "msrp_usd": 140,
+        "runrepeat_score": 85,
+        "solehunt_score": 88,
+        "solehunt_comfort_score": 91,
+        "solehunt_durability_score": 84,
+        "solehunt_performance_score": 87,
+        "solehunt_value_score": 82,
+        "solehunt_fit_score": 90,
+        "terrain": "Road",
+        "uses": "Jogging | Treadmill | Walking | All-day wear | For beginners",
+        "arch_support": "Neutral",
+        "width_options": {
+          "runrepeat": "Normal | Wide | X-Wide",
+          "solehunt": ["D", "2E"]
+        },
+        "fit_label": "True to size",
+        "fit_note": "True to size.",
+        "size_range": "UK 5–14",
+        "tested_size_raw": "9",
+        "size_fit_votes": 713,
+        "size_fit_rating": 2.85,
+        "weight_g": 281,
+        "heel_stack_mm": 33.6,
+        "forefoot_stack_mm": 22.2,
+        "drop_mm": 11.4,
+        "internal_length_mm": 273.9,
+        "interior_forefoot_width_mm": 94.6,
+        "toebox_width_mm": 72.9,
+        "toebox_height_mm": 26.4,
+        "midsole_width_forefoot_mm": 115.6,
+        "midsole_width_heel_mm": 89.2,
+        "stated_heel_stack_mm": 37.0,
+        "stated_forefoot_stack_mm": 27.0,
+        "stated_drop_mm": 10.0,
+        "toe_rocker_pct": 39.65,
+        "rocker_radius_pct": 69.0,
+        "rocker_rise_angle_deg": 19.34,
+        "toe_angle_deg": 48.0,
+        "rocker_onset_pct": 76.4,
+        "toe_tip_height_mm": 31.26,
+        "heel_bevel_pct": 11.66,
+        "heel_bevel_height_mm": 20.2,
+        "toe_box_shape_pct": null,
+        "toe_spring_relative_pct": 14.0,
+        "geometry_stiffness_score": 7,
+        "geometry_firmness_score": 57,
+        "bending_force_30deg_n": 9.4,
+        "midsole_firmness_asker_c": 35.2,
+        "midsole_softness_shore_a": 15.8,
+        "energy_return_heel_pct": 55.51,
+        "energy_return_forefoot_pct": 61.37,
+        "shock_absorption_heel_sa": 125.42644992976,
+        "shock_absorption_forefoot_sa": 92.10053694613,
+        "traction_coefficient": 0.25,
+        "breathability_br": null,
+        "breathability_score_5": 4,
+        "outsole_wear_mm": 0.88,
+        "tongue_padding_mm": 6.6,
+        "lug_depth_mm": null,
+        "plate": "none",
+        "foam": "ReactX, dual Air Zoom units",
+        "upper_material": "Mesh | Reflective",
+        "outsole_material": "Waffle rubber",
+        "removable_insole": true,
+        "orthotic_friendly": "True",
+        "reflective": true,
+        "source_count": 3,
+        "geometry_status": "profile_ready",
+        "geometry_photos": 6.0,
+        "runrepeat_url": "https://runrepeat.com/uk/nike-pegasus-41",
+        "shoegeometry_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+        "solehunt_url": "https://solehunt.app/shoes/nike-pegasus-41",
+        "offer_records": 7,
+        "best_offer_price": 80,
+        "offer_currency": "EUR",
+        "offer_country": "DE"
+      },
+      "metrics": {
+        "weight_g": {
+          "value": 281,
+          "unit": "g",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__weight",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "heel_stack_mm": {
+          "value": 33.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__heel_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "forefoot_stack_mm": {
+          "value": 22.2,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "drop_mm": {
+          "value": 11.4,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__drop",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "internal_length_mm": {
+          "value": 273.9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__internal_length",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "interior_forefoot_width_mm": {
+          "value": 94.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_widest_part",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "toebox_width_mm": {
+          "value": 72.9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_big_toe",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "toebox_height_mm": {
+          "value": 26.4,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_height",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "midsole_width_forefoot_mm": {
+          "value": 115.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "midsole_width_heel_mm": {
+          "value": 89.2,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "stated_heel_stack_mm": {
+          "value": 37.0,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__heel_height"
+        },
+        "stated_forefoot_stack_mm": {
+          "value": 27.0,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__forefoot_height"
+        },
+        "stated_drop_mm": {
+          "value": 10.0,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "manufacturer_stated",
+          "source_field": "spec__heel_to_toe_drop"
+        },
+        "toe_rocker_pct": {
+          "value": 39.65,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "toe_rocker_pct",
+          "confidence": 0.56,
+          "method_version": "0.3-bc1",
+          "photos": 6.0,
+          "photos_min": 36.85,
+          "photos_max": 43.4,
+          "uncertain": true,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM00-3.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "rocker_radius_pct": {
+          "value": 69.0,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "rocker_radius_pct",
+          "confidence": 0.56,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM03-1.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "rocker_rise_angle_deg": {
+          "value": 19.34,
+          "unit": "deg",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "rocker_rise_angle_deg",
+          "confidence": 0.56,
+          "method_version": "0.3-bc1",
+          "photos": 6.0,
+          "photos_min": 19.23,
+          "photos_max": 20.37,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM03-1.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "toe_angle_deg": {
+          "value": 48.0,
+          "unit": "deg",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "toe_angle_deg",
+          "confidence": 0.56,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM00-3.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "rocker_onset_pct": {
+          "value": 76.4,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "rocker_onset_pct",
+          "confidence": 0.56,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM00-3.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "toe_tip_height_mm": {
+          "value": 31.26,
+          "unit": "mm",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "toe_tip_height_mm",
+          "confidence": 0.54,
+          "method_version": "0.3-bc1",
+          "photos": 6.0,
+          "photos_min": 27.82,
+          "photos_max": 34.26,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM01-1.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": 300,
+          "precision": "exported_numeric"
+        },
+        "heel_bevel_pct": {
+          "value": 11.66,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "heel_bevel_pct",
+          "confidence": 0.56,
+          "method_version": "0.3-bc1",
+          "photos": 6.0,
+          "photos_min": 10.64,
+          "photos_max": 11.78,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM03-1.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "heel_bevel_height_mm": {
+          "value": 20.2,
+          "unit": "mm",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "heel_bevel_height_mm",
+          "confidence": 0.56,
+          "method_version": "0.3-bc1",
+          "photos": 6.0,
+          "photos_min": 17.62,
+          "photos_max": 22.63,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM00-3.jpg&nw=900",
+          "original_publisher": "photo estimate",
+          "reference_length_mm": 300,
+          "precision": "exported_numeric"
+        },
+        "toe_spring_relative_pct": {
+          "value": 14.0,
+          "unit": "% length",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "photo_estimated",
+          "source_field": "toe_spring_relative_pct",
+          "confidence": 0.57,
+          "method_version": "Method: vision_rocker, version 0.3-bc1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://img.runningwarehouse.com/watermark/rs.php?path=N41PM03-3.jpg&nw=900",
+          "original_publisher": "AI estimated",
+          "reference_length_mm": null,
+          "precision": "rounded_page_display"
+        },
+        "geometry_stiffness_score": {
+          "value": 7,
+          "unit": "0-100",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "derived",
+          "source_field": "stiffness_score",
+          "confidence": 0.75,
+          "method_version": "Method: lab_bending_force_score, version 1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://runrepeat.com/nike-pegasus-41",
+          "original_publisher": "derived",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "geometry_firmness_score": {
+          "value": 57,
+          "unit": "0-100",
+          "source": "ShoeGeometry",
+          "source_url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "origin": "derived",
+          "source_field": "firmness_score",
+          "confidence": 0.75,
+          "method_version": "Method: lab_midsole_firmness_score, version 1",
+          "photos": null,
+          "photos_min": null,
+          "photos_max": null,
+          "uncertain": false,
+          "original_source_url": "https://runrepeat.com/nike-pegasus-41",
+          "original_publisher": "derived",
+          "reference_length_mm": null,
+          "precision": "exported_numeric"
+        },
+        "bending_force_30deg_n": {
+          "value": 9.4,
+          "unit": "N",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__flexibility_stiffness",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "midsole_firmness_asker_c": {
+          "value": 35.2,
+          "unit": "Asker C",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness_22",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "midsole_softness_shore_a": {
+          "value": 15.8,
+          "unit": "Shore A",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "energy_return_heel_pct": {
+          "value": 55.51,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "energy_return_forefoot_pct": {
+          "value": 61.37,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "shock_absorption_heel_sa": {
+          "value": 125.42644992976,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "shock_absorption_forefoot_sa": {
+          "value": 92.10053694613,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "traction_coefficient": {
+          "value": 0.25,
+          "unit": "coefficient",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_traction",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "breathability_score_5": {
+          "value": 4,
+          "unit": "1-5",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__breathability",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "outsole_wear_mm": {
+          "value": 0.88,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__outsole_durability",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        },
+        "tongue_padding_mm": {
+          "value": 6.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "origin": "lab_measured",
+          "source_field": "lab__tongue_padding",
+          "test_size_raw": "9",
+          "methodology_version": "2.2"
+        }
+      },
+      "visualization": {
+        "reference_length_mm": 300,
+        "illustrative": true,
+        "physical_scan": false,
+        "side_profile": {
+          "status": "profile_ready",
+          "heel_stack_mm": 33.6,
+          "forefoot_stack_mm": 22.2,
+          "drop_mm": 11.4,
+          "toe_rocker_pct": 39.65,
+          "toe_tip_height_mm": 31.26,
+          "rocker_radius_pct": 69.0,
+          "heel_bevel_pct": 11.66,
+          "heel_bevel_height_mm": 20.2,
+          "rocker_apex_from_heel_pct": 60.35
+        },
+        "fit_section": {
+          "internal_length_mm": 273.9,
+          "interior_forefoot_width_mm": 94.6,
+          "toebox_width_mm": 72.9,
+          "toebox_height_mm": 26.4,
+          "tested_size_raw": "9",
+          "fit_label": "True to size"
+        },
+        "top_outline": {
+          "status": "no_outline_estimate",
+          "toe_box_shape_pct": null,
+          "midsole_width_forefoot_mm": 115.6,
+          "midsole_width_heel_mm": 89.2,
+          "note": "Photo outline ratio and lab dimensions describe different boundaries; never substitute internal toe width for outside outline"
+        },
+        "gauges": {
+          "bending_force": {
+            "value": 9.4,
+            "unit": "N",
+            "meaning": "force to bend 30 degrees; lower is more flexible"
+          },
+          "firmness": {
+            "value": 35.2,
+            "unit": "Asker C",
+            "meaning": "higher is firmer; separate from Shore A and Shore C"
+          },
+          "energy_return_heel": {
+            "value": 55.51,
+            "unit": "%",
+            "meaning": "higher is more rebound in this lab test"
+          }
+        },
+        "missing_value_policy": "Keep null; do not draw a measured curve or render a numeric zero when source data is absent"
+      },
+      "fit": {
+        "size_chart": [
+          {
+            "id": 4542,
+            "brand_id": 29,
+            "foot": 216,
+            "mm": 215,
+            "usm": null,
+            "usw": 5,
+            "ukm": null,
+            "ukw": 3,
+            "eum": null,
+            "euw": 35.5,
+            "eum_slug": "eu_355",
+            "euw_slug": "eu_355",
+            "usm_slug": "us_35",
+            "usw_slug": "us_50",
+            "ukm_slug": "uk_30",
+            "ukw_slug": "uk_30",
+            "slugs": {
+              "m": ["eu_355", "eu_350", "us_35", "us_30", "uk_30", "uk_25"],
+              "w": ["eu_355", "eu_350", "us_50", "us_45", "uk_30", "uk_25"]
+            }
+          },
+          {
+            "id": 413,
+            "brand_id": 29,
+            "foot": 220,
+            "mm": 220,
+            "usm": null,
+            "usw": 5.5,
+            "ukm": null,
+            "ukw": 3.5,
+            "eum": null,
+            "euw": 36,
+            "eum_slug": "eu_360",
+            "euw_slug": "eu_360",
+            "usm_slug": "us_40",
+            "usw_slug": "us_55",
+            "ukm_slug": "uk_35",
+            "ukw_slug": "uk_35",
+            "slugs": {
+              "m": ["eu_360", "us_40", "uk_35"],
+              "w": ["eu_360", "us_55", "uk_35"]
+            }
+          }
+        ],
+        "brand_specs": {
+          "spec__heel_height": "37 mm",
+          "spec__forefoot_height": "27 mm",
+          "spec__weight__men": "10 oz / 283g",
+          "spec__weight__women": "8.7 oz / 247g",
+          "spec__weight": "Men: 10 oz / 283g | Women: 8.7 oz / 247g",
+          "spec__width": "Normal | Wide | X-Wide"
+        },
+        "solehunt": {
+          "width_options": ["D", "2E"],
+          "size_range": "UK 5–14",
+          "fit_note": "True to size.",
+          "arch_support": "neutral",
+          "orthotic_friendly": true
+        },
+        "duplicate_source_records": [],
+        "width_variants": []
+      },
+      "construction": {
+        "runrepeat_material": "Mesh | Reflective",
+        "foam": "ReactX, dual Air Zoom units",
+        "solehunt": {
+          "upper": "Flyknit mesh",
+          "insole": "4mm EVA",
+          "lacing": "Traditional",
+          "midsole": "React X + Zoom Air forefoot",
+          "outsole": "Waffle rubber",
+          "shoe_id": "73dd2214-85ce-464d-a3dd-386a728470fe",
+          "heel_counter": "Semi-rigid TPU"
+        }
+      },
+      "scores": {
+        "runrepeat": {
+          "overall": 85,
+          "usage": {
+            "daily_running": 92,
+            "tempo": 72,
+            "race": 54,
+            "stability": 84
+          }
+        },
+        "solehunt": {
+          "core_score": 88,
+          "comfort_score": 91,
+          "durability_score": 84,
+          "performance_score": 87,
+          "value_score": 82,
+          "fit_score": 90,
+          "score_estimated": false
+        },
+        "geometry": { "stiffness": 7, "firmness": 57 }
+      },
+      "solehunt_source_specific": {
+        "toebox_width_mm": 92,
+        "midsole_hardness_hc": 28,
+        "breathability_score": 74,
+        "outsole_grip_score": 81,
+        "flexibility_score": 62,
+        "sustainability_pct": 20,
+        "energy_return_pct": 64,
+        "current_low_usd": 115.0,
+        "updated_at": "2026-07-17T19:53:12.470441+00:00",
+        "score_estimated": false
+      },
+      "commerce": {
+        "runrepeat": {
+          "offers": [
+            {
+              "price": 87.74,
+              "price_local": 80,
+              "shop_id": 549,
+              "affiliate_link": "https://bjd.i-run.de/?P511B2F585455213S1UC413a51074023V4",
+              "is_any_color": true,
+              "offers_count": 4,
+              "sizes_available": "0-66",
+              "available_widths": 3,
+              "discount_replacement": "",
+              "discount_percentage": 43,
+              "price_formatted": "80 €",
+              "color": {
+                "id": 0,
+                "image": {
+                  "size": 720,
+                  "width": 720,
+                  "height": 480,
+                  "cdn_path": "storage/gallery/product_primary/40390/nike-pegasus-41-21635997"
+                }
+              },
+              "shop": {
+                "id": 549,
+                "name": "i-Run",
+                "ga_name": "i-Run DE",
+                "ranking": 0.09,
+                "custom_text": "Free shipping",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 98.71,
+              "price_local": 90,
+              "shop_id": 287,
+              "affiliate_link": "https://prf.hn/click/camref:1100l3D4Vu/creativeref:1100l210491/destination:https%3A%2F%2Fwww.sportsshoes.com%2Fde-de%2Fproduct%2Fnik23956%2Fnike-air-zoom-pegasus-41-herren-laufschuhe---fa26%3Fcur%3DEUR",
+              "color": {
+                "id": 1993992,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 254,
+                  "cdn_path": "i/nike/40390/nike-pegasus-41-multi-colour-light-smoke-grey-sail-black-212c"
+                },
+                "name_suffix": " - Multi (IB8171999)"
+              },
+              "offers_count": 1,
+              "sizes_available": "6-15,37-43,59-66",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 36,
+              "price_formatted": "90 €",
+              "shop": {
+                "id": 287,
+                "name": "SportsShoes",
+                "ga_name": "Sportsshoes DE",
+                "ranking": 0.12,
+                "custom_text": "",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 98.71,
+              "price_local": 90,
+              "shop_id": 287,
+              "affiliate_link": "https://prf.hn/click/camref:1100l3D4Vu/creativeref:1100l210491/destination:https%3A%2F%2Fwww.sportsshoes.com%2Fde-de%2Fproduct%2Fnik24577%2Fnike-air-zoom-pegasus-41-herren-laufschuhe%3Fcur%3DEUR",
+              "color": {
+                "id": 1999819,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 258,
+                  "cdn_path": "i/nike/40390/nike-pegasus-41-zapatillas-de-running-para-asfalto-hombre-blanco-blanco-3206"
+                },
+                "name_suffix": " - White (IM6674101)"
+              },
+              "offers_count": 1,
+              "sizes_available": "6-10,37-39,59-62",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 36,
+              "price_formatted": "90 €",
+              "shop": {
+                "id": 287,
+                "name": "SportsShoes",
+                "ga_name": "Sportsshoes DE",
+                "ranking": 0.12,
+                "custom_text": "",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            }
+          ],
+          "currency": "EUR",
+          "country": "DE",
+          "snapshot": "2026-11-20T10:09:28.987840+00:00"
+        },
+        "solehunt": {
+          "current_low_usd": 115.0,
+          "retailers": [
+            {
+              "id": "57a9aec9-a520-4436-9a38-49af7d507a84",
+              "shoe_id": "73dd2214-85ce-464d-a3dd-386a728470fe",
+              "in_stock": true,
+              "price_usd": 130.0,
+              "last_checked": "2026-06-08T14:26:43.38254+00:00",
+              "affiliate_url": null,
+              "retailer_name": "Nike.com"
+            },
+            {
+              "id": "9ffd6f76-14e5-4f80-9f9a-a5bd48a096d5",
+              "shoe_id": "73dd2214-85ce-464d-a3dd-386a728470fe",
+              "in_stock": true,
+              "price_usd": 134.0,
+              "last_checked": "2026-06-08T14:26:43.38254+00:00",
+              "affiliate_url": null,
+              "retailer_name": "Amazon"
+            },
+            {
+              "id": "92a58bd5-5a95-4fea-8757-74ec96095c90",
+              "shoe_id": "73dd2214-85ce-464d-a3dd-386a728470fe",
+              "in_stock": true,
+              "price_usd": 154.99,
+              "last_checked": "2026-06-15T08:03:40.262166+00:00",
+              "affiliate_url": "https://www.anrdoezrs.net/click-101755188-17006550?url=https%3A%2F%2Fwww.dickssportinggoods.com%2Fp%2Fnike-womens-pegasus-41-running-shoes-24nikwpgss41whtrdrnn%2F24nikwpgss41whtrdrnn%3Fsku%3D24NIKWPGSS41WHTRDRNN&cjsku=24NIKWPGSS41WHTRDRNN",
+              "retailer_name": "DICK'S Sporting Goods"
+            }
+          ],
+          "record_updated_at": "2026-07-17T19:53:12.470441+00:00",
+          "live_price_verified": false
+        }
+      },
+      "media": {
+        "images": [
+          "https://cdn.runrepeat.com/storage/gallery/product_primary/40390/nike-pegasus-41-21635997-720.jpg",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-21636083-720.jpg"
+        ],
+        "videos": [
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-cutting.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-energy-return.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-drop.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-react-x.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-foam-bounce.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-rocker.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-stable.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-gel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-toes.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-traction-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-running.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-lateral-stability-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-torsional-rigidity.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-counter-stiffness.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-run.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-strike.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-dremel-toe.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-dremel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-dremel-outsole.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-smoke.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-light.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-upper.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-reflective-elements-2.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-reflective-elements.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-cutting.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-energy-return.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-drop.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-react-x.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-foam-bounce.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-rocker.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-stable.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-gel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-toes.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-traction-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-running.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-lateral-stability-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-torsional-rigidity.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-counter-stiffness.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-run.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-strike.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-dremel-toe.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-heel-dremel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-dremel-outsole.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-smoke.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-light.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-upper.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-reflective-elements-2.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40390/nike-pegasus-41-reflective-elements.webm"
+        ]
+      },
+      "sources": [
+        {
+          "name": "RunRepeat",
+          "url": "https://runrepeat.com/uk/nike-pegasus-41",
+          "extracted_at": "2026-11-20T10:09:28.987840+00:00",
+          "review_updated_at": "2026-02-15T00:00:00+00:00"
+        },
+        {
+          "name": "ShoeGeometry",
+          "url": "https://shoegeometry.com/shoes/nike-pegasus-41",
+          "dataset_version": "2026-11-14",
+          "license": "CC BY 4.0",
+          "attribution": "ShoeGeometry (2026). Running-shoe geometry dataset, version 2026-11-14. https://shoegeometry.com/data. CC BY 4.0."
+        },
+        {
+          "name": "SoleHunt",
+          "url": "https://solehunt.app/shoes/nike-pegasus-41",
+          "record_updated_at": "2026-07-17T19:53:12.470441+00:00",
+          "license": "CC BY 4.0",
+          "attribution": "SoleHunt — https://solehunt.app/data"
+        }
+      ],
+      "quality_flags": [
+        "SoleHunt has no per-field source URL in its public records; source-claimed figures are preserved as aggregated_reported",
+        "SoleHunt record timestamp is older than 14 days; current_low_usd is a historical snapshot, not a verified live price",
+        "One or more photo estimates have unusually wide photo disagreement"
+      ]
+    },
+    {
+      "shoe_id": 32423,
+      "slug": "nike-p-6000",
+      "summary": {
+        "shoe_id": 32423,
+        "name": "Nike P-6000",
+        "brand": "Nike",
+        "categories": ["sneakers"],
+        "gender": null,
+        "release_year": null,
+        "pros": "Incredibly comfortable for all day wear | Amazingly lightweight yet padded | Soft and flexible yet slightly bouncy ride | Trendiest Y2K vibes | Great for summer | Compliment magnet in any colorway | Affordable",
+        "cons": "Not the best for winter | No midsole technologies",
+        "image_url": "https://cdn.runrepeat.com/storage/gallery/product_primary/32423/nike-p-6000-main-21784025-720.jpg",
+        "msrp_usd": 100,
+        "runrepeat_score": 93,
+        "solehunt_score": null,
+        "solehunt_comfort_score": null,
+        "solehunt_durability_score": null,
+        "solehunt_performance_score": null,
+        "solehunt_value_score": null,
+        "solehunt_fit_score": null,
+        "terrain": null,
+        "uses": null,
+        "arch_support": null,
+        "width_options": {},
+        "fit_label": "True to size",
+        "fit_note": null,
+        "size_range": null,
+        "tested_size_raw": "8.5",
+        "size_fit_votes": 580,
+        "size_fit_rating": 3.05,
+        "weight_g": 292,
+        "heel_stack_mm": 29.7,
+        "forefoot_stack_mm": 20.7,
+        "drop_mm": 9,
+        "internal_length_mm": null,
+        "interior_forefoot_width_mm": 93.9,
+        "toebox_width_mm": 68.4,
+        "toebox_height_mm": 29.7,
+        "midsole_width_forefoot_mm": 109,
+        "midsole_width_heel_mm": 84.4,
+        "stated_heel_stack_mm": null,
+        "stated_forefoot_stack_mm": null,
+        "stated_drop_mm": null,
+        "toe_rocker_pct": null,
+        "rocker_radius_pct": null,
+        "rocker_rise_angle_deg": null,
+        "toe_angle_deg": null,
+        "rocker_onset_pct": null,
+        "toe_tip_height_mm": null,
+        "heel_bevel_pct": null,
+        "heel_bevel_height_mm": null,
+        "toe_box_shape_pct": null,
+        "toe_spring_relative_pct": null,
+        "geometry_stiffness_score": null,
+        "geometry_firmness_score": null,
+        "bending_force_30deg_n": 9.3,
+        "midsole_firmness_asker_c": 42.8,
+        "midsole_softness_shore_a": 20.4,
+        "energy_return_heel_pct": 52.28,
+        "energy_return_forefoot_pct": null,
+        "shock_absorption_heel_sa": 110.55709721286,
+        "shock_absorption_forefoot_sa": null,
+        "traction_coefficient": null,
+        "breathability_br": null,
+        "breathability_score_5": 5,
+        "outsole_wear_mm": 0.6,
+        "tongue_padding_mm": 16.9,
+        "lug_depth_mm": null,
+        "plate": null,
+        "foam": null,
+        "upper_material": "Leather | Mesh",
+        "outsole_material": null,
+        "removable_insole": true,
+        "orthotic_friendly": null,
+        "reflective": false,
+        "source_count": 1,
+        "geometry_status": "stack_only",
+        "geometry_photos": null,
+        "runrepeat_url": "https://runrepeat.com/uk/nike-p-6000",
+        "shoegeometry_url": null,
+        "solehunt_url": null,
+        "offer_records": 9,
+        "best_offer_price": 75,
+        "offer_currency": "EUR",
+        "offer_country": "DE"
+      },
+      "metrics": {
+        "weight_g": {
+          "value": 292,
+          "unit": "g",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__weight",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "heel_stack_mm": {
+          "value": 29.7,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__heel_stack",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "forefoot_stack_mm": {
+          "value": 20.7,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_stack",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "drop_mm": {
+          "value": 9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__drop",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "interior_forefoot_width_mm": {
+          "value": 93.9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_widest_part",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "toebox_width_mm": {
+          "value": 68.4,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_big_toe",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "toebox_height_mm": {
+          "value": 29.7,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_height",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "midsole_width_forefoot_mm": {
+          "value": 109,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_forefoot",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "midsole_width_heel_mm": {
+          "value": 84.4,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_heel",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "bending_force_30deg_n": {
+          "value": 9.3,
+          "unit": "N",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__flexibility_stiffness",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "midsole_firmness_asker_c": {
+          "value": 42.8,
+          "unit": "Asker C",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness_22",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "midsole_softness_shore_a": {
+          "value": 20.4,
+          "unit": "Shore A",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "energy_return_heel_pct": {
+          "value": 52.28,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_heel",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "shock_absorption_heel_sa": {
+          "value": 110.55709721286,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_heel",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "breathability_score_5": {
+          "value": 5,
+          "unit": "1-5",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__breathability",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "outsole_wear_mm": {
+          "value": 0.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__outsole_durability",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        },
+        "tongue_padding_mm": {
+          "value": 16.9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/nike-p-6000",
+          "origin": "lab_measured",
+          "source_field": "lab__tongue_padding",
+          "test_size_raw": "8.5",
+          "methodology_version": "2.2"
+        }
+      },
+      "visualization": {
+        "reference_length_mm": 300,
+        "illustrative": true,
+        "physical_scan": false,
+        "side_profile": {
+          "status": "stack_only",
+          "heel_stack_mm": 29.7,
+          "forefoot_stack_mm": 20.7,
+          "drop_mm": 9,
+          "toe_rocker_pct": null,
+          "toe_tip_height_mm": null,
+          "rocker_radius_pct": null,
+          "heel_bevel_pct": null,
+          "heel_bevel_height_mm": null,
+          "rocker_apex_from_heel_pct": null
+        },
+        "fit_section": {
+          "internal_length_mm": null,
+          "interior_forefoot_width_mm": 93.9,
+          "toebox_width_mm": 68.4,
+          "toebox_height_mm": 29.7,
+          "tested_size_raw": "8.5",
+          "fit_label": "True to size"
+        },
+        "top_outline": {
+          "status": "no_outline_estimate",
+          "toe_box_shape_pct": null,
+          "midsole_width_forefoot_mm": 109,
+          "midsole_width_heel_mm": 84.4,
+          "note": "Photo outline ratio and lab dimensions describe different boundaries; never substitute internal toe width for outside outline"
+        },
+        "gauges": {
+          "bending_force": {
+            "value": 9.3,
+            "unit": "N",
+            "meaning": "force to bend 30 degrees; lower is more flexible"
+          },
+          "firmness": {
+            "value": 42.8,
+            "unit": "Asker C",
+            "meaning": "higher is firmer; separate from Shore A and Shore C"
+          },
+          "energy_return_heel": {
+            "value": 52.28,
+            "unit": "%",
+            "meaning": "higher is more rebound in this lab test"
+          }
+        },
+        "missing_value_policy": "Keep null; do not draw a measured curve or render a numeric zero when source data is absent"
+      },
+      "fit": {
+        "size_chart": [
+          {
+            "id": 4542,
+            "brand_id": 29,
+            "foot": 216,
+            "mm": 215,
+            "usm": null,
+            "usw": 5,
+            "ukm": null,
+            "ukw": 3,
+            "eum": null,
+            "euw": 35.5,
+            "eum_slug": "eu_355",
+            "euw_slug": "eu_355",
+            "usm_slug": "us_35",
+            "usw_slug": "us_50",
+            "ukm_slug": "uk_30",
+            "ukw_slug": "uk_30",
+            "slugs": {
+              "m": ["eu_355", "eu_350", "us_35", "us_30", "uk_30", "uk_25"],
+              "w": ["eu_355", "eu_350", "us_50", "us_45", "uk_30", "uk_25"]
+            }
+          },
+          {
+            "id": 413,
+            "brand_id": 29,
+            "foot": 220,
+            "mm": 220,
+            "usm": null,
+            "usw": 5.5,
+            "ukm": null,
+            "ukw": 3.5,
+            "eum": null,
+            "euw": 36,
+            "eum_slug": "eu_360",
+            "euw_slug": "eu_360",
+            "usm_slug": "us_40",
+            "usw_slug": "us_55",
+            "ukm_slug": "uk_35",
+            "ukw_slug": "uk_35",
+            "slugs": {
+              "m": ["eu_360", "us_40", "uk_35"],
+              "w": ["eu_360", "us_55", "uk_35"]
+            }
+          }
+        ],
+        "brand_specs": {},
+        "solehunt": {
+          "width_options": null,
+          "size_range": null,
+          "fit_note": null,
+          "arch_support": null,
+          "orthotic_friendly": null
+        },
+        "duplicate_source_records": [],
+        "width_variants": []
+      },
+      "construction": {
+        "runrepeat_material": "Leather | Mesh",
+        "foam": null,
+        "solehunt": {}
+      },
+      "scores": {
+        "runrepeat": {
+          "overall": 93,
+          "usage": { "cushioning": 91, "stability": 83, "durability": 95 }
+        },
+        "solehunt": {
+          "core_score": null,
+          "comfort_score": null,
+          "durability_score": null,
+          "performance_score": null,
+          "value_score": null,
+          "fit_score": null,
+          "score_estimated": null
+        },
+        "geometry": { "stiffness": null, "firmness": null }
+      },
+      "solehunt_source_specific": {
+        "toebox_width_mm": null,
+        "midsole_hardness_hc": null,
+        "breathability_score": null,
+        "outsole_grip_score": null,
+        "flexibility_score": null,
+        "sustainability_pct": null,
+        "energy_return_pct": null,
+        "current_low_usd": null,
+        "updated_at": null,
+        "score_estimated": null
+      },
+      "commerce": {
+        "runrepeat": {
+          "offers": [
+            {
+              "price": 82.26,
+              "price_local": 75,
+              "shop_id": 485,
+              "affiliate_link": "https://sportsdir.prf.hn/click/camref:1011l3LcL3/creativeref:1101l153682/destination:https%3A%2F%2Fwww.sportsdirect.de%2Fnike-mens-p-6000-breathable-mesh-runners-122535%23colcode=12253571",
+              "is_any_color": true,
+              "offers_count": 4,
+              "sizes_available": "0-81",
+              "available_widths": 3,
+              "discount_replacement": "",
+              "discount_percentage": 32,
+              "price_formatted": "75 €",
+              "color": {
+                "id": 0,
+                "image": {
+                  "size": 720,
+                  "width": 720,
+                  "height": 480,
+                  "cdn_path": "storage/gallery/product_primary/32423/nike-p-6000-main-21784025"
+                }
+              },
+              "shop": {
+                "id": 485,
+                "name": "Sports Direct",
+                "ga_name": "Sports Direct DE",
+                "ranking": 0.14,
+                "custom_text": "",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 93.22,
+              "price_local": 85,
+              "shop_id": 485,
+              "affiliate_link": "https://sportsdir.prf.hn/click/camref:1011l3LcL3/creativeref:1101l153682/destination:https%3A%2F%2Fwww.sportsdirect.de%2Fnike-mens-p-6000-breathable-mesh-runners-122535%23colcode=12253508",
+              "color": {
+                "id": 2009719,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 269,
+                  "cdn_path": "i/nike/32423/nike-p-6000-shoes-sail-cosmic-clay-volt-ice-black-sail-cosmic-clay-volt-ice-black-11-sail-cosmic-clay-volt-ice-black-5f91"
+                },
+                "name_suffix": " - Beige (CD6404108)"
+              },
+              "offers_count": 1,
+              "sizes_available": "12,15,17-18,20,22,31,33,50,52,54,56,58,60,78,80",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 23,
+              "price_formatted": "85 €",
+              "shop": {
+                "id": 485,
+                "name": "Sports Direct",
+                "ga_name": "Sports Direct DE",
+                "ranking": 0.14,
+                "custom_text": "",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            },
+            {
+              "price": 104.19,
+              "price_local": 95,
+              "shop_id": 485,
+              "affiliate_link": "https://sportsdir.prf.hn/click/camref:1011l3LcL3/creativeref:1101l153682/destination:https%3A%2F%2Fwww.sportsdirect.de%2Fnike-mens-p-6000-breathable-mesh-runners-122535%23colcode=12253503",
+              "color": {
+                "id": 818514,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 293,
+                  "cdn_path": "i/nike/32423/nike-p-6000-schwarz-ff1d"
+                },
+                "name_suffix": " - Black (CD6404002)"
+              },
+              "offers_count": 1,
+              "sizes_available": "6,8-25,27,29,31-35,37,39,46,48-62,64,66,73,75-81",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 14,
+              "price_formatted": "95 €",
+              "shop": {
+                "id": 485,
+                "name": "Sports Direct",
+                "ga_name": "Sports Direct DE",
+                "ranking": 0.14,
+                "custom_text": "",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            }
+          ],
+          "currency": "EUR",
+          "country": "DE",
+          "snapshot": "2026-11-20T10:12:45.402332+00:00"
+        },
+        "solehunt": {
+          "current_low_usd": null,
+          "retailers": [],
+          "record_updated_at": null,
+          "live_price_verified": false
+        }
+      },
+      "media": {
+        "images": [
+          "https://cdn.runrepeat.com/storage/gallery/product_primary/32423/nike-p-6000-main-21784025-720.jpg",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-01-21784074-720.jpg"
+        ],
+        "videos": [
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-cutting.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-energy-return-heel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-3.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-5.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-toebox-width-gel-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-lateral-stability-test-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-air-force-1-07.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-torsional-rigidity-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-heel-counter-stiffness-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-toebox-durability-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-heel-padding-durability-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outsole-durability-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-breathability-2.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-breathability-1.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-cutting.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-energy-return-heel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-3.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-5.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-toebox-width-gel-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outdoor-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-lateral-stability-test-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-air-force-1-07.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-torsional-rigidity-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-heel-counter-stiffness-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-toebox-durability-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-heel-padding-durability-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-outsole-durability-1.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-breathability-2.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/32423/nike-p-6000-breathability-1.webm"
+        ]
+      },
+      "sources": [
+        {
+          "name": "RunRepeat",
+          "url": "https://runrepeat.com/uk/nike-p-6000",
+          "extracted_at": "2026-11-20T10:12:45.402332+00:00",
+          "review_updated_at": "2025-05-19T00:00:00+00:00"
+        }
+      ],
+      "quality_flags": []
+    },
+    {
+      "shoe_id": 40749,
+      "slug": "adidas-terrex-anylander-rain-rdy",
+      "summary": {
+        "shoe_id": 40749,
+        "name": "adidas Terrex Anylander Rain.Rdy",
+        "brand": "adidas",
+        "categories": ["hiking-shoes"],
+        "gender": null,
+        "release_year": null,
+        "pros": "Stable and grounded platform | Excellent grip on smooth and wet surfaces | Sturdy foothold and lockdown | Lighter than average | Great durability for the price | Effective Rain.Rdy waterproofing | Warm for transition seasons",
+        "cons": "Tight pointy toebox | Poor breathability",
+        "image_url": "https://cdn.runrepeat.com/storage/gallery/product_primary/40749/adidas-terrex-anylander-rain-rdy-lab-test-and-review-25336659-720.jpg",
+        "msrp_usd": 85,
+        "runrepeat_score": 80,
+        "solehunt_score": null,
+        "solehunt_comfort_score": null,
+        "solehunt_durability_score": null,
+        "solehunt_performance_score": null,
+        "solehunt_value_score": null,
+        "solehunt_fit_score": null,
+        "terrain": null,
+        "uses": "Day Hiking | Speed Hiking | Urban hiking | Beginners",
+        "arch_support": null,
+        "width_options": { "runrepeat": "Men: Normal | Wide | Women: Normal" },
+        "fit_label": "True to size",
+        "fit_note": null,
+        "size_range": null,
+        "tested_size_raw": "9",
+        "size_fit_votes": 17,
+        "size_fit_rating": 2.88,
+        "weight_g": 360,
+        "heel_stack_mm": 30.2,
+        "forefoot_stack_mm": 21.5,
+        "drop_mm": 8.7,
+        "internal_length_mm": 271.1,
+        "interior_forefoot_width_mm": 98.6,
+        "toebox_width_mm": 69.7,
+        "toebox_height_mm": 25.8,
+        "midsole_width_forefoot_mm": 112.8,
+        "midsole_width_heel_mm": 86.8,
+        "stated_heel_stack_mm": null,
+        "stated_forefoot_stack_mm": null,
+        "stated_drop_mm": null,
+        "toe_rocker_pct": null,
+        "rocker_radius_pct": null,
+        "rocker_rise_angle_deg": null,
+        "toe_angle_deg": null,
+        "rocker_onset_pct": null,
+        "toe_tip_height_mm": null,
+        "heel_bevel_pct": null,
+        "heel_bevel_height_mm": null,
+        "toe_box_shape_pct": null,
+        "toe_spring_relative_pct": null,
+        "geometry_stiffness_score": null,
+        "geometry_firmness_score": null,
+        "bending_force_30deg_n": 19.9,
+        "midsole_firmness_asker_c": 49,
+        "midsole_softness_shore_a": null,
+        "energy_return_heel_pct": 50.12,
+        "energy_return_forefoot_pct": null,
+        "shock_absorption_heel_sa": 99.862190177555,
+        "shock_absorption_forefoot_sa": null,
+        "traction_coefficient": 0.63,
+        "breathability_br": 38,
+        "breathability_score_5": null,
+        "outsole_wear_mm": 1.1,
+        "tongue_padding_mm": 9.9,
+        "lug_depth_mm": 3.3,
+        "plate": null,
+        "foam": null,
+        "upper_material": "Textile",
+        "outsole_material": null,
+        "removable_insole": true,
+        "orthotic_friendly": "True",
+        "reflective": false,
+        "source_count": 1,
+        "geometry_status": "stack_only",
+        "geometry_photos": null,
+        "runrepeat_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+        "shoegeometry_url": null,
+        "solehunt_url": null,
+        "offer_records": 8,
+        "best_offer_price": 47,
+        "offer_currency": "EUR",
+        "offer_country": "DE"
+      },
+      "metrics": {
+        "weight_g": {
+          "value": 360,
+          "unit": "g",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__weight",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "heel_stack_mm": {
+          "value": 30.2,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__heel_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "forefoot_stack_mm": {
+          "value": 21.5,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_stack",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "drop_mm": {
+          "value": 8.7,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__drop",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "internal_length_mm": {
+          "value": 271.1,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__internal_length",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "interior_forefoot_width_mm": {
+          "value": 98.6,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_widest_part",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "toebox_width_mm": {
+          "value": 69.7,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_width_big_toe",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "toebox_height_mm": {
+          "value": 25.8,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__toebox_height",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_width_forefoot_mm": {
+          "value": 112.8,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_forefoot",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_width_heel_mm": {
+          "value": 86.8,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_width_in_the_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "bending_force_30deg_n": {
+          "value": 19.9,
+          "unit": "N",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__flexibility_stiffness",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "midsole_firmness_asker_c": {
+          "value": 49,
+          "unit": "Asker C",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__midsole_softness_22",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "energy_return_heel_pct": {
+          "value": 50.12,
+          "unit": "%",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__energy_return_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "shock_absorption_heel_sa": {
+          "value": 99.862190177555,
+          "unit": "SA",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__shock_absorption_heel",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "traction_coefficient": {
+          "value": 0.63,
+          "unit": "coefficient",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__forefoot_traction",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "breathability_br": {
+          "value": 38,
+          "unit": "BR",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__breathability_25",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "outsole_wear_mm": {
+          "value": 1.1,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__outsole_durability",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "tongue_padding_mm": {
+          "value": 9.9,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__tongue_padding",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        },
+        "lug_depth_mm": {
+          "value": 3.3,
+          "unit": "mm",
+          "source": "RunRepeat",
+          "source_url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "origin": "lab_measured",
+          "source_field": "lab__lug_depth",
+          "test_size_raw": "9",
+          "methodology_version": "2.5"
+        }
+      },
+      "visualization": {
+        "reference_length_mm": 300,
+        "illustrative": true,
+        "physical_scan": false,
+        "side_profile": {
+          "status": "stack_only",
+          "heel_stack_mm": 30.2,
+          "forefoot_stack_mm": 21.5,
+          "drop_mm": 8.7,
+          "toe_rocker_pct": null,
+          "toe_tip_height_mm": null,
+          "rocker_radius_pct": null,
+          "heel_bevel_pct": null,
+          "heel_bevel_height_mm": null,
+          "rocker_apex_from_heel_pct": null
+        },
+        "fit_section": {
+          "internal_length_mm": 271.1,
+          "interior_forefoot_width_mm": 98.6,
+          "toebox_width_mm": 69.7,
+          "toebox_height_mm": 25.8,
+          "tested_size_raw": "9",
+          "fit_label": "True to size"
+        },
+        "top_outline": {
+          "status": "no_outline_estimate",
+          "toe_box_shape_pct": null,
+          "midsole_width_forefoot_mm": 112.8,
+          "midsole_width_heel_mm": 86.8,
+          "note": "Photo outline ratio and lab dimensions describe different boundaries; never substitute internal toe width for outside outline"
+        },
+        "gauges": {
+          "bending_force": {
+            "value": 19.9,
+            "unit": "N",
+            "meaning": "force to bend 30 degrees; lower is more flexible"
+          },
+          "firmness": {
+            "value": 49,
+            "unit": "Asker C",
+            "meaning": "higher is firmer; separate from Shore A and Shore C"
+          },
+          "energy_return_heel": {
+            "value": 50.12,
+            "unit": "%",
+            "meaning": "higher is more rebound in this lab test"
+          }
+        },
+        "missing_value_policy": "Keep null; do not draw a measured curve or render a numeric zero when source data is absent"
+      },
+      "fit": {
+        "size_chart": [
+          {
+            "id": 1,
+            "brand_id": 18,
+            "foot": 221,
+            "mm": 220,
+            "usm": null,
+            "usw": 5,
+            "ukm": null,
+            "ukw": 3.5,
+            "eum": null,
+            "euw": 36,
+            "eum_slug": "eu_360",
+            "euw_slug": "eu_360",
+            "usm_slug": "us_40",
+            "usw_slug": "us_50",
+            "ukm_slug": "uk_35",
+            "ukw_slug": "uk_35",
+            "slugs": {
+              "m": ["eu_360", "eu_355", "us_40", "us_35", "uk_35", "uk_30"],
+              "w": ["eu_360", "eu_355", "us_50", "us_45", "uk_35", "uk_30"]
+            }
+          },
+          {
+            "id": 2,
+            "brand_id": 18,
+            "foot": 225,
+            "mm": 225,
+            "usm": null,
+            "usw": 5.5,
+            "ukm": null,
+            "ukw": 4,
+            "eum": null,
+            "euw": 36.667,
+            "eum_slug": "eu_365",
+            "euw_slug": "eu_365",
+            "usm_slug": "us_45",
+            "usw_slug": "us_55",
+            "ukm_slug": "uk_40",
+            "ukw_slug": "uk_40",
+            "slugs": {
+              "m": ["eu_365", "us_45", "uk_40"],
+              "w": ["eu_365", "us_55", "uk_40"]
+            }
+          }
+        ],
+        "brand_specs": {
+          "spec__width__men": "Normal | Wide",
+          "spec__width__women": "Normal",
+          "spec__width": "Men: Normal | Wide | Women: Normal"
+        },
+        "solehunt": {
+          "width_options": null,
+          "size_range": null,
+          "fit_note": null,
+          "arch_support": null,
+          "orthotic_friendly": null
+        },
+        "duplicate_source_records": [],
+        "width_variants": []
+      },
+      "construction": {
+        "runrepeat_material": "Textile",
+        "foam": null,
+        "solehunt": {}
+      },
+      "scores": {
+        "runrepeat": {
+          "overall": 80,
+          "usage": {
+            "urban": 75,
+            "speed": 73,
+            "day_hiking": 82,
+            "backpacking": 54
+          }
+        },
+        "solehunt": {
+          "core_score": null,
+          "comfort_score": null,
+          "durability_score": null,
+          "performance_score": null,
+          "value_score": null,
+          "fit_score": null,
+          "score_estimated": null
+        },
+        "geometry": { "stiffness": null, "firmness": null }
+      },
+      "solehunt_source_specific": {
+        "toebox_width_mm": null,
+        "midsole_hardness_hc": null,
+        "breathability_score": null,
+        "outsole_grip_score": null,
+        "flexibility_score": null,
+        "sustainability_pct": null,
+        "energy_return_pct": null,
+        "current_low_usd": null,
+        "updated_at": null,
+        "score_estimated": null
+      },
+      "commerce": {
+        "runrepeat": {
+          "offers": [
+            {
+              "price": 51.55,
+              "price_local": 47,
+              "shop_id": 581,
+              "affiliate_link": "https://www.awin1.com/pclick.php?p=46638918925&a=259197&m=77004",
+              "is_any_color": true,
+              "offers_count": 5,
+              "sizes_available": "0-46",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 37,
+              "price_formatted": "47 €",
+              "color": {
+                "id": 0,
+                "image": {
+                  "size": 720,
+                  "width": 720,
+                  "height": 480,
+                  "cdn_path": "storage/gallery/product_primary/40749/adidas-terrex-anylander-rain-rdy-lab-test-and-review-25336659"
+                }
+              },
+              "shop": {
+                "id": 581,
+                "name": "adidas",
+                "ga_name": "Adidas DE",
+                "ranking": 0.31,
+                "custom_text": "Free shipping & returns",
+                "popularity": 0,
+                "is_single_brand": true
+              }
+            },
+            {
+              "price": 51.55,
+              "price_local": 47,
+              "shop_id": 581,
+              "affiliate_link": "https://www.awin1.com/pclick.php?p=46638918925&a=259197&m=77004",
+              "color": {
+                "id": 2005896,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 279,
+                  "cdn_path": "i/adidas/40749/adidas-terrex-anylander-rain-rdy-hiking-shoes-blue-men-adult-blue-e875"
+                },
+                "name_suffix": " - Blue (ID5487)"
+              },
+              "offers_count": 1,
+              "sizes_available": "3-5,15,22,27-28,37,42-43",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 37,
+              "price_formatted": "47 €",
+              "shop": {
+                "id": 581,
+                "name": "adidas",
+                "ga_name": "Adidas DE",
+                "ranking": 0.31,
+                "custom_text": "Free shipping & returns",
+                "popularity": 0,
+                "is_single_brand": true
+              }
+            },
+            {
+              "price": 62.52,
+              "price_local": 57,
+              "shop_id": 1226,
+              "affiliate_link": "https://www.awin1.com/pclick.php?p=46323808748&a=259197&m=24270",
+              "color": {
+                "id": 2005895,
+                "image": {
+                  "size": 600,
+                  "width": 600,
+                  "height": 276,
+                  "cdn_path": "i/adidas/40749/adidas-terrex-anylander-r-rdy-chaussures-randonnee-homme-carbon-black-carbon-black-grey-four-carbon-black-carbon-black-grey-four-8786"
+                },
+                "name_suffix": " - Core Black / Core Black / Grey Four (ID3469)"
+              },
+              "offers_count": 3,
+              "sizes_available": "0-14,16-17,19-21,23,25-36,38,40-46",
+              "available_widths": 1,
+              "discount_replacement": "",
+              "discount_percentage": 24,
+              "price_formatted": "57 €",
+              "shop": {
+                "id": 1226,
+                "name": "Modivo",
+                "ga_name": "Modivo DE",
+                "ranking": 0.13,
+                "custom_text": "Free shipping",
+                "popularity": 0,
+                "is_single_brand": false
+              }
+            }
+          ],
+          "currency": "EUR",
+          "country": "DE",
+          "snapshot": "2026-11-20T10:14:17.204410+00:00"
+        },
+        "solehunt": {
+          "current_low_usd": null,
+          "retailers": [],
+          "record_updated_at": null,
+          "live_price_verified": false
+        }
+      },
+      "media": {
+        "images": [
+          "https://cdn.runrepeat.com/storage/gallery/product_primary/40749/adidas-terrex-anylander-rain-rdy-lab-test-and-review-25336659-720.jpg",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-review-25336700-720.jpg"
+        ],
+        "videos": [
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-cut-in-half.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-energy-return-heel.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-cushioning.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-width-fit-gel-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-toebox-space.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-forefoot-traction.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-lateral-stability-test.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-heel-counter-stiffness.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-toebox-durability.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-heel-padding-durability.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-outsole-durability.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-breathability.mp4",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-cut-in-half.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-energy-return-heel.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-cushioning.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-width-fit-gel-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-toebox-space.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-forefoot-traction.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-lateral-stability-test.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-heel-counter-stiffness.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-toebox-durability.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-heel-padding-durability.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-outsole-durability.webm",
+          "https://cdn.runrepeat.com/storage/gallery/product_content/40749/adidas-terrex-anylander-rain-rdy-breathability.webm"
+        ]
+      },
+      "sources": [
+        {
+          "name": "RunRepeat",
+          "url": "https://runrepeat.com/uk/adidas-terrex-anylander-rain-rdy",
+          "extracted_at": "2026-11-20T10:14:17.204410+00:00",
+          "review_updated_at": null
+        }
+      ],
+      "quality_flags": []
+    }
+  ]
+}

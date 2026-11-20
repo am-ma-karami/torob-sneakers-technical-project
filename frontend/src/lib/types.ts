@@ -13,7 +13,7 @@ export type Metric = {
   photos_max?: number;
   reference_length_mm?: number;
 };
-export type Summary = {
+export type DetailedSummary = {
   shoe_id: number;
   slug: string;
   name: string;
@@ -60,6 +60,28 @@ export type Summary = {
   reflective: boolean | null;
   [key: string]: unknown;
 };
+// The paginated catalog intentionally omits full detail and provenance fields.
+export type Summary = Pick<
+  DetailedSummary,
+  | "shoe_id"
+  | "slug"
+  | "name"
+  | "brand"
+  | "family"
+  | "categories"
+  | "variants_count"
+  | "catalog_image_url"
+  | "image_url"
+  | "colors"
+  | "release_year"
+  | "weight_g"
+  | "msrp_usd"
+  | "runrepeat_score"
+  | "heel_stack_mm"
+  | "forefoot_stack_mm"
+  | "drop_mm"
+  | "geometry_status"
+> & { selected_colorway?: unknown };
 export type Variant = {
   key: string;
   name: string;
@@ -83,7 +105,7 @@ export type Offer = {
 export type Shoe = {
   shoe_id: number;
   slug: string;
-  summary: Summary;
+  summary: DetailedSummary;
   metrics: Record<string, Metric>;
   variants: Variant[];
   offers: Offer[];

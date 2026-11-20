@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { showcaseIndex, canPinShowcase } from "./features";
+import { showcaseIndex, showcasePhase, canPinShowcase } from "./features";
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.resetModules();
@@ -30,4 +30,13 @@ describe("bounded showcase and independent fallbacks", () => {
     expect(module.features.depth).toBe(true);
     expect(module.canPinShowcase(1440, false)).toBe(false);
   });
+});
+
+it("keeps the final chapter pose continuous at the scroll boundary", () => {
+  expect(showcasePhase(0, 4)).toBe(0);
+  expect(showcasePhase(0.25, 4)).toBe(0);
+  expect(showcasePhase(0.99, 4)).toBeCloseTo(0.96);
+  expect(showcasePhase(1, 4)).toBe(1);
+  expect(showcasePhase(2, 4)).toBe(1);
+  expect(showcasePhase(NaN, 4)).toBe(0);
 });

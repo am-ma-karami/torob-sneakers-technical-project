@@ -1,0 +1,50 @@
+{
+  "40586": {
+    "src": "/media/featured/adidas-adizero-evo-sl.webp",
+    "small": "/media/featured/adidas-adizero-evo-sl-640.webp",
+    "shoe_id": 40586,
+    "slug": "adidas-adizero-evo-sl",
+    "name": "adidas Adizero EVO SL",
+    "variant_key": "1986833",
+    "colorway": "Black (JP7149)",
+    "source_image": "https://cdn.runrepeat.com/i/adidas/40586/adidas-adizero-evo-sl-men-s-shoes-black-white-black-black-white-black-6470-600.jpg",
+    "kind": "background_extracted_catalog_photo",
+    "model_url": null
+  },
+  "40390": {
+    "src": "/media/featured/nike-pegasus-41.webp",
+    "small": "/media/featured/nike-pegasus-41-640.webp",
+    "shoe_id": 40390,
+    "slug": "nike-pegasus-41",
+    "name": "Nike Pegasus 41",
+    "variant_key": "1980982",
+    "colorway": "Black (FD2723002)",
+    "source_image": "https://cdn.runrepeat.com/i/nike/40390/nike-women-s-pegasus-41-road-running-shoes-in-black-adult-black-2205-600.jpg",
+    "kind": "background_extracted_catalog_photo",
+    "model_url": null
+  },
+  "41349": {
+    "src": "/media/featured/asics-novablast-6.webp",
+    "small": "/media/featured/asics-novablast-6-640.webp",
+    "shoe_id": 41349,
+    "slug": "asics-novablast-6",
+    "name": "ASICS Novablast 6",
+    "variant_key": "2003386",
+    "colorway": "Beige (1011C243700)",
+    "source_image": "https://cdn.runrepeat.com/i/asics/41349/asics-novablast-6-tenisice-za-tr-anje-mu-karci-siva-siva-4082-600.jpg",
+    "kind": "background_extracted_catalog_photo",
+    "model_url": null
+  },
+  "40830": {
+    "src": "/media/featured/saucony-endorphin-speed-5.webp",
+    "small": "/media/featured/saucony-endorphin-speed-5-640.webp",
+    "shoe_id": 40830,
+    "slug": "saucony-endorphin-speed-5",
+    "name": "Saucony Endorphin Speed 5",
+    "variant_key": "1994463",
+    "colorway": "Yellow (S21007285)",
+    "source_image": "https://cdn.runrepeat.com/i/saucony/40830/saucony-men-s-endorphin-speed-5-sneaker-citron-lapis-8-5-citron-lapis-1a80-600.jpg",
+    "kind": "background_extracted_catalog_photo",
+    "model_url": null
+  }
+}

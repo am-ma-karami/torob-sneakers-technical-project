@@ -1,19 +1,10 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "motion/react";
-import {
-  ArrowUpLeft,
-  Footprints,
-  Layers3,
-  MoveDown,
-  ScanLine,
-} from "lucide-react";
+import { ArrowUpLeft, Layers3, ScanLine } from "lucide-react";
 import { api } from "../lib/api";
 import type { FeaturedShoe } from "../lib/types";
-import { features } from "../lib/features";
-import { fa, value } from "../lib/format";
+import { fa } from "../lib/format";
 import { FeaturedShowcase } from "../components/FeaturedShowcase";
-import { ProductImage } from "../components/Shared";
 export function Home() {
   const location = useLocation();
   const { data, error, refetch } = useQuery({
@@ -28,82 +19,6 @@ export function Home() {
     return <Navigate to={"/shoes" + location.search} replace />;
   return (
     <div className="home-page">
-      <section className="home-hero">
-        <div className="hero-copy">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="eyebrow">
-              <span className="tiny-rule" /> از فرم تا احساس حرکت
-            </span>
-            <h1>
-              هر قدم،
-              <br />
-              انتخابی از <em>جنس تو.</em>
-            </h1>
-            <p>
-              کفش را از نزدیک بشناس. ساختار، اندازه‌ها و تفاوت‌ها را ببین و برای
-              مسیر خودت انتخاب کن.
-            </p>
-            <div className="hero-actions">
-              <Link to="/shoes" className="button">
-                کشف کفش‌ها <ArrowUpLeft size={17} />
-              </Link>
-              <Link to="/finder" className="quiet-link">
-                کفش مناسب من <Footprints size={17} />
-              </Link>
-            </div>
-            <div className="hero-footnote">
-              <span>۱٬۱۶۷ مدل</span>
-              <span>هر مسیر، یک انتخاب</span>
-              <span>بدون نیاز به ثبت‌نام</span>
-            </div>
-          </motion.div>
-        </div>
-        <div className={`hero-art ${features.depth ? "with-depth" : ""}`}>
-          <span className="hero-orbit-line" />
-          <span className="hero-editorial-word" dir="ltr">
-            In motion.
-          </span>
-          <motion.div
-            className="hero-photo-stage"
-            initial={{ opacity: 0, scale: 0.96, rotate: 0 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              rotate: features.depth ? -7 : 0,
-              rotateY: features.depth ? -6 : 0,
-            }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {shoe && (
-              <ProductImage src={shoe.image_url} name={shoe.name} eager />
-            )}
-          </motion.div>
-          <div className="hero-model-caption">
-            <span className="eyebrow">{shoe?.brand || "RAD EDITIONS"}</span>
-            <h2 dir="ltr">{shoe?.name || "The shape of your next step."}</h2>
-            {shoe && (
-              <div className="hero-mini-facts">
-                <span>
-                  <b dir="ltr">{value(shoe.weight_g, "g")}</b> وزن
-                </span>
-                <span>
-                  <b dir="ltr">{value(shoe.drop_mm, "mm")}</b> دراپ
-                </span>
-              </div>
-            )}
-          </div>
-          <span className="hero-coordinate" dir="ltr">
-            FORM / FEEL / FORWARD
-          </span>
-        </div>
-        <a href="#featured" className="hero-scroll-cue">
-          <MoveDown size={18} /> چهار کفش، برای شروع شناخت
-        </a>
-      </section>
       {error ? (
         <div className="home-load-error">
           <p>نمایش مدل‌های منتخب کامل نشد.</p>

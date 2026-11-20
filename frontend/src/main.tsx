@@ -9,6 +9,7 @@ import "@fontsource-variable/bodoni-moda";
 import "@fontsource-variable/jetbrains-mono";
 import "./styles.css";
 import "./theme.css";
+import "./glass.css";
 import { App } from "./App";
 import { ComparisonProvider } from "./lib/comparison";
 const client = new QueryClient({

@@ -9,7 +9,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Layers3, Search } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Home } from "./pages/Home";
 import { Catalog } from "./pages/Catalog";
 import { Loading } from "./components/Shared";
@@ -32,6 +32,7 @@ const About = lazy(() =>
   import("./pages/Directories").then((m) => ({ default: m.About })),
 );
 export function App() {
+  const reduce = useReducedMotion();
   const location = useLocation(),
     { items } = useComparison();
   useEffect(() => {
@@ -83,9 +84,9 @@ export function App() {
       <main id="main" tabIndex={-1} className="container">
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0 }}
+          initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: reduce ? 0 : 0.2 }}
         >
           <Suspense fallback={<Loading />}>
             <Routes>

@@ -27,3 +27,9 @@ export function canPinShowcase(
     cores > 2
   );
 }
+/** Local chapter progress stays at its final pose at the end of the pin. */
+export function showcasePhase(progress: number, count: number) {
+  if (count <= 0) return 0;
+  const p = Math.max(0, Math.min(1, Number.isFinite(progress) ? progress : 0));
+  return Math.max(0, Math.min(1, p * count - showcaseIndex(p, count)));
+}

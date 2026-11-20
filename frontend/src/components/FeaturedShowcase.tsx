@@ -1,81 +1,140 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type Ref } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight, ScanLine } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpLeft } from "lucide-react";
 import type { FeaturedShoe } from "../lib/types";
-import { canPinShowcase, features, showcaseIndex } from "../lib/features";
-import { fa, label, value } from "../lib/format";
-import { ProductImage } from "./Shared";
+import {
+  canPinShowcase,
+  features,
+  showcaseIndex,
+  showcasePhase,
+} from "../lib/features";
+import { fa, value } from "../lib/format";
+import rawMedia from "../lib/featuredMedia.json";
+type Media = {
+  src: string;
+  small: string;
+  variant_key: string;
+  shoe_id: number;
+  slug: string;
+  name: string;
+  kind: string;
+  model_url: null;
+};
+export const featuredMedia: Record<number, Media> = rawMedia;
 const editorial = [
   {
-    title: "سبکی را احساس کن.",
-    copy: "وزن، ارتفاع و جنس فوم را کنار هم ببین؛ جزئیاتی که تجربه هر قدم را شکل می‌دهند.",
-    accent: "#C7A67A",
+    title: "سبکی، در هر قدم.",
+    copy: "فوم Lightstrike Pro و ساختاری سبک؛ برای شناختن تفاوت فرم و احساس حرکت.",
+    accent: "#B8CDDF",
   },
   {
-    title: "برای مسیر هر روز.",
-    copy: "یک مدل آشنا را از زاویه‌ای تازه بشناس؛ از ساختار زیره تا فضای جلوی پا.",
-    accent: "#8EAED1",
+    title: "همراهِ مسیر هر روز.",
+    copy: "ترکیب ReactX و Air Zoom؛ یک نگاه نزدیک به جزئیات مدل آشنای پگاسوس.",
+    accent: "#B9BDC9",
   },
   {
     title: "فضا برای حرکت.",
-    copy: "بلندی زیره و اختلاف ارتفاع، زبان هندسه یک کفش‌اند. اندازه‌ها را با نیاز خودت بسنج.",
-    accent: "#A8B9A0",
+    copy: "ارتفاع زیره، فضای داخلی و حس فوم را کنار هم ببین؛ انتخاب از همین تفاوت‌ها شروع می‌شود.",
+    accent: "#D8C9B6",
   },
   {
-    title: "ریتم خودت را پیدا کن.",
-    copy: "به وزن، انعطاف و فوم دقت کن. عددها نقطه شروع شناختن تجربه حرکت‌اند.",
-    accent: "#C09C9B",
+    title: "ریتم را عوض کن.",
+    copy: "فوم PWRRUN PB و انحنای SPEEDROLL؛ جزئیات کفشی برای سرعت‌های مختلف.",
+    accent: "#C6D899",
   },
 ];
+function FloatingShoe({
+  shoe,
+  eager = false,
+  onReady,
+}: {
+  shoe: FeaturedShoe;
+  eager?: boolean;
+  onReady?: () => void;
+}) {
+  const [broken, setBroken] = useState(false);
+  const media = featuredMedia[shoe.shoe_id];
+  return !media || broken ? (
+    <div className="studio-image-fallback">{shoe.name}</div>
+  ) : (
+    <img
+      src={media.src}
+      srcSet={`${media.small} 640w, ${media.src} 1200w`}
+      sizes="(max-width:700px) 90vw, (max-width:1023px) 65vw, 55vw"
+      width="1200"
+      height="570"
+      alt={shoe.name}
+      loading={eager ? "eager" : "lazy"}
+      decoding={eager ? "sync" : "async"}
+      onLoad={onReady}
+      onError={() => setBroken(true)}
+    />
+  );
+}
 function Specimen({
   shoe,
   index,
-  active = false,
+  driftRef,
+  eager = false,
 }: {
   shoe: FeaturedShoe;
   index: number;
-  active?: boolean;
+  driftRef?: Ref<HTMLDivElement>;
+  eager?: boolean;
 }) {
-  const e = editorial[index % 4];
+  const e = editorial[index % 4],
+    media = featuredMedia[shoe.shoe_id];
   return (
     <article
-      className={`featured-specimen ${active ? "is-active" : ""}`}
+      className="featured-specimen studio-chapter"
       style={{ "--shoe-accent": e.accent } as React.CSSProperties}
+      data-shoe-id={shoe.shoe_id}
+      data-renderer="catalog-photo"
     >
-      <div className="specimen-copy">
-        <span className="eyebrow">
-          {label(shoe.categories[0])} / انتخاب راد
+      <div className="studio-stage" aria-label={`نمای محصول ${shoe.name}`}>
+        <div className="studio-light" aria-hidden="true" />
+        <div className="studio-contact-shadow" aria-hidden="true" />
+        <div className="studio-drift" ref={driftRef}>
+          <div className="studio-product">
+            <FloatingShoe key={shoe.shoe_id} shoe={shoe} eager={eager} />
+          </div>
+        </div>
+      </div>
+      <div className="studio-copy">
+        <span className="studio-brand" dir="ltr">
+          {shoe.brand}
         </span>
+        <h2 className="studio-model" dir="ltr">
+          {shoe.name}
+        </h2>
         <h3>{e.title}</h3>
         <p>{e.copy}</p>
-        <Link className="editorial-link" to={`/shoes/${shoe.slug}`}>
-          شناخت این کفش <ChevronLeft size={16} />
-        </Link>
-      </div>
-      <div className={`specimen-stage ${features.depth ? "with-depth" : ""}`}>
-        <span className="specimen-halo" />
-        <ProductImage src={shoe.image_url} name={shoe.name} />
-        <span className="specimen-shadow" />
-      </div>
-      <div className="specimen-facts">
-        <span className="edition-label">{fa(index + 1)} / ۰۴</span>
-        <h4 dir="ltr">{shoe.name}</h4>
-        <dl>
+        <dl className="studio-specs">
           {[
             [shoe.weight_g, "وزن", "g"],
-            [shoe.heel_stack_mm, "ارتفاع پاشنه", "mm"],
-            [shoe.drop_mm, "اختلاف ارتفاع", "mm"],
-            [shoe.foam, "فوم", ""],
+            [shoe.heel_stack_mm, "پاشنه", "mm"],
+            [shoe.drop_mm, "دراپ", "mm"],
           ]
             .filter(([v]) => v != null)
             .map(([v, title, unit]) => (
               <div key={String(title)}>
                 <dt>{title}</dt>
-                <dd dir="auto">{value(v, String(unit))}</dd>
+                <dd dir="ltr">{value(v, String(unit))}</dd>
               </div>
             ))}
         </dl>
+        <div className="studio-actions">
+          <Link to="/shoes" className="button">
+            کشف کفش‌ها <ArrowUpLeft size={17} />
+          </Link>
+          <Link
+            className="quiet-link"
+            to={`/shoes/${shoe.slug}${media ? `?colorway=${media.variant_key}` : ""}`}
+          >
+            جزئیات این مدل <ChevronLeft size={16} />
+          </Link>
+        </div>
       </div>
     </article>
   );
@@ -83,6 +142,7 @@ function Specimen({
 export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
   const root = useRef<HTMLElement>(null),
     pin = useRef<HTMLDivElement>(null),
+    drift = useRef<HTMLDivElement>(null),
     trigger = useRef<{ start: number; end: number } | null>(null),
     activeRef = useRef(0);
   const [active, setActive] = useState(0),
@@ -144,6 +204,13 @@ export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
               pinSpacing: true,
               anticipatePin: 1,
               onUpdate: (self) => {
+                const phase = showcasePhase(self.progress, shoes.length);
+                if (drift.current)
+                  gsap.set(drift.current, {
+                    x: (phase - 0.5) * 38,
+                    y: Math.sin(phase * Math.PI) * -14,
+                    rotation: features.depth ? (phase - 0.5) * 7 : 0,
+                  });
                 const next = showcaseIndex(self.progress, shoes.length);
                 if (next !== activeRef.current) {
                   activeRef.current = next;
@@ -197,26 +264,20 @@ export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
   if (!shoes.length) return null;
   return (
     <section
-      className={`featured-showcase ${pinned ? "is-pinned" : "is-flow"}`}
       ref={root}
+      className={`featured-showcase studio-opening ${pinned ? "is-pinned" : "is-flow"}`}
+      aria-label="چهار کفش منتخب"
       style={
         {
           "--active-accent": editorial[active % 4].accent,
         } as React.CSSProperties
       }
-      aria-label="چهار کفش منتخب"
     >
-      <div ref={pin} className="showcase-pin">
-        <div className="showcase-heading">
-          <div>
-            <span className="eyebrow">
-              <ScanLine size={15} /> چهار مدل، چهار نگاه به حرکت
-            </span>
-            <h2>کفش‌ها، از نزدیک.</h2>
-          </div>
-          <Link to="/shoes" className="quiet-link">
-            رفتن به کاتالوگ <ChevronLeft size={14} />
-          </Link>
+      <div className="showcase-pin studio-pin" ref={pin}>
+        <div className="studio-heading">
+          <span className="eyebrow">راد / نگاهی نزدیک‌تر به کفش</span>
+          <h1>فرمِ حرکت را کشف کن.</h1>
+          <p>کفش را ببین، جزئیاتش را بشناس، برای مسیر خودت انتخاب کن.</p>
         </div>
         {pinned ? (
           <>
@@ -228,17 +289,23 @@ export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
+                  className="studio-presence"
                   key={shoes[active].shoe_id}
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -14 }}
-                  transition={{ duration: 0.35 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: reduce ? 0 : 0.34 }}
                 >
-                  <Specimen shoe={shoes[active]} index={active} active />
+                  <Specimen
+                    shoe={shoes[active]}
+                    index={active}
+                    driftRef={drift}
+                    eager
+                  />
                 </motion.div>
               </AnimatePresence>
             </div>
-            <div className="showcase-controls">
+            <div className="showcase-controls studio-controls">
               <button
                 className="icon-button"
                 aria-label="کفش منتخب قبلی"
@@ -268,13 +335,20 @@ export function FeaturedShowcase({ shoes }: { shoes: FeaturedShoe[] }) {
               >
                 <ChevronLeft size={18} />
               </button>
-              <span className="showcase-hint">با پیمایش یا دکمه‌ها کشف کن</span>
+              <Link to="/shoes" className="studio-skip">
+                رفتن به کاتالوگ <ChevronLeft size={14} />
+              </Link>
             </div>
           </>
         ) : (
-          <div className="featured-flow">
+          <div className="featured-flow studio-flow">
             {shoes.map((shoe, i) => (
-              <Specimen key={shoe.shoe_id} shoe={shoe} index={i} />
+              <Specimen
+                shoe={shoe}
+                index={i}
+                key={shoe.shoe_id}
+                eager={i === 0}
+              />
             ))}
           </div>
         )}

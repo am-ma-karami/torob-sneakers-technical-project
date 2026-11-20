@@ -7,9 +7,12 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.gzip import GZipMiddleware
 
 from app.api.routes import router
 from app.core.config import get_settings
+from app.core.security import BodyLimitMiddleware
 from app.services.catalog import NotFound
 
 settings = get_settings()
@@ -26,12 +29,15 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
 )
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+app.add_middleware(BodyLimitMiddleware)
+
 windows: OrderedDict[str, deque] = OrderedDict()
 
 
 @app.middleware("http")
 async def controls(request: Request, call_next):
-    if len(request.url.query) > 8192 or int(request.headers.get("content-length", "0") or 0) > 16384:
+    if len(request.url.query) > 8192:
         return JSONResponse(
             {"error": {"code": "request_too_large", "message": "Request exceeds size limit"}}, 413
         )
@@ -54,6 +60,11 @@ async def controls(request: Request, call_next):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_error(request, exc):
+    return JSONResponse({"error": {"code": "http_error", "message": str(exc.detail)}}, exc.status_code)
 
 
 @app.exception_handler(NotFound)

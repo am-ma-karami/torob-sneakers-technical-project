@@ -15,6 +15,13 @@ CATEGORIES = {
     "cross-country-shoes": "دو صحرانوردی",
 }
 ALIASES = {
+    "نیو بالانس": "new balance",
+    "نیو بالنس": "new balance",
+    "نیوبالنس": "new balance",
+    "آندر آرمور": "under armour",
+    "اندر آرمور": "under armour",
+    "مرل": "merrell",
+    "کلمبیا": "columbia",
     "پگاسوس": "pegasus",
     "نیمباس": "nimbus",
     "نوابلاست": "novablast",
@@ -78,7 +85,7 @@ def normalize(text: str) -> str:
     text = unicodedata.normalize("NFKC", text).translate(
         str.maketrans("يىك۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "ییک01234567890123456789")
     )
-    text = re.sub(r"[^\w\s]", " ", text.casefold().replace("\u200c", " "))
+    text = re.sub(r"[^\w\s]", " ", text.casefold().replace("\u200c", " ").replace("_", " "))
     text = " ".join(text.split())
     for alias, value in sorted(ALIASES.items(), key=lambda pair: -len(pair[0])):
         text = re.sub(r"(?<!\w)" + re.escape(alias) + r"(?!\w)", value, text)

@@ -23,7 +23,20 @@ def store(tmp_path, monkeypatch):
         con.execute(text("CREATE EXTENSION IF NOT EXISTS pg_trgm"))
         con.execute(text(f'CREATE SCHEMA "{schema}"'))
     engine = create_engine(url, connect_args={"options": f"-c search_path={schema},public"})
+    with engine.connect() as connection:
+        assert connection.scalar(text("SELECT current_schema()")) == schema
     Base.metadata.create_all(engine, checkfirst=False)
+    with engine.connect() as connection:
+        assert connection.scalar(text("SELECT count(*) FROM shoes")) == 0
+        assert (
+            connection.scalar(
+                text(
+                    "SELECT count(*) FROM information_schema.tables WHERE table_schema=:schema AND table_name='shoes'"
+                ),
+                {"schema": schema},
+            )
+            == 1
+        )
     factory = sessionmaker(engine, expire_on_commit=False)
     data_dir = tmp_path / "data"
     shutil.copytree(Path(__file__).parent / "fixtures", data_dir)

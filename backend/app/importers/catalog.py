@@ -190,6 +190,7 @@ def import_catalog(data_dir: Path | None = None, demo=False):
     shoes = ui["shoes"]
     # Validate the entire input before touching persistence.
     validated = [ShoeInput.model_validate(s) for s in shoes]
+    shoes = [s.model_dump() for s in validated]
     ids = [s.shoe_id for s in validated]
     if len(ids) != len(set(ids)) or len({s.slug for s in validated}) != len(ids):
         raise ValueError("Duplicate model identities in source")

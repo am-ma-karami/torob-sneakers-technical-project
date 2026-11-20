@@ -14,10 +14,10 @@ from sqlalchemy import func, select
     [
         ("نایکی پگاسوس ۴۱", "nike pegasus 41"),
         ("نايكي پگاسوس ٤١", "nike pegasus 41"),
-        ("  NIKE--Pegasus_41 ", "nike pegasus_41"),
+        ("  NIKE--Pegasus_41 ", "nike pegasus 41"),
         ("آدیداس سفید", "adidas white"),
         ("پیاده\u200cروی", "walking"),
-        ("نیو بالانس ۱۰۸۰", "نیو بالانس 1080"),
+        ("نیو بالانس ۱۰۸۰", "new balance 1080"),
     ],
 )
 def test_normalization(raw, expected):
@@ -205,3 +205,25 @@ def test_health_cors_and_security_headers(client):
     assert "access-control-allow-origin" not in blocked.headers
     assert blocked.headers["x-content-type-options"] == "nosniff"
     assert client.post("/api/finder", content="x" * 17000).status_code == 413
+
+
+def test_chunked_request_limit_and_invalid_length(client):
+    def chunks():
+        yield b"x" * 9000
+        yield b"x" * 9000
+
+    assert client.post("/api/finder", content=chunks()).status_code == 413
+    assert client.post("/api/finder", content="{}", headers={"Content-Length": "invalid"}).status_code == 400
+
+
+def test_rate_limit_and_comparison_bounds(client, monkeypatch):
+    from app.main import settings, windows
+
+    assert client.get("/api/compare?ids=-1").status_code == 422
+    assert client.get("/api/compare?ids=1&ids=2&ids=3&ids=4&ids=5").status_code == 422
+    windows.clear()
+    monkeypatch.setattr(settings, "rate_limit", 2)
+    assert client.get("/api/health").status_code == 200
+    assert client.get("/api/health").status_code == 200
+    limited = client.get("/api/health")
+    assert limited.status_code == 429 and limited.headers["retry-after"] == "60"

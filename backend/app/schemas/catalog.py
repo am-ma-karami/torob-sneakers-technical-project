@@ -36,6 +36,21 @@ class MetricInput(BaseModel):
         return value
 
 
+class SummaryInput(BaseModel):
+    model_config = ConfigDict(extra="allow", allow_inf_nan=False)
+    shoe_id: int = Field(gt=0)
+    name: str = Field(min_length=1, max_length=240)
+    brand: str = Field(min_length=1, max_length=120)
+    categories: list[str] = Field(min_length=1, max_length=20)
+    weight_g: float | None = Field(None, ge=0, le=3000)
+    msrp_usd: float | None = Field(None, ge=0)
+    runrepeat_score: float | None = Field(None, ge=0, le=100)
+    heel_stack_mm: float | None = Field(None, ge=0)
+    forefoot_stack_mm: float | None = Field(None, ge=0)
+    drop_mm: float | None = None
+    interior_forefoot_width_mm: float | None = Field(None, ge=0)
+
+
 class ShoeInput(BaseModel):
     model_config = ConfigDict(extra="allow")
     shoe_id: int = Field(gt=0)
@@ -46,6 +61,7 @@ class ShoeInput(BaseModel):
 
     @model_validator(mode="after")
     def identity(self):
+        self.summary = SummaryInput.model_validate(self.summary).model_dump()
         if self.summary.get("shoe_id") != self.shoe_id:
             raise ValueError("Summary ID differs from record ID")
         if not self.summary.get("name") or not self.summary.get("brand"):
@@ -108,7 +124,6 @@ class FinderRequest(BaseModel):
 
 
 class Card(BaseModel):
-    model_config = ConfigDict(extra="allow")
     shoe_id: int
     name: str
     brand: str
@@ -116,6 +131,17 @@ class Card(BaseModel):
     categories: list[str]
     family: str
     variants_count: int
+    catalog_image_url: str | None = None
+    image_url: str | None = None
+    colors: list[str] = Field(default_factory=list)
+    release_year: int | None = None
+    weight_g: float | None = None
+    msrp_usd: float | None = None
+    runrepeat_score: float | None = None
+    heel_stack_mm: float | None = None
+    forefoot_stack_mm: float | None = None
+    drop_mm: float | None = None
+    geometry_status: str
 
 
 class CatalogResponse(BaseModel):

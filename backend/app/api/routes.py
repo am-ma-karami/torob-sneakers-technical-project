@@ -1,6 +1,7 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter, Depends, Path, Query, Response
+from pydantic import PositiveInt
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -49,12 +50,12 @@ def taxonomy(repo: Repo):
 
 
 @router.get("/shoes/{slug}", response_model=DetailResponse)
-def detail(slug: str, repo: Repo):
+def detail(slug: Annotated[str, Path(max_length=240, pattern=r"^[a-z0-9-]+$")], repo: Repo):
     return CatalogService(repo).detail(slug)
 
 
 @router.get("/compare")
-def compare(repo: Repo, ids: Annotated[list[int], Query(min_length=1, max_length=4)]):
+def compare(repo: Repo, ids: Annotated[list[PositiveInt], Query(min_length=1, max_length=4)]):
     return CatalogService(repo).compare(ids)
 
 

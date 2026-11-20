@@ -45,6 +45,29 @@ describe("measured anatomy", () => {
     expect(sparse.summary.heel_stack_mm).toBeNull();
     expect(anatomyData(sparse).modes).toEqual([]);
   });
+  it("keeps a useful profile while hiding construction when only stack data exists", () => {
+    const minimal = {
+      ...shoe,
+      summary: {
+        ...shoe.summary,
+        plate: null,
+        foam: null,
+        upper_material: null,
+        outsole_material: null,
+        removable_insole: null,
+      },
+      metrics: {
+        heel_stack_mm: shoe.metrics.heel_stack_mm,
+        forefoot_stack_mm: shoe.metrics.forefoot_stack_mm,
+      },
+    };
+    expect(anatomyData(minimal).modes).toEqual(["profile"]);
+    render(<AnatomyViewer shoe={minimal} />);
+    expect(screen.getByTestId("sole-profile")).toBeVisible();
+    expect(
+      screen.queryByRole("button", { name: "ساختار کامل" }),
+    ).not.toBeInTheDocument();
+  });
   it("binds stack, rocker and fit geometry to measurements rather than only replacing labels", () => {
     const { rerender } = render(
       <AnatomyViewer shoe={shoe} initialMode="profile" />,

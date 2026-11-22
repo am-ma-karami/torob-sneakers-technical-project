@@ -1,6 +1,8 @@
+from typing import Literal, TypedDict
+
 from app.core.taxonomy import CATEGORIES
 from app.repositories.catalog import CatalogRepository
-from app.schemas.catalog import Card, FinderRequest
+from app.schemas.catalog import Card, CatalogQuery, FinderRequest
 from app.services.presentation import empirical_distribution, present_detail, reference_price
 
 
@@ -25,18 +27,36 @@ class CatalogService:
             raise NotFound("One or more shoes not found")
         return {"items": [present_detail(s) for s in rows]}
 
-    def finder(self, preferences: FinderRequest):
-        if preferences.category not in CATEGORIES:
+    @staticmethod
+    def _validate_category(category: str):
+        if category not in CATEGORIES:
             raise NotFound("Category not found")
+
+    def finder_brands(self, category: str):
+        self._validate_category(category)
+        return {"items": self.repository.brand_options(category)}
+
+    def finder(self, preferences: FinderRequest):
+        self._validate_category(preferences.category)
+        filters = CatalogQuery.model_validate(
+            {
+                "category": [preferences.category],
+                "brand": preferences.brands,
+                "weight_max": preferences.weight_max,
+                "drop_max": preferences.drop_max,
+            }
+        )
         ranked = []
-        for summary, detail in self.repository.finder_candidates(preferences.category):
-            score, reasons, unknown = rank_shoe(summary, preferences)
+        for summary in self.repository.finder_candidates(filters):
+            checks = preference_checks(summary, preferences)
+            score, reasons, unknown = score_preferences(checks)
             ranked.append(
                 {
                     "shoe": dict(summary, reference_price=reference_price(summary)),
                     "points": score,
                     "reasons": reasons,
                     "unknown": unknown,
+                    "checks": checks,
                 }
             )
         ranked.sort(
@@ -44,6 +64,7 @@ class CatalogService:
         )
         return {
             "items": ranked[:12],
+            "total": len(ranked),
             "rules": {
                 "activity": 40,
                 "width": 20,
@@ -61,38 +82,75 @@ class CatalogService:
         }
 
 
-def rank_shoe(s: dict, p: FinderRequest):
-    score = 40
-    reasons = ["کاربری انتخاب‌شده"]
-    unknown = []
+class PreferenceCheck(TypedDict):
+    key: Literal["width", "weight", "cushion"]
+    value: float | None
+    unit: str | None
+    state: Literal["unknown", "match", "miss"]
+
+
+def preference_checks(s: dict, p: FinderRequest):
+    checks: list[PreferenceCheck] = []
+
+    def add(key: Literal["width", "weight", "cushion"], value: float | None, unit: str, matches: bool):
+        checks.append(
+            {
+                "key": key,
+                "value": value,
+                "unit": unit if value is not None else None,
+                "state": "unknown" if value is None else "match" if matches else "miss",
+            }
+        )
+
     if p.width != "any":
         width = s.get("interior_forefoot_width_mm")
-        if width is None:
-            unknown.append("عرض داخلی")
-        elif (p.width == "wide" and width >= 100) or (p.width == "regular" and 94 <= width < 100):
-            score += 20
-            reasons.append("عرض داخلی متناسب با ترجیح")
+        add(
+            "width",
+            width,
+            "mm",
+            width is not None
+            and ((p.width == "wide" and width >= 100) or (p.width == "regular" and 94 <= width < 100)),
+        )
     if p.weight != "any":
         weight = s.get("weight_g")
-        if weight is None:
-            unknown.append("وزن")
-        elif (p.weight == "light" and weight <= 250) or (p.weight == "balanced" and 250 <= weight <= 320):
-            score += 20
-            reasons.append("وزن متناسب با ترجیح")
+        add(
+            "weight",
+            weight,
+            "g",
+            weight is not None
+            and (
+                (p.weight == "light" and weight <= 250) or (p.weight == "balanced" and 250 <= weight <= 320)
+            ),
+        )
     if p.cushion != "any":
         firmness = s.get("midsole_firmness_asker_c")
-        threshold = 35
+        threshold, unit = 35, "Asker C"
         if firmness is None:
             firmness = s.get("midsole_softness_shore_a")
-            threshold = 20
-        if firmness is None:
-            unknown.append("حس فوم")
-        elif (p.cushion == "soft" and firmness <= threshold) or (
-            p.cushion == "firm" and firmness > threshold
-        ):
-            score += 20
-            reasons.append("سفتی فوم متناسب با ترجیح")
-    return score, reasons, unknown
+            threshold, unit = 20, "Shore A"
+        add(
+            "cushion",
+            firmness,
+            unit,
+            firmness is not None
+            and (
+                (p.cushion == "soft" and firmness <= threshold)
+                or (p.cushion == "firm" and firmness > threshold)
+            ),
+        )
+    return checks
+
+
+def score_preferences(checks: list[PreferenceCheck]):
+    labels = {"width": "عرض داخلی", "weight": "وزن", "cushion": "حس فوم"}
+    matches = [labels[check["key"]] for check in checks if check["state"] == "match"]
+    reasons = ["کاربری انتخاب‌شده", *(f"{name} متناسب با ترجیح" for name in matches)]
+    unknown = [labels[check["key"]] for check in checks if check["state"] == "unknown"]
+    return 40 + 20 * len(matches), reasons, unknown
+
+
+def rank_shoe(s: dict, p: FinderRequest):
+    return score_preferences(preference_checks(s, p))
 
 
 FEATURED_IDS = [40586, 40390, 41349, 40830]

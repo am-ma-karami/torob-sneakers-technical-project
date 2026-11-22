@@ -92,16 +92,21 @@ class CatalogRepository:
     def taxonomy(self):
         categories = self.session.scalars(select(Shoe.facets["category"])).all()
         counts = Counter(c for row in categories for c in row)
-        brands = self.session.execute(
-            select(Shoe.brand, func.count()).group_by(Shoe.brand).order_by(Shoe.brand)
-        ).all()
         return {
             "categories": [
                 {"value": k, "label": CATEGORIES.get(k, k), "count": v} for k, v in counts.most_common()
             ],
-            "brands": [{"value": b, "label": b, "count": n} for b, n in brands],
+            "brands": self.brand_options(),
             "total": sum(counts.values()),
         }
+
+    def brand_options(self, category: str | None = None):
+        query = select(Shoe.brand, func.count()).group_by(Shoe.brand).order_by(Shoe.brand)
+        if category is not None:
+            query = query.where(Shoe.facets.contains({"category": [category]}))
+        return [
+            {"value": brand, "label": brand, "count": count} for brand, count in self.session.execute(query)
+        ]
 
     def details(self, identifiers: list[int] | None = None, slug: str | None = None):
         predicate = Shoe.id.in_(identifiers) if identifiers is not None else Shoe.slug == slug
@@ -123,10 +128,8 @@ class CatalogRepository:
                 result[ident][field].append(payload)
         return [result[i] for i in (identifiers or list(result)) if i in result]
 
-    def finder_candidates(self, category: str):
-        return self.session.execute(
-            select(Shoe.summary, Shoe.detail).where(Shoe.facets.contains({"category": [category]}))
-        ).all()
+    def finder_candidates(self, filters: CatalogQuery):
+        return self.session.scalars(select(Shoe.summary).where(*self.conditions(filters))).all()
 
     def count(self):
         return self.session.scalar(select(func.count()).select_from(Shoe)) or 0

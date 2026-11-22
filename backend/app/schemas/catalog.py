@@ -1,5 +1,5 @@
 from math import isfinite
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -116,8 +116,13 @@ class CatalogQuery(BaseModel):
 
 
 class FinderRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     category: str = Field("running-shoes", max_length=100)
+    brands: list[Annotated[str, Field(min_length=1, max_length=120)]] = Field(
+        default_factory=list, max_length=8
+    )
+    weight_max: float | None = Field(None, ge=0, le=3000)
+    drop_max: float | None = Field(None, ge=-20, le=60)
     width: Literal["any", "wide", "regular"] = "any"
     weight: Literal["any", "light", "balanced"] = "any"
     cushion: Literal["any", "soft", "firm"] = "any"

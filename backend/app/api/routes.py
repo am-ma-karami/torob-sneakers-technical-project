@@ -65,6 +65,11 @@ def finder(preferences: FinderRequest, repo: Repo):
     return CatalogService(repo).finder(preferences)
 
 
+@router.get("/finder/brands")
+def finder_brands(category: Annotated[str, Query(min_length=1, max_length=100)], repo: Repo):
+    return CatalogService(repo).finder_brands(category)
+
+
 @router.get("/featured")
 def featured(repo: Repo):
     return featured_catalog(repo)

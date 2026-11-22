@@ -196,6 +196,36 @@ def test_finder_is_explainable_and_validated(client):
     assert client.post("/api/finder", json={"category": "bogus"}).status_code == 404
 
 
+def test_finder_applies_brands_and_hard_limits_before_ranking(client, store):
+    brands = client.get("/api/finder/brands?category=sneakers").json()["items"]
+    assert brands == [{"value": "Nike", "label": "Nike", "count": 1}]
+    prefs = {
+        "category": "running-shoes",
+        "brands": ["Nike", "adidas"],
+        "weight_max": 223,
+        "drop_max": 8,
+        "width": "wide",
+        "weight": "light",
+    }
+    data = client.post("/api/finder", json=prefs).json()
+    assert data["total"] == 1
+    assert [item["shoe"]["shoe_id"] for item in data["items"]] == [40586]
+    assert data["items"][0]["checks"] == [
+        {"key": "width", "value": 97.5, "unit": "mm", "state": "miss"},
+        {"key": "weight", "value": 223, "unit": "g", "state": "match"},
+    ]
+    assert client.post("/api/finder", json={**prefs, "brands": ["Nike"]}).json()["items"] == []
+    assert client.post("/api/finder", json={**prefs, "drop_max": 61}).status_code == 422
+
+    session = store[0]
+    shoe = session.get(Shoe, 40586)
+    shoe.drop = None
+    shoe.summary = {**shoe.summary, "drop_mm": None}
+    session.flush()
+    assert client.post("/api/finder", json=prefs).json()["items"] == []
+    assert client.post("/api/finder", json={**prefs, "drop_max": None}).json()["total"] == 1
+
+
 def test_health_cors_and_security_headers(client):
     assert client.get("/api/health").json()["status"] == "ok"
     assert client.get("/api/ready").json()["shoes"] == 4

@@ -6,7 +6,9 @@ from sqlalchemy.orm import Session
 
 from app.core.taxonomy import CATEGORIES, normalize
 from app.models.catalog import Measurement, Offer, Shoe, Variant
+from app.repositories.offers import list_offers, offer_conditions
 from app.schemas.catalog import FACET_KEYS, CatalogQuery
+from app.schemas.offers import OffersQuery
 from app.services.presentation import reference_price
 
 
@@ -41,6 +43,22 @@ class CatalogRepository:
                 conditions.append(column <= high)
         if query.score_min is not None:
             conditions.append(Shoe.score >= query.score_min)
+        if any(
+            [
+                query.offer_currency,
+                query.offer_country,
+                query.offer_ships_to,
+                query.offer_price_min is not None,
+                query.offer_price_max is not None,
+                query.offer_available,
+                query.sort == "offer_price",
+            ]
+        ):
+            conditions.append(
+                select(Offer.key)
+                .where(Offer.shoe_id == Shoe.id, *offer_conditions(query.offer_query()))
+                .exists()
+            )
         return conditions
 
     def catalog(self, query: CatalogQuery):
@@ -57,6 +75,14 @@ class CatalogRepository:
             "price": [Shoe.price_usd.asc().nullslast()],
             "newest": [Shoe.summary["release_year"].as_integer().desc().nullslast()],
             "name": [Shoe.name.asc()],
+            "offer_price": [
+                select(func.min(Offer.price))
+                .where(Offer.shoe_id == Shoe.id, *offer_conditions(query.offer_query()))
+                .correlate(Shoe)
+                .scalar_subquery()
+                .asc()
+                .nullslast()
+            ],
         }
         order = orders[query.sort]
         rows = self.session.scalars(
@@ -108,7 +134,7 @@ class CatalogRepository:
             {"value": brand, "label": brand, "count": count} for brand, count in self.session.execute(query)
         ]
 
-    def details(self, identifiers: list[int] | None = None, slug: str | None = None):
+    def details(self, identifiers: list[int] | None = None, slug: str | None = None, *, include_offers=True):
         predicate = Shoe.id.in_(identifiers) if identifiers is not None else Shoe.slug == slug
         rows = self.session.execute(select(Shoe.id, Shoe.detail).where(predicate)).all()
         result = {ident: dict(detail, metrics={}, variants=[], offers=[]) for ident, detail in rows}
@@ -120,12 +146,18 @@ class CatalogRepository:
             )
         ):
             result[ident]["metrics"][key] = provenance
-        tables: list[tuple[Any, str]] = [(Variant, "variants"), (Offer, "offers")]
+        tables: list[tuple[Any, str]] = [(Variant, "variants")]
         for table, field in tables:
             for ident, payload in self.session.execute(
                 select(table.shoe_id, table.payload).where(table.shoe_id.in_(result)).order_by(table.key)
             ):
                 result[ident][field].append(payload)
+        if include_offers:
+            for ident in result:
+                offers = list_offers(self.session, ident, OffersQuery())
+                result[ident].update(
+                    offers=offers["items"], offers_total=offers["total"], offers_page_size=20
+                )
         return [result[i] for i in (identifiers or list(result)) if i in result]
 
     def finder_candidates(self, filters: CatalogQuery):

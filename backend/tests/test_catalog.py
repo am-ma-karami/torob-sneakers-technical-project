@@ -253,7 +253,8 @@ def test_rate_limit_and_comparison_bounds(client, monkeypatch):
     assert client.get("/api/compare?ids=1&ids=2&ids=3&ids=4&ids=5").status_code == 422
     windows.clear()
     monkeypatch.setattr(settings, "rate_limit", 2)
-    assert client.get("/api/health").status_code == 200
-    assert client.get("/api/health").status_code == 200
-    limited = client.get("/api/health")
+    assert client.get("/api/catalog").status_code == 200
+    assert client.get("/api/catalog").status_code == 200
+    limited = client.get("/api/catalog")
     assert limited.status_code == 429 and limited.headers["retry-after"] == "60"
+    assert client.get("/api/health").status_code == 200

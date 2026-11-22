@@ -6,39 +6,63 @@ import json
 from collections import Counter
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
 
+from pydantic import ValidationError
 from sqlalchemy import delete, func, select
 from sqlalchemy.dialects.postgresql import insert
 
+from app.core.commerce import public_https
 from app.core.config import ROOT, get_settings
 from app.core.taxonomy import CATEGORIES, color_labels, model_family, normalize, split_values
 from app.db.session import SessionLocal
-from app.models.catalog import Brand, Category, Family, Measurement, Offer, Shoe, SourcePayload, Variant
+from app.models.catalog import Brand, Category, Family, Measurement, Shoe, SourcePayload, Variant
 from app.schemas.catalog import MetricInput, ShoeInput
+from app.schemas.offers import OfferInput, VariantResponse
+from app.services.offers import fingerprint, map_product, refresh_offers, reject_offer
 
 
 def safe_url(value):
-    if not isinstance(value, str):
-        return None
-    p = urlparse(value)
-    return value if p.scheme == "https" and p.hostname and not p.username and not p.password else None
+    return value if isinstance(value, str) and public_https(value) else None
 
 
-def variants_and_offers(shoe):
+def variants_and_offers(shoe, rejected=None):
+    rejected = rejected if rejected is not None else []
     commerce = shoe.get("commerce", {}).get("runrepeat", {})
     variants = {}
     offers = []
-    for index, offer in enumerate(commerce.get("offers", [])):
+
+    def accept(source, raw, normalized):
+        try:
+            offer = OfferInput.model_validate(normalized)
+            offers.append(offer.model_dump(mode="json", exclude={"key", "price_amount"}))
+        except ValidationError as error:
+            first = error.errors(include_input=False)[0]
+            reason = ".".join(map(str, first["loc"])) + ":" + first["type"]
+            rejected.append((source, raw, reason))
+
+    for offer in commerce.get("offers") or []:
+        if not isinstance(offer, dict):
+            rejected.append(("RunRepeat", offer, "invalid_record"))
+            continue
+        shop = offer.get("shop") or {}
+        if not isinstance(shop, dict):
+            rejected.append(("RunRepeat", offer, "invalid_shop"))
+            continue
         color = offer.get("color") or {}
+        if not isinstance(color, dict) or not isinstance(color.get("name_suffix") or "", str):
+            rejected.append(("RunRepeat", offer, "invalid_color"))
+            continue
         key = str(color.get("id", ""))
         name = (color.get("name_suffix") or "").strip(" -")
         verified = bool(name and key and key != "0" and not offer.get("is_any_color"))
         if verified:
             image = color.get("image") or {}
+            if not isinstance(image, dict):
+                rejected.append(("RunRepeat", offer, "invalid_image"))
+                continue
             path = image.get("cdn_path", "")
             url = f"https://cdn.runrepeat.com/{path}-{image.get('size', 600)}.jpg" if path else None
-            variants[key] = {
+            candidate = {
                 "key": key,
                 "name": name,
                 "colors": color_labels(name),
@@ -46,54 +70,77 @@ def variants_and_offers(shoe):
                 "source": "RunRepeat retailer color record",
                 "source_id": color.get("id"),
             }
-        price = offer.get("price_local")
-        url = safe_url(offer.get("affiliate_link"))
-        if price is None or not url:
-            continue
-        offers.append(
+            try:
+                variants[key] = VariantResponse.model_validate(candidate).model_dump()
+            except ValidationError:
+                rejected.append(("RunRepeat", offer, "invalid_variant"))
+                continue
+        retailer_id = str(offer.get("shop_id", ""))
+        variant = key if verified else None
+        # Array positions, prices and observation times are never listing identities.
+        external_id = fingerprint([retailer_id, variant, offer.get("affiliate_link")])
+        accept(
+            "RunRepeat",
+            offer,
             {
-                "key": f"rr-{index}",
-                "variant_key": key if verified else None,
-                "retailer": (offer.get("shop") or {}).get("name", "Retailer"),
-                "price": price,
+                "external_id": external_id,
+                "source_product_id": f"{shoe['shoe_id']}:{variant or 'any'}",
+                "retailer_id": retailer_id,
+                "variant_key": variant,
+                "retailer": shop.get("name", "Retailer"),
+                "price": offer.get("price_local"),
                 "currency": commerce.get("currency"),
                 "country": commerce.get("country"),
-                "url": url,
+                "url": offer.get("affiliate_link"),
                 "snapshot": commerce.get("snapshot"),
-                "live_verified": False,
+                "checked_at": None,
+                "availability": "unknown",
                 "source": "RunRepeat",
                 "colorway": name if verified else None,
-            }
+                "sizes_available_raw": offer.get("sizes_available"),
+                "available_widths_raw": offer.get("available_widths"),
+            },
         )
     sh = shoe.get("commerce", {}).get("solehunt", {})
-    for index, offer in enumerate(sh.get("retailers") or []):
-        # Do not infer currencies or variant identity from unrelated retailer records.
-        if isinstance(offer, dict) and offer.get("currency") and offer.get("price") is not None:
-            url = safe_url(offer.get("url"))
-            if url:
-                offers.append(
-                    {
-                        "key": f"sh-{index}",
-                        "variant_key": None,
-                        "retailer": offer.get("name", "Retailer"),
-                        "price": offer["price"],
-                        "currency": offer["currency"],
-                        "country": None,
-                        "url": url,
-                        "snapshot": sh.get("record_updated_at"),
-                        "live_verified": False,
-                        "source": "SoleHunt",
-                        "colorway": None,
-                    }
-                )
+    for offer in sh.get("retailers") or []:
+        if not isinstance(offer, dict):
+            rejected.append(("SoleHunt", offer, "invalid_record"))
+            continue
+        stock = offer.get("in_stock")
+        if stock is not None and not isinstance(stock, bool):
+            rejected.append(("SoleHunt", offer, "invalid_stock"))
+            continue
+        accept(
+            "SoleHunt",
+            offer,
+            {
+                "external_id": offer.get("id"),
+                "source_product_id": offer.get("shoe_id"),
+                "retailer_id": offer.get("retailer_name"),
+                "retailer": offer.get("retailer_name"),
+                "variant_key": None,
+                "price": offer.get("price_usd"),
+                "currency": "USD",
+                "url": offer.get("affiliate_url"),
+                "snapshot": sh.get("record_updated_at"),
+                "checked_at": offer.get("last_checked"),
+                "availability": "in_stock"
+                if stock is True
+                else "out_of_stock"
+                if stock is False
+                else "unknown",
+                "source": "SoleHunt",
+                "colorway": None,
+            },
+        )
     return list(variants.values()), offers
 
 
-def prepare(shoe, archive):
+def prepare(shoe, archive, rejected=None):
     s = dict(shoe["summary"])
     family = model_family(s["name"], s["brand"])
     family_id = s["brand"] + ":" + family
-    variants, offers = variants_and_offers(shoe)
+    variants, offers = variants_and_offers(shoe, rejected)
     metrics = dict(shoe["metrics"])
     flat = archive.get("runrepeat", {}).get("flat_row", {})
     for field in ["insole_thickness", "outsole_thickness"]:
@@ -153,7 +200,9 @@ def prepare(shoe, archive):
         "runrepeat": {
             k: v for k, v in shoe.get("commerce", {}).get("runrepeat", {}).items() if k != "offers"
         },
-        "solehunt": shoe.get("commerce", {}).get("solehunt", {}),
+        "solehunt": {
+            k: v for k, v in shoe.get("commerce", {}).get("solehunt", {}).items() if k != "retailers"
+        },
     }
     record = {
         "id": shoe["shoe_id"],
@@ -218,7 +267,8 @@ def import_catalog(data_dir: Path | None = None, demo=False):
         for key, label in CATEGORIES.items():
             upsert(session, Category, {"key": key, "label": label}, ["key"])
         for shoe in shoes:
-            record, metrics, variants, offers = prepare(shoe, archive[shoe["shoe_id"]])
+            rejected: list[tuple[str, Any, str]] = []
+            record, metrics, variants, offers = prepare(shoe, archive[shoe["shoe_id"]], rejected)
             session.execute(insert(Brand).values(name=record["brand"]).on_conflict_do_nothing())
             upsert(
                 session,
@@ -229,24 +279,63 @@ def import_catalog(data_dir: Path | None = None, demo=False):
             exists = session.get(Shoe, record["id"]) is not None
             upsert(session, Shoe, record, ["id"])
             counts["updated" if exists else "created"] += 1
-            tables: list[Any] = [Measurement, Variant, Offer]
-            for table in tables:
-                session.execute(delete(table).where(table.shoe_id == record["id"]))
+            session.execute(
+                delete(Measurement).where(Measurement.shoe_id == record["id"], Measurement.owner == "catalog")
+            )
+            external_metrics = set(
+                session.scalars(
+                    select(Measurement.key).where(
+                        Measurement.shoe_id == record["id"], Measurement.owner != "catalog"
+                    )
+                )
+            )
+            if external_metrics.intersection(metrics):
+                raise ValueError("Measurement identity owned by another source")
+            metric_rows = []
             for key, metric in metrics.items():
                 MetricInput.model_validate(metric)
-                session.add(
-                    Measurement(
+                metric_rows.append(
+                    dict(
                         shoe_id=record["id"],
                         key=key,
                         value=metric["value"],
                         unit=metric["unit"],
                         provenance=metric,
+                        owner="catalog",
                     )
                 )
-            for variant in variants:
-                session.add(Variant(shoe_id=record["id"], key=variant["key"], payload=variant))
+            if metric_rows:
+                session.execute(insert(Measurement), metric_rows)
+            external_variants = set(
+                session.scalars(
+                    select(Variant.key).where(Variant.shoe_id == record["id"], Variant.owner != "catalog")
+                )
+            )
+            if external_variants.intersection(v["key"] for v in variants):
+                raise ValueError("Variant identity owned by another source")
+            if variants:
+                statement = insert(Variant).values(
+                    [dict(shoe_id=record["id"], key=v["key"], payload=v, owner="catalog") for v in variants]
+                )
+                session.execute(
+                    statement.on_conflict_do_update(
+                        index_elements=["shoe_id", "key"], set_={"payload": statement.excluded.payload}
+                    )
+                )
+            # Keep catalog variants that other sources may reference. No cross-feed deletion.
+            session.flush()
             for offer in offers:
-                session.add(Offer(shoe_id=record["id"], key=offer["key"], payload=offer))
+                map_product(
+                    session, offer["source"], offer["source_product_id"], record["id"], offer["variant_key"]
+                )
+            for source, raw, reason in rejected:
+                reject_offer(session, record["id"], source, raw, reason)
+            for source in ("RunRepeat", "SoleHunt"):
+                result = refresh_offers(
+                    session, record["id"], source, [o for o in offers if o["source"] == source]
+                )
+                counts["offers_rejected"] += result["rejected"]
+            counts["offers_rejected"] += len(rejected)
             upsert(
                 session,
                 SourcePayload,

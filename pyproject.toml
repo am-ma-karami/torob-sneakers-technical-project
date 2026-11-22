@@ -19,6 +19,7 @@ where = ["backend"]
 include = ["app*"]
 [tool.pytest.ini_options]
 testpaths = ["backend/tests"]
+addopts = "--tb=short"
 [tool.ruff]
 line-length = 110
 target-version = "py311"

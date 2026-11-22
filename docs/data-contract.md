@@ -37,7 +37,7 @@ Generated snapshot: 2026-11-20T11:04:47.089677+00:00. ShoeGeometry dataset versi
 
 The primary identity is the original integer shoe ID, with a unique exact slug. Generations, GTX/WP and kids/adult records are never merged by name. Brand, category and family are separate concepts. Family is a conservative *browsing heuristic*: remove a final generation suffix from the model label; it never determines persistence identity. Raw names retain all generation/version qualifiers. SoleHunt duplicate and width records stay under distinct source records and never overwrite the base dimensions. The three known wide source variants remain explicitly labeled in product details.
 
-Categories and brands come from PostgreSQL. Facets include category, activity, brand, family, color, terrain, arch support, declared widths, fit, plate, foam, upper, geometry coverage and release year. Missing facets are unknown. Numeric filters exclude records lacking that measurement. Price sorting/filtering uses manufacturer MSRP in USD exclusively. Retail offers keep their own currencies and are not pooled into that sort.
+Categories and brands come from PostgreSQL. Facets include category, activity, brand, family, color, terrain, arch support, declared widths, fit, plate, foam, upper, geometry coverage and release year. Missing facets are unknown. Numeric filters exclude records lacking that measurement. The existing price sorting/filtering uses manufacturer MSRP in USD. Separate offer filters and `sort=offer_price` require an explicit offer currency; amounts across currencies are not pooled.
 
 Search performs Unicode normalization, Persian/Arabic ی/ک and digit normalization, punctuation/spacing normalization and common Persian brand/model/color aliases. All query tokens must match normalized indexed search text. Ranking uses exact model name, then name prefix, then source-specific RunRepeat score, then stable original ID. OR within multi-select groups, AND across groups. Facet counts exclude their own active group while retaining all other constraints (disjunctive counts).
 
@@ -53,10 +53,12 @@ Only retailer records with a nonzero color ID and explicit `name_suffix` become 
 
 ## Import guarantees and scope
 
-Validation checks input count, unique IDs/slugs, summary identity, finite measured numbers, metric units/origins, and cross-file identities before writes. A transaction upserts brands, categories, families, shoes and original source payloads and replaces model-owned measurements/variants/offers. Failure rolls back. Re-importing the same files creates no duplicate identities. Source payloads preserve values that are not selected into compact fields. The import does not delete models merely absent from a later input; explicit catalog retirement is a future administrative task.
+Validation checks input count, unique IDs/slugs, summary identity, finite measured numbers, metric units/origins, and cross-file identities before writes. A transaction upserts brands, categories, families, shoes and original source payloads and replaces catalog-owned measurements, upserts catalog variants and refreshes only the catalog feed’s own offers; independently owned records remain intact. Failure rolls back. Re-importing the same files creates no duplicate identities. Source payloads preserve values that are not selected into compact fields. The import does not delete models merely absent from a later input; explicit catalog retirement is a future administrative task.
 
 The browser receives a bounded compact catalog page (18 by default, 48 maximum), then one structured detail record or up to four comparison records. Comparison fetches related records in four batched database queries, independent of model count. Facet calculation issues one bounded small-catalog query per group; this is intentionally simple for 1167 records and should be replaced with aggregate SQL if the corpus grows substantially.
 
 ## Attribution
 
 RunRepeat laboratory measurements, supplied source review excerpts, and externally hosted photography retain their source credits. [ShoeGeometry](https://shoegeometry.com/data): ShoeGeometry (2026). Running-shoe geometry dataset, version 2026-11-14, CC BY 4.0. [SoleHunt public data](https://solehunt.app/data), CC BY 4.0. Diagram adaptations are explicitly identified. Per-model and per-metric sources are visible in the UI. Font notices ship at `/font-licenses.txt`.
+
+The current retailer storage, migration, rejection policy, expiry rules and read API are defined in [the commerce backend contract](commerce-backend.md).

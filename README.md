@@ -4,7 +4,7 @@ A working Persian/RTL footwear discovery and comparison application, now using t
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
-The catalog contains all **1167** original models, **27048** measurements, **3845** verified colorway records and **4739** dated offers. Imported data is in PostgreSQL; the browser never downloads the raw archive. Exact generations and variants retain their identity.
+The catalog contains all **1167** original models, **27048** measurements, **3845** verified colorway records and **4824** dated offers. Imported data is in PostgreSQL; the browser never downloads the raw archive. Exact generations and variants retain their identity.
 
 - Debounced Persian/English search with aliases, server pagination, disjunctive multi-select facets, numeric ranges and shareable URLs.
 - Category and brand directories, real product photography, verified color galleries, with stale retailer offers retained internally and removed from the interface.
@@ -81,3 +81,5 @@ Backend tests use explicitly created temporary PostgreSQL schemas and four small
 RunRepeat laboratory measurements, supplied review excerpts and externally hosted product photography are credited on the discreet About/credits page; per-record provenance remains internal. ShoeGeometry (2026), Running-shoe geometry dataset, version 2026-11-14, [CC BY 4.0](https://shoegeometry.com/data). [SoleHunt public data](https://solehunt.app/data), CC BY 4.0. Diagram adaptations are schematic, not factory CAD. Font redistribution notices ship at `/font-licenses.txt`.
 
 Development branch: `feat/shoe-discovery`, connected to the requested GitHub repository. Commits preserve the existing primary author and include the requested co-author. No push, public deployment or merge is part of this delivery.
+
+Retailer ingestion, stock freshness, source mappings and paginated offer API: [commerce backend contract](docs/commerce-backend.md). New retailer data and storefront UI remain a separate step.

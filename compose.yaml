@@ -23,6 +23,7 @@ services:
       DATABASE_URL: postgresql+psycopg://rad:${POSTGRES_PASSWORD}@db:5432/rad
       DATA_DIR: /data
       ENVIRONMENT: production
+      RATE_LIMIT_BACKEND: proxy
       CORS_ORIGINS: '["http://127.0.0.1:8080","http://localhost:8080"]'
     depends_on:
       db:

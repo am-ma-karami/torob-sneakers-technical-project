@@ -2,14 +2,17 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Path, Query, Response
 from pydantic import PositiveInt
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
 from app.db.session import get_session
+from app.models.catalog import Shoe
 from app.repositories.catalog import CatalogRepository
+from app.repositories.offers import list_offers
 from app.schemas.catalog import CatalogQuery, CatalogResponse, DetailResponse, FinderRequest
-from app.services.catalog import CatalogService, featured_catalog, score_context
+from app.schemas.offers import OffersQuery, OffersResponse
+from app.services.catalog import CatalogService, NotFound, featured_catalog, score_context
 
 router = APIRouter(prefix="/api")
 
@@ -53,6 +56,18 @@ def taxonomy(repo: Repo):
 @router.get("/shoes/{slug}", response_model=DetailResponse)
 def detail(slug: Annotated[str, Path(max_length=240, pattern=r"^[a-z0-9-]+$")], repo: Repo):
     return CatalogService(repo).detail(slug)
+
+
+@router.get("/shoes/{slug}/offers", response_model=OffersResponse)
+def offers(
+    slug: Annotated[str, Path(max_length=240, pattern=r"^[a-z0-9-]+$")],
+    query: Annotated[OffersQuery, Query()],
+    repo: Repo,
+):
+    shoe_id = repo.session.scalar(select(Shoe.id).where(Shoe.slug == slug))
+    if shoe_id is None:
+        raise NotFound("Shoe not found")
+    return list_offers(repo.session, shoe_id, query)
 
 
 @router.get("/compare")

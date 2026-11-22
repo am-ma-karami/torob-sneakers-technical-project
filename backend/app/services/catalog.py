@@ -22,7 +22,7 @@ class CatalogService:
 
     def compare(self, ids: list[int]):
         unique = list(dict.fromkeys(ids))
-        rows = self.repository.details(identifiers=unique)
+        rows = self.repository.details(identifiers=unique, include_offers=False)
         if len(rows) != len(unique):
             raise NotFound("One or more shoes not found")
         return {"items": [present_detail(s) for s in rows]}
@@ -168,13 +168,16 @@ def featured_catalog(repository):
                     s["summary"].get("image_url"),
                 ),
             )
-            for s in repository.details(identifiers=FEATURED_IDS)
+            for s in repository.details(identifiers=FEATURED_IDS, include_offers=False)
         ]
     }
 
 
 def score_context(repository, slug):
-    shoe = CatalogService(repository).detail(slug)
+    rows = repository.details(slug=slug, include_offers=False)
+    if not rows:
+        raise NotFound("Shoe not found")
+    shoe = rows[0]
     category = shoe["summary"]["categories"][0]
     usage = shoe.get("scores", {}).get("runrepeat", {}).get("usage", {})
     peers = repository.score_population(category)

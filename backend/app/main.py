@@ -41,21 +41,24 @@ async def controls(request: Request, call_next):
         return JSONResponse(
             {"error": {"code": "request_too_large", "message": "Request exceeds size limit"}}, 413
         )
-    host = request.client.host if request.client else "unknown"
-    now = time.monotonic()
-    window = windows.setdefault(host, deque())
-    windows.move_to_end(host)
-    if len(windows) > 4096:
-        windows.popitem(last=False)
-    while window and window[0] < now - 60:
-        window.popleft()
-    if len(window) >= settings.rate_limit:
-        return JSONResponse(
-            {"error": {"code": "rate_limited", "message": "Please retry in a minute"}},
-            429,
-            headers={"Retry-After": "60"},
-        )
-    window.append(now)
+    # Production quotas live at the unexposed backend's nginx edge, shared by workers.
+    # Development uses the actual peer; arbitrary forwarded headers are never trusted here.
+    if settings.rate_limit_backend == "memory" and request.url.path not in ("/api/health", "/api/ready"):
+        host = request.client.host if request.client else "unknown"
+        now = time.monotonic()
+        window = windows.setdefault(host, deque())
+        windows.move_to_end(host)
+        if len(windows) > 4096:
+            windows.popitem(last=False)
+        while window and window[0] < now - 60:
+            window.popleft()
+        if len(window) >= settings.rate_limit:
+            return JSONResponse(
+                {"error": {"code": "rate_limited", "message": "Please retry in a minute"}},
+                429,
+                headers={"Retry-After": "60"},
+            )
+        window.append(now)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"

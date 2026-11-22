@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://127.0.0.1:5173", "http://localhost:5173"]
     environment: str = "development"
     rate_limit: int = 240
+    rate_limit_backend: str = Field(default="memory", pattern=r"^(memory|proxy)$")
+    offer_ttl_hours: int = Field(default=24, ge=1, le=168)
+    retailer_domains: dict[str, list[str]] = Field(default_factory=dict)
     reference_usd_toman: float | None = Field(default=None, gt=0, allow_inf_nan=False)
     reference_rate_at: datetime | None = None
 

@@ -3,6 +3,8 @@ from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from app.schemas.offers import Country, Currency, OfferResponse, OffersQuery, VariantResponse
+
 FACET_KEYS = (
     "brand",
     "category",
@@ -58,6 +60,18 @@ class ShoeInput(BaseModel):
     summary: dict[str, Any]
     metrics: dict[str, MetricInput]
     visualization: dict[str, Any]
+    commerce: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("commerce")
+    @classmethod
+    def commerce_containers(cls, value):
+        for source, collection in (("runrepeat", "offers"), ("solehunt", "retailers")):
+            record = value.get(source, {})
+            if not isinstance(record, dict) or (
+                record.get(collection) is not None and not isinstance(record[collection], list)
+            ):
+                raise ValueError("Invalid commerce source container")
+        return value
 
     @model_validator(mode="after")
     def identity(self):
@@ -70,7 +84,7 @@ class ShoeInput(BaseModel):
 
 
 class CatalogQuery(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     q: str = Field("", max_length=160)
     brand: list[str] = Field(default_factory=list, max_length=16)
     category: list[str] = Field(default_factory=list, max_length=16)
@@ -99,12 +113,19 @@ class CatalogQuery(BaseModel):
     forefoot_max: float | None = Field(None, ge=0, le=100)
     internal_width_min: float | None = Field(None, ge=0, le=200)
     internal_width_max: float | None = Field(None, ge=0, le=200)
-    sort: Literal["relevance", "score", "weight", "price", "newest", "name"] = "relevance"
+    offer_currency: Currency | None = None
+    offer_country: Country | None = None
+    offer_ships_to: Country | None = None
+    offer_price_min: float | None = Field(None, ge=0)
+    offer_price_max: float | None = Field(None, ge=0)
+    offer_available: bool = False
+    sort: Literal["relevance", "score", "weight", "price", "offer_price", "newest", "name"] = "relevance"
     page: int = Field(1, ge=1, le=10000)
     page_size: int = Field(18, ge=1, le=48)
 
     @model_validator(mode="after")
     def ranges(self):
+        self.offer_query()
         for prefix in ["weight", "price", "drop", "heel", "forefoot", "internal_width"]:
             low, high = getattr(self, prefix + "_min"), getattr(self, prefix + "_max")
             if low is not None and high is not None and low > high:
@@ -113,6 +134,19 @@ class CatalogQuery(BaseModel):
             if any(len(value) > 220 for value in getattr(self, key)):
                 raise ValueError("Facet value too long")
         return self
+
+    def offer_query(self):
+        return OffersQuery.model_validate(
+            dict(
+                currency=self.offer_currency,
+                country=self.offer_country,
+                ships_to=self.offer_ships_to,
+                price_min=self.offer_price_min,
+                price_max=self.offer_price_max,
+                availability="in_stock" if self.offer_available else None,
+                sort="price" if self.sort == "offer_price" else "retailer",
+            )
+        )
 
 
 class FinderRequest(BaseModel):
@@ -165,5 +199,7 @@ class DetailResponse(BaseModel):
     summary: dict[str, Any]
     metrics: dict[str, Any]
     visualization: dict[str, Any]
-    variants: list[dict[str, Any]]
-    offers: list[dict[str, Any]]
+    variants: list[VariantResponse]
+    offers: list[OfferResponse]
+    offers_total: int = 0
+    offers_page_size: int = 20

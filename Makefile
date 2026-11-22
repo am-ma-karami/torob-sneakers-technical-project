@@ -18,3 +18,9 @@ test:
 	npm --prefix frontend run test:e2e
 build:
 	npm --prefix frontend run build
+
+.PHONY: rates import-stores
+rates:
+	.venv/bin/python -m app.services.exchange_rates
+import-stores:
+	.venv/bin/python -m app.importers.store_links $(FILE)

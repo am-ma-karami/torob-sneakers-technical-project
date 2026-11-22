@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     rate_limit_backend: str = Field(default="memory", pattern=r"^(memory|proxy)$")
     offer_ttl_hours: int = Field(default=24, ge=1, le=168)
     retailer_domains: dict[str, list[str]] = Field(default_factory=dict)
+    fx_auto_refresh: bool = False
+    fx_refresh_seconds: int = Field(default=3600, ge=300, le=86400)
+    fx_stale_hours: int = Field(default=24, ge=1, le=168)
     reference_usd_toman: float | None = Field(default=None, gt=0, allow_inf_nan=False)
     reference_rate_at: datetime | None = None
 

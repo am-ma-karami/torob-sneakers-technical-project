@@ -95,13 +95,37 @@ export type Offer = {
   key: string;
   variant_key: string | null;
   retailer: string;
-  price: number;
+  price: number | null;
   currency: string | null;
   country: string | null;
   url: string;
   snapshot: string | null;
   source: string;
   colorway: string | null;
+  market?: "iran" | "foreign" | null;
+  price_toman?: number | null;
+  conversion?: StoreConversion | null;
+  checked_at?: string | null;
+  availability?: "in_stock" | "out_of_stock" | "unknown";
+  freshness?: "fresh" | "expired" | "unknown";
+  url_type?: "direct_product" | "partner_redirect" | "model_listing" | null;
+};
+export type StoreConversion = {
+  kind: "native_toman" | "rial_to_toman" | "free_market";
+  rate_toman_per_unit: string;
+  source?: string | null;
+  source_url?: string | null;
+  source_time_label?: string | null;
+  fetched_at?: string | null;
+  stale: boolean;
+};
+export type StoreOffersResult = {
+  items: Offer[];
+  total: number;
+  page: number;
+  page_size: number;
+  pages: number;
+  market_counts: Record<string, number>;
 };
 export type Shoe = {
   reviews_fa?: { pros: string[]; cons: string[] };

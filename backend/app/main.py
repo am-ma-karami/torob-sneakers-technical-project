@@ -1,6 +1,8 @@
+import asyncio
 import logging
 import time
 from collections import OrderedDict, deque
+from contextlib import asynccontextmanager, suppress
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -16,11 +18,28 @@ from app.core.security import BodyLimitMiddleware
 from app.services.catalog import NotFound
 
 settings = get_settings()
+
+
+@asynccontextmanager
+async def lifespan(app):
+    from app.services.exchange_rates import refresh_loop
+
+    task = asyncio.create_task(refresh_loop()) if settings.fx_auto_refresh else None
+    try:
+        yield
+    finally:
+        if task:
+            task.cancel()
+            with suppress(asyncio.CancelledError):
+                await task
+
+
 app = FastAPI(
     title="RAD · Footwear atlas",
     version="0.1.0",
     docs_url="/api/docs" if settings.environment == "development" else None,
     redoc_url=None,
+    lifespan=lifespan,
 )
 app.add_middleware(
     CORSMiddleware,

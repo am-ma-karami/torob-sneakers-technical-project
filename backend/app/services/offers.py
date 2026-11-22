@@ -184,6 +184,7 @@ def refresh_offers(
             price=offer.price,
             currency=offer.currency,
             country=offer.country,
+            market=offer.market,
             availability=offer.availability,
             checked_at=offer.checked_at,
             expires_at=offer.expires_at,
@@ -228,7 +229,9 @@ def refresh_offers(
     return {"accepted": len(accepted), "rejected": rejected}
 
 
-def present_offer(offer: Offer, now: datetime | None = None):
+def present_offer(offer: Offer, now: datetime | None = None, rates=None):
+    from app.services.exchange_rates import converted_price
+
     now = now or datetime.now(timezone.utc)
     fresh = bool(offer.checked_at and offer.expires_at and offer.expires_at > now)
     return OfferResponse.model_validate(
@@ -239,5 +242,6 @@ def present_offer(offer: Offer, now: datetime | None = None):
             freshness="fresh" if fresh else "expired" if offer.checked_at else "unknown",
             checked_at=offer.checked_at,
             expires_at=offer.expires_at,
+            **converted_price(offer.price, offer.currency, rates or {}, now),
         )
     ).model_dump(mode="json")

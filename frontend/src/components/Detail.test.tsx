@@ -15,6 +15,14 @@ function show(product: Shoe = shoe, url = "/") {
     rows: [],
     category: product.summary.categories[0],
   });
+  client.setQueryData(["store-offers", product.slug, "all", 1], {
+    items: [],
+    total: 0,
+    page: 1,
+    page_size: 6,
+    pages: 0,
+    market_counts: {},
+  });
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter initialEntries={[url]}>

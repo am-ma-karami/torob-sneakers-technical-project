@@ -53,7 +53,8 @@ def store(tmp_path, monkeypatch):
 
 
 @pytest.fixture
-def client(store):
+def client(store, monkeypatch):
+    monkeypatch.setattr(get_settings(), "fx_auto_refresh", False)
     session = store[0]
 
     def override():

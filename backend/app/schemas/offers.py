@@ -62,8 +62,9 @@ class OfferInput(BaseModel):
     retailer_id: str = Field(min_length=1, max_length=120)
     retailer: str = Field(min_length=1, max_length=200)
     variant_key: str | None = Field(default=None, min_length=1, max_length=100)
-    price: Decimal = Field(ge=0, max_digits=14, decimal_places=4)
-    currency: Currency
+    price: Decimal | None = Field(default=None, ge=0, max_digits=14, decimal_places=4)
+    currency: Currency | None = None
+    market: Literal["iran", "foreign"] | None = None
     country: Country | None = None  # Source market, NOT a claim about delivery coverage.
     shipping_countries: list[Country] = Field(default_factory=list, max_length=250)
     url: str = Field(min_length=1, max_length=8192)
@@ -76,6 +77,11 @@ class OfferInput(BaseModel):
     available_widths_raw: Any = None
     colorway: str | None = Field(default=None, max_length=240)
     live_verified: Literal[False] = False
+    url_type: Literal["direct_product", "partner_redirect", "model_listing"] | None = None
+    verification_status: str | None = Field(default=None, max_length=80)
+    match_status: str | None = Field(default=None, max_length=80)
+    authenticity: str | None = Field(default=None, max_length=80)
+    store_product_title: str | None = Field(default=None, max_length=2000)
 
     @field_validator("price", mode="before")
     @classmethod
@@ -87,7 +93,7 @@ class OfferInput(BaseModel):
     @field_validator("currency")
     @classmethod
     def currency_code(cls, value):
-        if value not in CURRENCIES:
+        if value is not None and value not in CURRENCIES and value != "IRT":
             raise ValueError("Unsupported ISO 4217 currency")
         return value
 
@@ -103,7 +109,14 @@ class OfferInput(BaseModel):
             inventory[identity] = item
         self.inventory = [inventory[key] for key in sorted(inventory)]
         self.shipping_countries = sorted(set(self.shipping_countries))
-        self.price = self.price.quantize(Decimal("0.0001"))
+        if self.price is not None:
+            if self.currency is None:
+                raise ValueError("Priced offers require an explicit currency")
+            self.price = self.price.quantize(Decimal("0.0001"))
+        if self.market == "iran" and self.currency not in (None, "IRT", "IRR"):
+            raise ValueError("Domestic prices must be in toman or rial")
+        if self.market == "foreign" and self.currency in ("IRT", "IRR"):
+            raise ValueError("Foreign prices must retain their source currency")
         if self.snapshot:
             self.snapshot = self.snapshot.astimezone(timezone.utc)
             if self.snapshot > datetime.now(timezone.utc) + timedelta(minutes=5):
@@ -129,18 +142,30 @@ class OfferInput(BaseModel):
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def price_amount(self) -> str:
-        return format(self.price, "f")
+    def price_amount(self) -> str | None:
+        return format(self.price, "f") if self.price is not None else None
 
     @field_serializer("price", when_used="json")
-    def price_number(self, value: Decimal) -> float:
-        return float(value)  # Legacy UI compatibility; price_amount preserves decimal precision.
+    def price_number(self, value: Decimal | None) -> float | None:
+        return float(value) if value is not None else None
+
+
+class ConversionResponse(BaseModel):
+    kind: Literal["native_toman", "rial_to_toman", "free_market"]
+    rate_toman_per_unit: str
+    source: str | None = None
+    source_url: str | None = None
+    source_time_label: str | None = None
+    fetched_at: AwareDatetime | None = None
+    stale: bool = False
 
 
 class OfferResponse(OfferInput):
     model_config = ConfigDict(extra="ignore", allow_inf_nan=False)
     freshness: Literal["fresh", "expired", "unknown"] = "unknown"
     observed_availability: Availability = "unknown"
+    price_toman: int | None = None
+    conversion: ConversionResponse | None = None
 
 
 class OffersQuery(BaseModel):
@@ -150,6 +175,7 @@ class OffersQuery(BaseModel):
     ships_to: Country | None = None
     retailer_id: str | None = Field(default=None, max_length=120)
     source: str | None = Field(default=None, max_length=80)
+    market: Literal["iran", "foreign"] | None = None
     variant_key: str | None = Field(default=None, max_length=100)
     availability: Availability | None = None
     fresh_only: bool = False
@@ -158,7 +184,7 @@ class OffersQuery(BaseModel):
     width: str | None = Field(default=None, max_length=40)
     price_min: Decimal | None = Field(default=None, ge=0, max_digits=14, decimal_places=4)
     price_max: Decimal | None = Field(default=None, ge=0, max_digits=14, decimal_places=4)
-    sort: Literal["retailer", "price", "recent"] = "retailer"
+    sort: Literal["retailer", "price", "recent", "price_toman"] = "retailer"
     page: int = Field(default=1, ge=1, le=10000)
     page_size: int = Field(default=20, ge=1, le=48)
 
@@ -168,7 +194,7 @@ class OffersQuery(BaseModel):
             self.sort == "price" or self.price_min is not None or self.price_max is not None
         ) and not self.currency:
             raise ValueError("Currency is required for offer price comparisons")
-        if self.currency is not None and self.currency not in CURRENCIES:
+        if self.currency is not None and self.currency not in CURRENCIES and self.currency != "IRT":
             raise ValueError("Unsupported ISO 4217 currency")
         if self.price_min is not None and self.price_max is not None and self.price_min > self.price_max:
             raise ValueError("Minimum must not exceed maximum")
@@ -183,3 +209,4 @@ class OffersResponse(BaseModel):
     page: int
     page_size: int
     pages: int
+    market_counts: dict[str, int] = Field(default_factory=dict)

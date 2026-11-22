@@ -1,10 +1,12 @@
 from datetime import datetime, timezone
+from decimal import Decimal
 from typing import Any
 
-from sqlalchemy import and_, func, not_, or_, select
+from sqlalchemy import and_, case, func, not_, or_, select
 
 from app.models.catalog import Offer
 from app.schemas.offers import OffersQuery
+from app.services.exchange_rates import rates_from_session
 from app.services.offers import present_offer
 
 
@@ -12,7 +14,7 @@ def offer_conditions(query: OffersQuery, now: datetime | None = None):
     now = now or datetime.now(timezone.utc)
     fresh = and_(Offer.checked_at.is_not(None), Offer.expires_at.is_not(None), Offer.expires_at > now)
     clauses: list[Any] = []
-    for name in ("currency", "country", "retailer_id", "source", "variant_key"):
+    for name in ("currency", "country", "retailer_id", "source", "variant_key", "market"):
         if (value := getattr(query, name)) is not None:
             clauses.append(getattr(Offer, name) == value)
     if query.ships_to:
@@ -41,10 +43,21 @@ def list_offers(session, shoe_id: int, query: OffersQuery):
     now = datetime.now(timezone.utc)
     where = [Offer.shoe_id == shoe_id, *offer_conditions(query, now)]
     total = session.scalar(select(func.count()).select_from(Offer).where(*where)) or 0
+    rates = rates_from_session(session)
+    toman_price = case(
+        (Offer.currency == "IRT", Offer.price),
+        (Offer.currency == "IRR", Offer.price / Decimal(10)),
+        *[
+            (Offer.currency == currency, Offer.price * quote.toman_per_unit)
+            for currency, quote in rates.items()
+        ],
+        else_=None,
+    )
     orders: dict[str, list[Any]] = {
         "price": [Offer.price],
         "recent": [Offer.checked_at.desc().nullslast()],
         "retailer": [Offer.retailer_id, Offer.source],
+        "price_toman": [toman_price.asc().nullslast(), Offer.retailer_id],
     }
     order = orders[query.sort]
     rows = session.scalars(
@@ -55,9 +68,18 @@ def list_offers(session, shoe_id: int, query: OffersQuery):
         .limit(query.page_size)
     )
     return dict(
-        items=[present_offer(o, now) for o in rows],
+        items=[present_offer(o, now, rates) for o in rows],
         total=total,
         page=query.page,
         page_size=query.page_size,
         pages=(total + query.page_size - 1) // query.page_size,
+        market_counts={
+            market: count
+            for market, count in session.execute(
+                select(Offer.market, func.count())
+                .where(Offer.shoe_id == shoe_id, *([Offer.source == query.source] if query.source else []))
+                .group_by(Offer.market)
+            )
+            if market is not None
+        },
     )

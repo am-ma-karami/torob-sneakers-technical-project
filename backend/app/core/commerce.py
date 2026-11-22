@@ -1,6 +1,8 @@
 """Operator-managed outbound domains. Feed contents cannot grant themselves trust."""
 
 import ipaddress
+import json
+from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from app.core.config import get_settings
@@ -32,6 +34,12 @@ RETAILERS = {
     "RunRepeat:355": ("merrell.prf.hn", "www.merrell.com"),
     "SoleHunt:DICK'S Sporting Goods": (*CJ, "www.dickssportinggoods.com"),
 }
+STORE_SOURCE = "ShoeStoreLinks"
+STORE_RETAILERS = json.loads(
+    (Path(__file__).resolve().parents[1] / "content/store-retailers.json").read_text()
+)
+# Reviewed import manifest; ingestion never adds hosts supplied by an incoming row.
+RETAILERS.update({f"{STORE_SOURCE}:{key}": tuple(hosts) for key, hosts in STORE_RETAILERS.items()})
 
 
 def public_https(value: str) -> bool:

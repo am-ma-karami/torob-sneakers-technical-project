@@ -17,6 +17,7 @@ import { SourceScores } from "../components/SourceScores";
 import { MetricGauges } from "../components/MetricGauges";
 import { AnatomyViewer } from "../components/AnatomyViewer";
 import { ProductGallery } from "../components/ProductGallery";
+import { StoreOffers } from "../components/StoreOffers";
 import { ScorePanel } from "../components/ScorePanel";
 import {
   Breadcrumb,
@@ -131,8 +132,11 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
               <small>قیمت مرجع تبدیل‌شده</small>
             </p>
           )}
+          <a href="#stores" className="button full">
+            قیمت و فروشگاه‌ها
+          </a>
           <Link
-            className="button full"
+            className="button full secondary"
             to={comparisonUrl(full ? items : picks, "/compare/select")}
           >
             <Columns3 size={18} />{" "}
@@ -143,6 +147,7 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
           )}
         </div>
       </div>
+      <StoreOffers slug={shoe.slug} />
       <ScorePanel shoe={shoe} />
       <AnatomyViewer shoe={shoe} />
       {charts.length > 0 && (

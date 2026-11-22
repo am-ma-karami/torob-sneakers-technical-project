@@ -1,6 +1,6 @@
 # Retailer ingestion foundation
 
-This change prepares storage and read APIs for retailer datasets. It does not add a new retailer dataset, a scraper, checkout, exchange-rate service or storefront UI.
+This change prepares storage and read APIs for retailer datasets. The initial foundation is extended by the supplied retailer CSV, sourced exchange references and storefront UI described in [store links](store-links.md). Checkout and scraping remain outside this implementation.
 
 ## Storage and migration
 
@@ -62,3 +62,5 @@ PostgreSQL regression tests and frontend compatibility tests run locally. Docker
 - Live local HTTP: readiness, catalog offer filters, shoe detail, paginated EUR offers, SoleHunt offers, comparison, featured and scores returned 200. Price sorting without currency returned 422.
 - Full import repeated: 1167 shoes, 27048 measurements, 3845 variants, 4824 listings, 9563 immutable observations, 336 quarantined records, 4824 source mappings and 1167 source archives stayed unchanged. The repeated full import took 27.3 seconds. Observations include the original migrated snapshot plus the enriched imported records; repeated imports add none.
 - A private PostgreSQL backup was created before the additive local migration. No dataset or private environment file is committed. Container/nginx runtime checks remain pending on a host with Docker/nginx installed.
+
+Revision `003` adds explicit domestic IRT/IRR support, nullable unknown prices, market filters and free-market conversion metadata; see [store prices](store-links.md).

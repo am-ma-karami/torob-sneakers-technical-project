@@ -121,8 +121,9 @@ class Offer(Base):
     source_product_id: Mapped[str] = mapped_column(String(240))
     retailer_id: Mapped[str] = mapped_column(String(120))
     variant_key: Mapped[str | None] = mapped_column(String(100))
-    price: Mapped[Decimal] = mapped_column(Numeric(14, 4))
-    currency: Mapped[str] = mapped_column(String(3))
+    price: Mapped[Decimal | None] = mapped_column(Numeric(14, 4))
+    currency: Mapped[str | None] = mapped_column(String(3))
+    market: Mapped[str | None] = mapped_column(String(10))
     country: Mapped[str | None] = mapped_column(String(2))
     availability: Mapped[str] = mapped_column(String(20))
     checked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -146,6 +147,8 @@ class Offer(Base):
         ),
         CheckConstraint("price >= 0 AND price < 'Infinity'::numeric", name="ck_offer_price"),
         CheckConstraint("currency ~ '^[A-Z]{3}$'", name="ck_offer_currency"),
+        CheckConstraint("price IS NULL OR currency IS NOT NULL", name="ck_offer_price_currency"),
+        CheckConstraint("market IS NULL OR market IN ('iran', 'foreign')", name="ck_offer_market"),
         CheckConstraint(
             "availability IN ('in_stock', 'out_of_stock', 'unknown')", name="ck_offer_availability"
         ),
@@ -155,6 +158,7 @@ class Offer(Base):
         ),
         Index("ix_offers_shoe_currency_price", "shoe_id", "currency", "price", "key"),
         Index("ix_offers_source_market", "source", "country", "retailer_id"),
+        Index("ix_offers_shoe_source_market", "shoe_id", "source", "market"),
     )
 
 
@@ -176,6 +180,19 @@ class OfferRefreshState(Base):
     shoe_id: Mapped[int] = mapped_column(ForeignKey("shoes.id", ondelete="CASCADE"), primary_key=True)
     source: Mapped[str] = mapped_column(String(80), primary_key=True)
     completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class ExchangeRate(Base):
+    __tablename__ = "exchange_rates"
+    currency: Mapped[str] = mapped_column(String(3), primary_key=True)
+    toman_per_unit: Mapped[Decimal] = mapped_column(Numeric(18, 6))
+    source: Mapped[str] = mapped_column(String(120))
+    source_url: Mapped[str] = mapped_column(String(240))
+    source_time_label: Mapped[str] = mapped_column(String(120))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    __table_args__ = (
+        CheckConstraint("toman_per_unit > 0 AND toman_per_unit < 'Infinity'::numeric", name="ck_fx_positive"),
+    )
 
 
 class OfferRejection(Base):

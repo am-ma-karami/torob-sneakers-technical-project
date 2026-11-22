@@ -2,11 +2,10 @@
 
 ## Brand marks
 
-The exact brand-to-file mapping and provenance are in `frontend/src/lib/brandLogos.json`. Fourteen verified marks are bundled locally: **adidas, Nike, ASICS, Saucony, New Balance, PUMA, Reebok, Under Armour, Jordan, Salomon, Altra, Merrell, ANTA and The North Face**. Other catalog brands retain a plain wordmark fallback; no generic shoe glyph is presented as a brand logo. A failed logo load also falls back to the brand name.
+The exact brand-to-file mapping and provenance are in `frontend/src/lib/brandLogos.json`. All 64 catalog brands now have locally bundled artwork. The manifest records each asset's source page, original file, presentation, size and carrier. Official website header/footer artwork supplies most additions. Public vector archives and retailer brand listings supply the remaining marks.
 
-Sources: [Simple Icons](https://github.com/simple-icons/simple-icons), pinned source package **16.38.0**; Wikimedia Commons for ASICS, Saucony, Altra and Merrell; and [Salomon's official site](https://www.salomon.com/en-us) for its header SVG. Source URLs, license metadata and original-file URLs are retained per mark. The Simple Icons license ships in `frontend/public/media/brands/SIMPLE-ICONS-LICENSE.md`. Marks retain their original paths, colors and proportions. Only SVG line endings and unnecessary external DTD declarations were normalized; no arbitrary CSS recoloring or inversion is applied. Original black/navy marks sit on a quiet pale carrier so they stay readable against dark glass.
+SVG artwork remains vector. Where a dark monochrome mark needs contrast, a light presentation retains the source paths. Transparent marks sit directly on the card. Raster marks use the smaller lossless PNG or WebP result at at most 240 × 128 pixels. A pale carrier remains for dark or opaque source images. Lazy loading and fixed image dimensions avoid downloading all marks on entry and keep layout stable. The Simple Icons license ships in `frontend/public/media/brands/SIMPLE-ICONS-LICENSE.md`. Trademark rights remain with each brand.
 
-21st's **free `search_logo` tool** was discovered and called for 15 major shoe brands; its svgl.app catalog returned no matches. This was a successful empty search, not an unavailable-tool claim. Wikimedia candidate searches were reviewed manually; unrelated results (for example an Altra result for On, or adidas results for Salomon) were rejected. Some candidate downloads were inaccessible; On's official favicon was only a 48px opaque raster, so it was not substituted as a high-quality logo. Reliable text is preferable to a wrongly mapped, distorted or poor-quality mark.
 
 ## Opening photography
 

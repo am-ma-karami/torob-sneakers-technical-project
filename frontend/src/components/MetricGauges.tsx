@@ -18,15 +18,15 @@ export function MetricGauges({ shoe }: { shoe: Shoe }) {
       max: 100,
       left: "نرم‌تر",
       right: "سفت‌تر",
-      note: "مقیاس سختی ۰–۱۰۰؛ با Shore A یکی نیست",
+      note: "مقیاس سختی 0–100؛ با Shore A یکی نیست",
     },
     {
       key: "bending_force_30deg_n",
-      title: "انعطاف در ۳۰ درجه",
+      title: "انعطاف در 30 درجه",
       max: 50,
       left: "منعطف‌تر",
       right: "سفت‌تر",
-      note: "نیروی خم‌کردن؛ مقیاس نمایش ۰–۵۰ N",
+      note: "نیروی خم‌کردن؛ مقیاس نمایش 0–50 N",
     },
   ];
   const available = gauges.filter((g) => shoe.metrics[g.key]?.value != null);

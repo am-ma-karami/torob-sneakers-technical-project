@@ -1,75 +1,23 @@
 {
+  "ALLSWIFIT": {
+    "src": "/media/brands/allswifit.svg",
+    "source": "https://www.allswifit.com",
+    "original_url": "https://static.allswifit.com/static/allswifit/img/svg/AS-LOGO.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 1493
+  },
   "ANTA": {
     "src": "/media/brands/anta.svg",
     "source": "https://www.anta.com",
     "license": {
       "type": "CC0-1.0"
     },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "Jordan": {
-    "src": "/media/brands/jordan.svg",
-    "source": "https://www.nike.com/jordan",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "New Balance": {
-    "src": "/media/brands/newbalance.svg",
-    "source": "https://www.newbalance.com",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "Nike": {
-    "src": "/media/brands/nike.svg",
-    "source": "https://www.nike.com",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "PUMA": {
-    "src": "/media/brands/puma.svg",
-    "source": "https://us.puma.com",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "Reebok": {
-    "src": "/media/brands/reebok.svg",
-    "source": "https://www.reebok.com/us",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "The North Face": {
-    "src": "/media/brands/thenorthface.svg",
-    "source": "https://www.thenorthface.com",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "Under Armour": {
-    "src": "/media/brands/underarmour.svg",
-    "source": "https://www.underarmour.com/en-us",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
-  },
-  "adidas": {
-    "src": "/media/brands/adidas.svg",
-    "source": "https://www.adidas.com",
-    "license": {
-      "type": "CC0-1.0"
-    },
-    "collection": "Simple Icons 16.38.0"
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 784
   },
   "ASICS": {
     "src": "/media/brands/asics.svg",
@@ -77,15 +25,20 @@
     "license": "Public domain",
     "author": "Unknown authorUnknown author",
     "collection": "Wikimedia Commons",
-    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Asics_Logo.svg"
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Asics_Logo.svg",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 2666
   },
-  "Saucony": {
-    "src": "/media/brands/saucony.svg",
-    "source": "https://commons.wikimedia.org/wiki/File:Logo_Saucony.svg",
-    "license": "Public domain",
-    "author": "Unknown authorUnknown author",
-    "collection": "Wikimedia Commons",
-    "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Logo_Saucony.svg"
+  "Allbirds": {
+    "src": "/media/brands/allbirds.svg",
+    "source": "https://www.allbirds.com",
+    "original_url": "https://www.allbirds.com",
+    "kind": "inline-svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 17606
   },
   "Altra": {
     "src": "/media/brands/altra.svg",
@@ -93,7 +46,231 @@
     "license": "Public domain",
     "author": "Altra LLC",
     "collection": "Wikimedia Commons",
-    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Altra_Running_logo.svg"
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Altra_Running_logo.svg",
+    "carrier": false,
+    "bytes": 2821
+  },
+  "Ardiles": {
+    "src": "/media/brands/ardiles.png",
+    "source": "https://ardiles.co.id",
+    "original_url": "https://d2kchovjbwl1tk.cloudfront.net/vendors/13178/assets/image/1766326425832-Logo_ArdilesText_Merah-_Assets_resized256-png.webp",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 7432
+  },
+  "Asolo": {
+    "src": "/media/brands/asolo.svg",
+    "source": "https://www.asolo.com",
+    "original_url": "https://www.asolo.com/themes/asolo/assets/img/logo.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3290
+  },
+  "Babolat": {
+    "src": "/media/brands/babolat.svg",
+    "source": "https://www.babolat.com",
+    "original_url": "https://www.babolat.com/on/demandware.static/Sites-babolateu-Site/-/default/dw7a064333/images/logo.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 4957
+  },
+  "Brooks": {
+    "src": "/media/brands/brooks.svg",
+    "source": "https://logotyp.us/logo/brooks",
+    "original_url": "https://logotyp.us/file/brooks.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 3718
+  },
+  "Chaco": {
+    "src": "/media/brands/chaco.svg",
+    "source": "https://www.chacos.com/US/en/home",
+    "original_url": "https://www.chacos.com/on/demandware.static/Sites-chacos_us-Site/-/default/dw0c6cbbdb/images/logo.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 7415
+  },
+  "Columbia": {
+    "src": "/media/brands/columbia.svg",
+    "source": "https://worldvectorlogo.com/logo/columbia-sportswear-co-1",
+    "original_url": "https://cdn.worldvectorlogo.com/logos/columbia-sportswear-co-1.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 2947
+  },
+  "Converse": {
+    "src": "/media/brands/converse.svg",
+    "source": "https://logotyp.us/logo/converse",
+    "original_url": "https://logotyp.us/file/converse.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 2053,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "DC": {
+    "src": "/media/brands/dc.webp",
+    "source": "https://www.dcshoes.com",
+    "original_url": "https://www.dcshoes.com/cdn/shop/files/logo-dc_1_736b9e85-ffe0-4341-b254-0dfdcfc3a549.png?v=1726165021&width=280",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3088
+  },
+  "Danner": {
+    "src": "/media/brands/danner.svg",
+    "source": "https://www.danner.com",
+    "original_url": "https://i.lfi.media/is/content/LaCrosse/danner-logo.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 10255
+  },
+  "Darimati": {
+    "src": "/media/brands/darimati.svg",
+    "source": "https://www.darimati.us/en/pages/brand",
+    "original_url": "https://www.darimati.us/en/pages/brand",
+    "kind": "inline-svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 2391
+  },
+  "Diadora": {
+    "src": "/media/brands/diadora.webp",
+    "source": "https://www.diadora.com",
+    "original_url": "https://www.diadora.com/on/demandware.static/Sites-INT-Site/-/default/dw75a60f3d/images/diadora-logo-header-white.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3724
+  },
+  "HEYDUDE": {
+    "src": "/media/brands/heydude.png",
+    "source": "https://seeklogo.com/vector-logo/529576/heydude-shoes",
+    "original_url": "https://images.seeklogo.com/logo-png/52/1/heydude-shoes-logo-png_seeklogo-529576.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 10192
+  },
+  "HIRACER": {
+    "src": "/media/brands/hiracer.webp",
+    "source": "https://hiracer.com",
+    "original_url": "https://hiracer.com/_nuxt/logo.D-eF7USi.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 2738
+  },
+  "HOKA": {
+    "src": "/media/brands/hoka.svg",
+    "source": "https://www.runningwarehouse.com/brands.html",
+    "original_url": "https://img.runningwarehouse.com/graphics-resizer/logos/HOKA.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 21382,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "Hylo Athletics": {
+    "src": "/media/brands/hyloathletics.webp",
+    "source": "https://hyloathletics.com",
+    "original_url": "https://hyloathletics.com/cdn/shop/files/logo-wht.png?v=1766513702&width=170",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 1116
+  },
+  "Icebug": {
+    "src": "/media/brands/icebug.png",
+    "source": "https://www.laufschuhkauf.de/linkliste-laufschuhmarken/",
+    "original_url": "https://www.laufschuhkauf.de/startseite_bilder/Icebug_Logo.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 4008
+  },
+  "Inov8": {
+    "src": "/media/brands/inov8.webp",
+    "source": "https://store.descente.co.jp/inov8/news/news/inov8-202403-001/",
+    "original_url": "https://store.descente.co.jp/inov8/wp-content/uploads/sites/4/2024/03/inov8_logo.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 3706
+  },
+  "Jordan": {
+    "src": "/media/brands/jordan.svg",
+    "source": "https://www.nike.com/jordan",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 3165
+  },
+  "K-Swiss": {
+    "src": "/media/brands/kswiss.png",
+    "source": "https://kswiss.com",
+    "original_url": "https://kswiss.com/cdn/shop/files/logo.jpg?v=1760064983&width=600",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 8129
+  },
+  "KEEN": {
+    "src": "/media/brands/keen.svg",
+    "source": "https://www.keenfootwear.com",
+    "original_url": "https://www.keenfootwear.com/cdn/shop/files/keen-logo-bw.svg?v=1752789175&width=375",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 8397
+  },
+  "KIPRUN": {
+    "src": "/media/brands/kiprun.svg",
+    "source": "https://www.kiprun.com",
+    "original_url": "https://www.kiprun.com",
+    "kind": "inline-svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 1717,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "KURU": {
+    "src": "/media/brands/kuru.webp",
+    "source": "https://www.kurufootwear.com",
+    "original_url": "https://www.kurufootwear.com/cdn/shop/files/New-Kuru-Logo-White.png?v=1687304257&width=500",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 2496
+  },
+  "Kailas FUGA": {
+    "src": "/media/brands/kailasfuga.svg",
+    "source": "https://kailasgear.com",
+    "original_url": "https://kailasgear.com/cdn/shop/t/115/assets/kds-nav-logo.svg?v=166720488888082725361795082996",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3551
+  },
+  "LOWA": {
+    "src": "/media/brands/lowa.png",
+    "source": "https://lowa.com",
+    "original_url": "https://d3c2yqbxx52o4l.cloudfront.net/logo/websites/1/300x82_LOWA_Wordmark_Outline_Mist_White_2.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3390
+  },
+  "La Sportiva": {
+    "src": "/media/brands/lasportiva.webp",
+    "source": "https://www.lasportivausa.com",
+    "original_url": "https://www.lasportivausa.com/cdn/shop/files/lasportiva-logo.png?height=91&v=1763045648",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 4608
+  },
+  "Lems": {
+    "src": "/media/brands/lems.png",
+    "source": "https://www.lemsshoes.com",
+    "original_url": "https://www.lemsshoes.com/cdn/shop/files/LOGO2025.png?v=1743785428&width=200",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 6918
   },
   "Merrell": {
     "src": "/media/brands/merrell.svg",
@@ -101,12 +278,304 @@
     "license": "Public domain",
     "author": "Merrell",
     "collection": "Wikimedia Commons",
-    "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Merrell-Logo.svg"
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Merrell-Logo.svg",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 4014
+  },
+  "Mizuno": {
+    "src": "/media/brands/mizuno.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:MIZUNO_logo.svg",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/53/MIZUNO_logo.svg",
+    "license": "Public domain; brand trademark",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 5854,
+    "collection": "Wikimedia Commons"
+  },
+  "Mount to Coast": {
+    "src": "/media/brands/mounttocoast.svg",
+    "source": "https://mounttocoast.com",
+    "original_url": "https://mounttocoast.com",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 24398,
+    "kind": "inline-svg"
+  },
+  "NNormal": {
+    "src": "/media/brands/nnormal.webp",
+    "source": "https://www.nnormal.com",
+    "original_url": "https://www.nnormal.com/cms/api/assets/tiers-banners-homes/f50346e4-6d5c-4793-b1ec-5c1b36a9173d/logo-nnormal-black-primary.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 762
+  },
+  "NOBULL": {
+    "src": "/media/brands/nobull.webp",
+    "source": "https://www.nobullproject.com",
+    "original_url": "https://nobullproject.com/cdn/shop/files/nobull_logo.png?v=1785205695&width=400",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 1564
+  },
+  "New Balance": {
+    "src": "/media/brands/newbalance.svg",
+    "source": "https://www.newbalance.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 860
+  },
+  "Nike": {
+    "src": "/media/brands/nike.svg",
+    "source": "https://www.nike.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 413
+  },
+  "Nortiv 8": {
+    "src": "/media/brands/nortiv8.svg",
+    "source": "https://www.nortiv8.com",
+    "original_url": "https://www.nortiv8.com",
+    "kind": "inline-svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 9820,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "On": {
+    "src": "/media/brands/on.webp",
+    "source": "https://www.on.com/manifest.json",
+    "original_url": "https://www.on.com/on-app-icon192x192.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 1052
+  },
+  "Ortuseight": {
+    "src": "/media/brands/ortuseight.webp",
+    "source": "https://www.ortuseight.com/us",
+    "original_url": "https://www.ortuseight.com/asset/dist/assets/images/favicon.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 3336
+  },
+  "PUMA": {
+    "src": "/media/brands/puma.svg",
+    "source": "https://us.puma.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 1386
+  },
+  "Reebok": {
+    "src": "/media/brands/reebok.svg",
+    "source": "https://www.reebok.com/us",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 531
+  },
+  "Salewa": {
+    "src": "/media/brands/salewa.svg",
+    "source": "https://www.salewa.com",
+    "original_url": "https://www.salewa.com",
+    "kind": "inline-svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 12443
   },
   "Salomon": {
     "src": "/media/brands/salomon.svg",
     "source": "https://www.salomon.com/en-us",
     "license": "Brand trademark; official website header asset",
-    "collection": "Official brand website"
+    "collection": "Official brand website",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 2101
+  },
+  "Saucony": {
+    "src": "/media/brands/saucony.svg",
+    "source": "https://commons.wikimedia.org/wiki/File:Logo_Saucony.svg",
+    "license": "Public domain",
+    "author": "Unknown authorUnknown author",
+    "collection": "Wikimedia Commons",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Logo_Saucony.svg",
+    "carrier": false,
+    "bytes": 11160
+  },
+  "Scarpa": {
+    "src": "/media/brands/scarpa.webp",
+    "source": "https://scarpa.com",
+    "original_url": "https://scarpa.com/cdn/shop/files/trasparente-marta-bk_R-bianco.png?v=1781528083&width=560",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 2844
+  },
+  "Skechers": {
+    "src": "/media/brands/skechers.svg",
+    "source": "https://www.skechers.com",
+    "original_url": "https://www.skechers.de/on/demandware.static/Sites-DESkechers-Site/-/default/dwccf3a0e6/images/logo.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3564,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "TYR": {
+    "src": "/media/brands/tyr.webp",
+    "source": "https://tyr.com",
+    "original_url": "https://tyr.com/cdn/shop/files/TYR-logo_14f1d486-64f6-4bdc-adfb-36c3c952a29f.png?v=1763129067&width=240",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 2898
+  },
+  "Teva": {
+    "src": "/media/brands/teva.svg",
+    "source": "https://logotyp.us/logo/teva",
+    "original_url": "https://logotyp.us/file/teva.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 2922,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "The North Face": {
+    "src": "/media/brands/thenorthface.svg",
+    "source": "https://www.thenorthface.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 2138
+  },
+  "Timberland": {
+    "src": "/media/brands/timberland.svg",
+    "source": "https://worldvectorlogo.com/logo/timberland-1",
+    "original_url": "https://cdn.worldvectorlogo.com/logos/timberland-1.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 7921,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "Topo Athletic": {
+    "src": "/media/brands/topoathletic.webp",
+    "source": "https://www.topoathletic.com",
+    "original_url": "https://www.topoathletic.com/scs/extensions/Intente/Topo_Athletic_Theme/25.1.0/img/Topo_logo_white@2x_new.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 3534
+  },
+  "Under Armour": {
+    "src": "/media/brands/underarmour.svg",
+    "source": "https://www.underarmour.com/en-us",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 994
+  },
+  "VEJA": {
+    "src": "/media/brands/veja.webp",
+    "source": "https://iconlogovector.com/logo/veja",
+    "original_url": "https://iconlogovector.com/uploads/images/2025/11/lg-691a68a0e447e-VEJA.webp",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 2118
+  },
+  "Vans": {
+    "src": "/media/brands/vans.svg",
+    "source": "https://logotyp.us/logo/vans",
+    "original_url": "https://logotyp.us/file/vans.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 2099
+  },
+  "Vasque": {
+    "src": "/media/brands/vasque.svg",
+    "source": "https://www.vasque.com",
+    "original_url": "https://embed.widencdn.net/svg/redwing/tzkr9wfax0/Vasque-wordmark-Primary-white.svg",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 5519
+  },
+  "Vibram FiveFingers": {
+    "src": "/media/brands/vibramfivefingers.webp",
+    "source": "https://www.vibram.com",
+    "original_url": "https://www.vibram.com/on/demandware.static/Sites-VibramUS-Site/-/default/dwe30f377f/images/logo.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 7388
+  },
+  "Vivobarefoot": {
+    "src": "/media/brands/vivobarefoot.webp",
+    "source": "https://www.vivobarefoot.co.jp",
+    "original_url": "https://vivobarefoot.co.jp/cdn/shop/t/29/assets/vivo_logo_v2.png?v=179162121874070885121781761386",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": true,
+    "bytes": 4070
+  },
+  "Walmart Athletic Works": {
+    "src": "/media/brands/walmartathleticworks.webp",
+    "source": "https://www.underconsideration.com/brandnew/archives/new_logo_and_packaging_for_athletic_works_by_transport.php",
+    "original_url": "https://www.underconsideration.com/brandnew/wp/wp-content/uploads/2026/06/athletic_works_logo_before_after.png",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Cropped to the current (right-hand) logo from the source comparison",
+    "carrier": true,
+    "bytes": 7038
+  },
+  "Wilson": {
+    "src": "/media/brands/wilson.svg",
+    "source": "https://www.wilson.com",
+    "original_url": "https://www.wilson.com/cdn/shop/files/wilson-logo.svg?height=25&v=1780069513",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 4827
+  },
+  "Xero Shoes": {
+    "src": "/media/brands/xeroshoes.svg",
+    "source": "https://xeroshoes.com",
+    "original_url": "https://xeroshoes.com/cdn/shop/files/XEROSHOES_Logo.svg?v=1753695753&width=360",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 6739,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "Zamberlan": {
+    "src": "/media/brands/zamberlan.svg",
+    "source": "https://www.zamberlan.com",
+    "original_url": "https://www.zamberlan.com/cdn/shop/files/zamberlan-logo-h.svg?height=24&v=1779281912",
+    "license": "Brand trademark; rights remain with the brand owner",
+    "carrier": false,
+    "bytes": 9046,
+    "treatment": "Light monochrome presentation; source paths retained"
+  },
+  "adidas": {
+    "src": "/media/brands/adidas.svg",
+    "source": "https://www.adidas.com",
+    "license": {
+      "type": "CC0-1.0"
+    },
+    "collection": "Simple Icons 16.38.0",
+    "treatment": "Light monochrome presentation; source paths retained",
+    "carrier": false,
+    "bytes": 259
   }
 }

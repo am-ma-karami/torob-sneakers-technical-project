@@ -109,6 +109,7 @@ export type Shoe = {
   shoe_id: number;
   slug: string;
   summary: DetailedSummary;
+  media?: { images?: string[] };
   metrics: Record<string, Metric>;
   variants: Variant[];
   offers: Offer[];
@@ -161,16 +162,26 @@ export type Taxonomy = {
 };
 export type FinderPrefs = {
   category: string;
-  width: string;
-  weight: string;
-  cushion: string;
+  brands: string[];
+  weight_max: number | null;
+  drop_max: number | null;
+  width: "any" | "regular" | "wide";
+  weight: "any" | "light" | "balanced";
+  cushion: "any" | "soft" | "firm";
 };
 export type FinderResult = {
+  total: number;
   items: {
     shoe: Summary;
     points: number;
     reasons: string[];
     unknown: string[];
+    checks: {
+      key: "width" | "weight" | "cushion";
+      state: "match" | "miss" | "unknown";
+      value: number | null;
+      unit: string | null;
+    }[];
   }[];
   rules: Record<string, unknown>;
 };

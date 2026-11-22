@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import type { Summary } from "../lib/types";
 import { ProductImage } from "./Shared";
 import { useComparison } from "../lib/comparison";
-import { fa, label, value } from "../lib/format";
+import { formatNumber, label, value } from "../lib/format";
 export function ShoeCard({
   shoe: s,
   index = 0,
@@ -34,12 +34,13 @@ export function ShoeCard({
           aria-pressed={selected}
           onClick={() => toggle(s)}
         >
-          {selected ? <Check size={17} /> : <Plus size={17} />}
+          {selected ? <Check size={15} /> : <Plus size={15} />}
+          <span>مقایسه</span>
         </button>
         {s.runrepeat_score != null && (
-          <span className="card-score" title="امتیاز کلی از ۱۰۰">
-            {fa(s.runrepeat_score)}
-            <small>/ ۱۰۰</small>
+          <span className="card-score" title="امتیاز کلی از 100">
+            {formatNumber(s.runrepeat_score)}
+            <small>/ 100</small>
           </span>
         )}
       </div>
@@ -82,7 +83,8 @@ export function ShoeCard({
           </span>
           {s.reference_price && (
             <span className="card-price">
-              {fa(s.reference_price.amount_toman)} تومان<small>قیمت مرجع</small>
+              {formatNumber(s.reference_price.amount_toman)} تومان
+              <small>قیمت مرجع</small>
             </span>
           )}
         </div>
@@ -91,7 +93,9 @@ export function ShoeCard({
             <span key={c} title={label(c)} style={{ background: c }} />
           ))}
           <small>
-            {s.variants_count ? `${fa(s.variants_count)} رنگ ثبت‌شده` : ""}
+            {s.variants_count
+              ? `${formatNumber(s.variants_count)} رنگ ثبت‌شده`
+              : ""}
           </small>
         </div>
       </div>

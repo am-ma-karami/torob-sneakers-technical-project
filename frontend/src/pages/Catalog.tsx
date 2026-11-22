@@ -11,20 +11,24 @@ import {
   Footprints,
   Activity,
   Mountain,
+  TreePine,
   Dumbbell,
   PersonStanding,
   ScanLine,
 } from "lucide-react";
 import { api } from "../lib/api";
 import type { CatalogResult, FacetResult, Taxonomy } from "../lib/types";
-import { fa, label } from "../lib/format";
+import { formatNumber, label } from "../lib/format";
 import { apiParams, facetTitles, toggleFacet } from "../lib/catalogState";
 import { ErrorState, Loading } from "../components/Shared";
 import { FilterPanel } from "../components/FilterPanel";
 import { ShoeCard } from "../components/ShoeCard";
+import { Basketball, TennisRacket } from "../components/SportIcons";
 const icons: Record<string, typeof Footprints> = {
   "running-shoes": Activity,
-  "hiking-shoes": Mountain,
+  "hiking-shoes": TreePine,
+  "tennis-shoes": TennisRacket,
+  "basketball-shoes": Basketball,
   "hiking-boots": Mountain,
   "training-shoes": Dumbbell,
   "walking-shoes": PersonStanding,
@@ -130,7 +134,7 @@ export function Catalog() {
             }}
           >
             <Footprints size={17} /> همه کفش‌ها{" "}
-            <small>{fa(taxonomy.data?.total || 1167)}</small>
+            <small>{formatNumber(taxonomy.data?.total || 1167)}</small>
           </button>
           {taxonomy.data?.categories.slice(0, 8).map((c) => {
             const Icon = icons[c.value] || Footprints;
@@ -143,7 +147,7 @@ export function Catalog() {
               >
                 <Icon size={17} />
                 {c.label}
-                <small>{fa(c.count)}</small>
+                <small>{formatNumber(c.count)}</small>
               </button>
             );
           })}
@@ -178,7 +182,7 @@ export function Catalog() {
             onClick={() => dialog.current?.showModal()}
           >
             <SlidersHorizontal size={17} /> فیلترها{" "}
-            {active.length > 0 && <b>{fa(active.length)}</b>}
+            {active.length > 0 && <b>{formatNumber(active.length)}</b>}
           </button>
           <label className="sort-control">
             مرتب‌سازی
@@ -237,7 +241,8 @@ export function Catalog() {
               <p aria-live="polite">
                 {results.data ? (
                   <>
-                    <strong>{fa(results.data.total)}</strong> کفش پیدا شد
+                    <strong>{formatNumber(results.data.total)}</strong> کفش پیدا
+                    شد
                   </>
                 ) : results.isPending ? (
                   "در حال جستجو…"
@@ -284,7 +289,8 @@ export function Catalog() {
                       <ChevronRight size={18} />
                     </button>
                     <span>
-                      صفحه {fa(results.data.page)} از {fa(results.data.pages)}
+                      صفحه {formatNumber(results.data.page)} از{" "}
+                      {formatNumber(results.data.pages)}
                     </span>
                     <button
                       aria-label="صفحه بعد"
@@ -333,7 +339,7 @@ export function Catalog() {
             className="button full"
             onClick={() => dialog.current?.close()}
           >
-            نمایش {fa(results.data?.total || 0)} کفش
+            نمایش {formatNumber(results.data?.total || 0)} کفش
           </button>
         </div>
       </dialog>

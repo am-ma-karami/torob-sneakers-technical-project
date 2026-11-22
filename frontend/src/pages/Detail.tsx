@@ -1,16 +1,30 @@
 import { useEffect } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Plus, ChevronDown } from "lucide-react";
+import { Columns3, ChevronDown } from "lucide-react";
 import { api } from "../lib/api";
 import type { Shoe } from "../lib/types";
-import { fa, label, metricGroups, origins, value } from "../lib/format";
+import { labChartImages } from "../lib/gallery";
+import {
+  formatNumber,
+  label,
+  latinDigits,
+  metricGroups,
+  origins,
+  value,
+} from "../lib/format";
 import { SourceScores } from "../components/SourceScores";
 import { MetricGauges } from "../components/MetricGauges";
 import { AnatomyViewer } from "../components/AnatomyViewer";
 import { ProductGallery } from "../components/ProductGallery";
 import { ScorePanel } from "../components/ScorePanel";
-import { Breadcrumb, ErrorState, Loading } from "../components/Shared";
+import {
+  Breadcrumb,
+  ErrorState,
+  Loading,
+  ProductImage,
+} from "../components/Shared";
+import { comparisonUrl } from "../components/ComparisonTray";
 import { useComparison } from "../lib/comparison";
 export function Detail() {
   const { slug } = useParams();
@@ -25,9 +39,15 @@ export function Detail() {
 export function DetailContent({ shoe }: { shoe: Shoe }) {
   const [params, setParams] = useSearchParams();
   const selected = shoe.variants.find((v) => v.key === params.get("colorway"));
-  const { items, toggle } = useComparison(),
+  const { items } = useComparison(),
     s = shoe.summary;
   const included = items.some((x) => x.shoe_id === shoe.shoe_id);
+  const full = !included && items.length >= 4;
+  const current = { ...s, selected_colorway: selected?.key ?? null };
+  const picks = included
+    ? items.map((item) => (item.shoe_id === s.shoe_id ? current : item))
+    : [...items, current];
+  const charts = labChartImages(shoe);
   useEffect(() => {
     document.title = `${s.name} | راد`;
   }, [s.name]);
@@ -63,7 +83,7 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
         <div className="product-summary">
           <span className="eyebrow">
             {label(s.categories[0])}
-            {s.release_year ? ` / ${fa(s.release_year)}` : ""}
+            {s.release_year ? ` / ${s.release_year}` : ""}
           </span>
           <h1 dir="ltr">{s.name}</h1>
           <Link
@@ -75,8 +95,8 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
           {s.runrepeat_score != null && (
             <div className="score-line">
               <span className="score-big" dir="ltr">
-                {fa(s.runrepeat_score)}
-                <small> / ۱۰۰</small>
+                {formatNumber(s.runrepeat_score)}
+                <small> / 100</small>
               </span>
               <div>
                 <b>امتیاز کلی</b>
@@ -107,23 +127,60 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
           </div>
           {shoe.reference_price && (
             <p className="reference-price">
-              {fa(shoe.reference_price.amount_toman)} تومان{" "}
+              {formatNumber(shoe.reference_price.amount_toman)} تومان{" "}
               <small>قیمت مرجع تبدیل‌شده</small>
             </p>
           )}
-          <button
-            className={`button full ${included ? "secondary" : ""}`}
-            onClick={() =>
-              toggle({ ...s, selected_colorway: selected?.key || null })
-            }
+          <Link
+            className="button full"
+            to={comparisonUrl(full ? items : picks, "/compare/select")}
           >
-            {included ? <Check size={18} /> : <Plus size={18} />}{" "}
-            {included ? "حذف از مقایسه" : "افزودن به مقایسه"}
-          </button>
+            <Columns3 size={18} />{" "}
+            {full ? "ویرایش انتخاب‌های مقایسه" : "مقایسه با کفش دیگر"}
+          </Link>
+          {full && (
+            <small>برای افزودن این مدل، یکی از 4 انتخاب فعلی را حذف کن.</small>
+          )}
         </div>
       </div>
       <ScorePanel shoe={shoe} />
       <AnatomyViewer shoe={shoe} />
+      {charts.length > 0 && (
+        <section
+          className="panel lab-charts"
+          aria-labelledby="lab-charts-title"
+        >
+          <h2 id="lab-charts-title">نمودارهای آزمایشگاهی</h2>
+          <div className="lab-chart-grid">
+            {charts.map(({ src, title }) => (
+              <figure key={src} className="lab-chart">
+                <a
+                  href={src}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`باز کردن نمودار ${title} در اندازهٔ اصلی`}
+                >
+                  <ProductImage
+                    src={src}
+                    name={`نمودار ${title} برای ${s.name}`}
+                  />
+                </a>
+                <figcaption>
+                  <span>{title}</span>
+                  <small dir="ltr">RunRepeat</small>
+                  <p>
+                    این نمودار واکنش زیرهٔ کفش به ضربه‌های پی‌درپی در آزمایشگاه
+                    را نشان می‌دهد. محور افقی زمان را بر حسب میلی‌ثانیه نمایش
+                    می‌دهد و منحنی‌ها تغییر نیروی واردشده و جابه‌جایی بخش متحرک
+                    دستگاه را ثبت می‌کنند. از این اندازه‌گیری‌ها برای بررسی جذب
+                    ضربهٔ زیره استفاده می‌شود.
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
       <div className="detail-columns">
         {shoe.reviews_fa?.pros.length || shoe.reviews_fa?.cons.length ? (
           <section className="panel">
@@ -134,7 +191,7 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
                 <h3>نقاط قوت</h3>
                 <ul className="pros">
                   {shoe.reviews_fa.pros.map((p) => (
-                    <li key={p}>{p}</li>
+                    <li key={p}>{latinDigits(p)}</li>
                   ))}
                 </ul>
               </>
@@ -144,7 +201,7 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
                 <h3>ملاحظات</h3>
                 <ul className="cons">
                   {shoe.reviews_fa.cons.map((p) => (
-                    <li key={p}>{p}</li>
+                    <li key={p}>{latinDigits(p)}</li>
                   ))}
                 </ul>
               </>
@@ -228,7 +285,8 @@ export function DetailContent({ shoe }: { shoe: Shoe }) {
                           )}
                           {m.reference_length_mm && (
                             <small>
-                              طول مرجع {fa(m.reference_length_mm)} میلی‌متر
+                              طول مرجع {formatNumber(m.reference_length_mm)}{" "}
+                              میلی‌متر
                             </small>
                           )}
                           {m.uncertain && (

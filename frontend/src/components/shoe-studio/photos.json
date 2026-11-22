@@ -1,0 +1,133 @@
+{
+  "40390": {
+    "source_page": "https://www.footlocker.com/product/~/D2723002.html",
+    "shots": [
+      {
+        "view": "lateral",
+        "src": "/media/studio/nike-pegasus-41/lateral.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/D2723002_01?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "top",
+        "src": "/media/studio/nike-pegasus-41/top.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/D2723002_04?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "medial",
+        "src": "/media/studio/nike-pegasus-41/medial.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/D2723002_02?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "heel",
+        "src": "/media/studio/nike-pegasus-41/heel.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/D2723002_03?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "outsole",
+        "src": "/media/studio/nike-pegasus-41/outsole.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/D2723002_05?%24tile500jpg%24=true&fmt=png-alpha"
+      }
+    ],
+    "model": "/media/studio/nike-pegasus-41/shoe.glb"
+  },
+  "40586": {
+    "source_page": "https://www.footlocker.com/product/~/JP7149.html",
+    "shots": [
+      {
+        "view": "lateral",
+        "src": "/media/studio/adidas-adizero-evo-sl/lateral.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/JP7149_01?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "front",
+        "src": "/media/studio/adidas-adizero-evo-sl/front.webp",
+        "source": "https://dvshopcebu.com/cdn/shop/files/adidas-adizero-evo-sl-black-white-jp7149-front.jpg?v=1756703759&width=1946"
+      },
+      {
+        "view": "top",
+        "src": "/media/studio/adidas-adizero-evo-sl/top.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/JP7149_05?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "medial",
+        "src": "/media/studio/adidas-adizero-evo-sl/medial.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/JP7149_03?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "heel",
+        "src": "/media/studio/adidas-adizero-evo-sl/heel.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/JP7149_04?%24tile500jpg%24=true&fmt=png-alpha"
+      },
+      {
+        "view": "outsole",
+        "src": "/media/studio/adidas-adizero-evo-sl/outsole.webp",
+        "source": "https://assets.footlocker.com/is/image/FLDM/JP7149_06?%24tile500jpg%24=true&fmt=png-alpha"
+      }
+    ],
+    "model": "/media/studio/adidas-adizero-evo-sl/shoe.glb"
+  },
+  "40830": {
+    "source_page": "https://saucony.jp/products/mens-endorphin-speed-5-n02",
+    "shots": [
+      {
+        "view": "lateral",
+        "src": "/media/studio/saucony-endorphin-speed-5/lateral.webp",
+        "source": "https://saucony.jp/cdn/shop/files/S21007-285_1.jpg?v=1750816791&width=900"
+      },
+      {
+        "view": "top",
+        "src": "/media/studio/saucony-endorphin-speed-5/top.webp",
+        "source": "https://saucony.jp/cdn/shop/files/S21007-285_5.jpg?v=1750816791&width=900"
+      },
+      {
+        "view": "medial",
+        "src": "/media/studio/saucony-endorphin-speed-5/medial.webp",
+        "source": "https://saucony.jp/cdn/shop/files/S21007-285_3.jpg?v=1750816791&width=900"
+      },
+      {
+        "view": "heel",
+        "src": "/media/studio/saucony-endorphin-speed-5/heel.webp",
+        "source": "https://saucony.jp/cdn/shop/files/S21007-285_4.jpg?v=1750816791&width=900"
+      },
+      {
+        "view": "outsole",
+        "src": "/media/studio/saucony-endorphin-speed-5/outsole.webp",
+        "source": "https://saucony.jp/cdn/shop/files/S21007-285_6.jpg?v=1750816791&width=900"
+      }
+    ],
+    "model": "/media/studio/saucony-endorphin-speed-5/shoe.glb",
+    "front_source": "https://saucony.jp/cdn/shop/files/S21007-285_2.jpg?v=1750816791&width=900"
+  },
+  "41349": {
+    "source_page": "https://www.run4it.com/products/asics-mens-novablast-6-running-shoes-rose-dust-illuminate-yellow",
+    "shots": [
+      {
+        "view": "lateral",
+        "src": "/media/studio/asics-novablast-6/lateral.webp",
+        "source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-lateral-view_952x952.jpg?v=1780563514"
+      },
+      {
+        "view": "top",
+        "src": "/media/studio/asics-novablast-6/top.webp",
+        "source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-pair-upper-view_952x952.jpg?v=1780563514"
+      },
+      {
+        "view": "medial",
+        "src": "/media/studio/asics-novablast-6/medial.webp",
+        "source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-medial-view.jpg?v=1780563514"
+      },
+      {
+        "view": "heel",
+        "src": "/media/studio/asics-novablast-6/heel.webp",
+        "source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-pair-heel-view_952x952.jpg?v=1780563514"
+      },
+      {
+        "view": "outsole",
+        "src": "/media/studio/asics-novablast-6/outsole.webp",
+        "source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-pair-sole-view_952x952.jpg?v=1780563514"
+      }
+    ],
+    "model": "/media/studio/asics-novablast-6/shoe.glb",
+    "front_source": "https://www.run4it.com/cdn/shop/files/1011C243700-M-ASICS-Novablast6-pair-lateral-view_952x952.jpg?v=1780563514"
+  }
+}

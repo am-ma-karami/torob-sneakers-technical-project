@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
 import type { FacetOption, FacetResult } from "../lib/types";
-import { fa, label } from "../lib/format";
+import { formatNumber, label } from "../lib/format";
 import { facetKeys, facetTitles } from "../lib/catalogState";
 type Update = (
   key: string,
@@ -47,7 +47,7 @@ function FacetGroup({
       <summary>
         {facetTitles[name]}
         {chosen.length > 0 && (
-          <span className="filter-count">{fa(chosen.length)}</span>
+          <span className="filter-count">{formatNumber(chosen.length)}</span>
         )}
         <ChevronDown size={15} />
       </summary>
@@ -76,7 +76,7 @@ function FacetGroup({
               onChange={() => update(name, o.value, true)}
             />
             <span dir="auto">{label(o.label)}</span>
-            <small>{fa(o.count)}</small>
+            <small>{formatNumber(o.count)}</small>
           </label>
         ))}
       </div>
@@ -85,7 +85,9 @@ function FacetGroup({
       )}
       {matching.length > 5 && !search && (
         <button className="show-more" onClick={() => setExpanded(!expanded)}>
-          {expanded ? "نمایش کمتر" : `نمایش همه (${fa(matching.length)})`}
+          {expanded
+            ? "نمایش کمتر"
+            : `نمایش همه (${formatNumber(matching.length)})`}
         </button>
       )}
     </details>
@@ -220,16 +222,16 @@ export function FilterPanel({
           <ChevronDown size={15} />
         </summary>
         <label className="score-filter">
-          از ۱۰۰
+          از 100
           <select
             aria-label="حداقل امتیاز کلی"
             value={params.get("score_min") || ""}
             onChange={(e) => update("score_min", e.target.value)}
           >
             <option value="">همه امتیازها</option>
-            <option value="90">۹۰</option>
-            <option value="80">۸۰</option>
-            <option value="70">۷۰</option>
+            <option value="90">90</option>
+            <option value="80">80</option>
+            <option value="70">70</option>
           </select>
         </label>
       </details>

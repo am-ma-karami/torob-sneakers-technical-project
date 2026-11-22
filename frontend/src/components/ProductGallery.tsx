@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import type { Shoe } from "../lib/types";
 import { colorwayLabel, galleryImages } from "../lib/gallery";
-import { fa, label } from "../lib/format";
+import { formatNumber, label } from "../lib/format";
 import { ProductImage } from "./Shared";
 
 export function ProductGallery({
@@ -82,7 +82,7 @@ export function ProductGallery({
           return (
             <button
               key={src}
-              aria-label={`تصویر ${fa(i + 1)} محصول`}
+              aria-label={`تصویر ${formatNumber(i + 1)} محصول`}
               aria-pressed={current === i}
               onClick={() => setIndex(i)}
             >
@@ -188,7 +188,7 @@ export function ProductGallery({
             </button>
             <span>
               {selected ? colorwayLabel(selected) : "تصاویر عمومی"} ·{" "}
-              {fa(current + 1)} / {fa(images.length)}
+              {formatNumber(current + 1)} / {formatNumber(images.length)}
             </span>
             <button
               className="icon-button"

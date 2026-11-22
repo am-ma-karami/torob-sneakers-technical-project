@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowUpLeft, Layers3, ScanLine } from "lucide-react";
 import { api } from "../lib/api";
 import type { FeaturedShoe } from "../lib/types";
-import { fa } from "../lib/format";
+import { formatNumber } from "../lib/format";
 import { FeaturedShowcase } from "../components/FeaturedShowcase";
 export function Home() {
   const location = useLocation();
@@ -110,7 +110,7 @@ export function Home() {
             کفش‌ها را کنار هم ببین <ArrowUpLeft size={18} />
           </Link>
           <span className="closing-total">
-            {fa(1167)}
+            {formatNumber(1167)}
             <small>مدل برای کشف کردن</small>
           </span>
         </section>

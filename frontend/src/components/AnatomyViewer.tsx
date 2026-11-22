@@ -144,7 +144,7 @@ export function AnatomyViewer({
           <div className="canvas-caption">
             <span dir="ltr">RAD / {mode.toUpperCase()}</span>
             <span>
-              {mode === "fit" ? "اندازه‌های داخل کفش" : "طول مرجع ۳۰۰ میلی‌متر"}
+              {mode === "fit" ? "اندازه‌های داخل کفش" : "طول مرجع 300 میلی‌متر"}
             </span>
           </div>
           <svg

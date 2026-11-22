@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   envDir: "..",
   plugins: [react()],
+  optimizeDeps: { include: ["three", "three/addons/loaders/GLTFLoader.js"] },
   server: {
     port: 5173,
     strictPort: true,

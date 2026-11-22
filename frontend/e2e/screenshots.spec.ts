@@ -29,15 +29,17 @@ test("capture redesigned destinations and measured modes", async ({
   await expect(page.locator(".brand-directory>a").first()).toBeVisible();
   await save("brands");
   await page.goto("/shoes");
-  await expect(page.locator(".shoe-card").first()).toBeVisible();
+  const firstCard = page.locator(".shoe-card").first();
+  await expect(firstCard).toBeVisible();
+  await firstCard.scrollIntoViewIfNeeded();
   await expect
     .poll(() =>
-      page
+      firstCard
         .locator(".card-image-wrap img")
-        .first()
         .evaluate((el: HTMLImageElement) => el.naturalWidth),
     )
     .toBeGreaterThan(0);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await page.waitForFunction(() =>
     Array.from(document.querySelectorAll(".card-image-wrap img"))
       .filter((el) => {
@@ -75,6 +77,10 @@ test("capture redesigned destinations and measured modes", async ({
         .click();
     await save(name);
   }
+  await page.goto("/compare/select?ids=40586,40390");
+  await expect(page.locator(".picker-selection li")).toHaveCount(2);
+  await expect(page.locator(".picker-results button").first()).toBeVisible();
+  await save("comparison-picker");
   await page.goto("/compare?ids=40586,40390");
   await expect(page.locator(".comparison-product")).toHaveCount(2);
   await page

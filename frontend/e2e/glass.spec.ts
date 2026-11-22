@@ -23,9 +23,13 @@ test("brand artwork stays correctly mapped, readable and undistorted", async ({
       "none",
     );
   }
-  await expect(
-    page.getByLabel("نام برند HIRACER", { exact: true }),
-  ).toBeAttached();
+  const logos = page.locator(".brand-directory .brand-logo img");
+  expect(await logos.count()).toBe(await page.locator(".brand-directory>a").count());
+  for (const logo of await logos.all()) {
+    await logo.scrollIntoViewIfNeeded();
+    await expect.poll(() => logo.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  }
+  await expect(page.locator(".brand-directory .wordmark-fallback")).toHaveCount(0);
   expect(await page.locator(".brand-directory>a>svg:first-child").count()).toBe(
     0,
   );

@@ -65,6 +65,29 @@ describe("verified galleries and quiet product presentation", () => {
       "https://example.com/photo-6.jpg",
     );
   });
+  it("keeps the lab chart separate from both the general and color galleries", () => {
+    const base =
+      "https://cdn.runrepeat.com/storage/gallery/product_content/40586/adidas-adizero-evo-sl-";
+    const chart = base + "shock-absorption-heel-23147094-720.jpg";
+    const labPhoto = base + "energy-return-23147095-720.jpg";
+    const product = {
+      ...shoe,
+      media: {
+        images: [chart, labPhoto, base + "shock-absorption-heel.jpg"],
+      },
+    };
+    const { container } = show(product);
+    const charts = screen.getByRole("region", { name: "نمودارهای آزمایشگاهی" });
+    expect(charts.querySelectorAll("img")).toHaveLength(1);
+    expect(charts.querySelector("a")).toHaveAttribute("href", chart);
+    expect(galleryImages(product)).toContain(labPhoto);
+    expect(galleryImages(product)).not.toContain(chart);
+    expect(
+      container.querySelector(".gallery img[src*='shock-absorption']"),
+    ).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "رنگ مشکی · JP7149" }));
+    expect(charts.querySelector("img")).toHaveAttribute("src", chart);
+  });
   it("restores colorway URLs and keeps unmapped images out of color views", () => {
     const { container } = show(shoe, "/?colorway=white");
     expect(
@@ -97,7 +120,7 @@ describe("verified galleries and quiet product presentation", () => {
     });
     expect(screen.getByText("وزن کم")).toBeVisible();
     expect(screen.getByText("کیفیت پایین بندها")).toBeVisible();
-    expect(screen.getByText(/۱۰٬۵۰۰٬۰۰۰ تومان/)).toBeVisible();
+    expect(screen.getByText(/10,500,000 تومان/)).toBeVisible();
     expect(screen.getByText("قیمت مرجع تبدیل‌شده")).toBeVisible();
   });
 });

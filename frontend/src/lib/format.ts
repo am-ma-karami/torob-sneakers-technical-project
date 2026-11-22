@@ -1,9 +1,22 @@
-export const fa = (n: number) =>
-  new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 1 }).format(n);
+const countFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+});
+const measurementFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+});
+export const formatNumber = (n: number) => countFormatter.format(n);
+
+export const latinDigits = (text: string) =>
+  text
+    .replace(/[۰-۹٠-٩]/g, (digit) =>
+      String(digit.charCodeAt(0) - (digit >= "۰" ? "۰" : "٠").charCodeAt(0)),
+    )
+    .replaceAll("٬", ",")
+    .replaceAll("٫", ".");
 export const value = (n: unknown, unit = "") =>
   n == null
     ? "—"
-    : `${typeof n === "number" ? new Intl.NumberFormat("en", { maximumFractionDigits: 2 }).format(n) : String(n)}${unit ? " " + unit : ""}`;
+    : `${typeof n === "number" ? measurementFormatter.format(n) : latinDigits(String(n))}${unit ? " " + unit : ""}`;
 export const categories: Record<string, string> = {
   "running-shoes": "دویدن",
   sneakers: "روزمره",
@@ -59,7 +72,8 @@ export const translations: Record<string, string> = {
   no_stack: "هندسه نامشخص",
   insufficient_data: "داده ناکافی",
 };
-export const label = (v: string) => categories[v] || translations[v] || v;
+export const label = (v: string) =>
+  latinDigits(categories[v] || translations[v] || v);
 export const origins: Record<string, string> = {
   lab_measured: "اندازه‌گیری آزمایشگاهی",
   manufacturer_stated: "اعلام سازنده",
@@ -79,9 +93,9 @@ export const metricGroups: { title: string; keys: [string, string][] }[] = [
       ["stated_forefoot_stack_mm", "پنجه اعلام سازنده"],
       ["stated_drop_mm", "دراپ اعلام سازنده"],
       ["toe_rocker_pct", "طول راکر پنجه"],
-      ["toe_tip_height_mm", "ارتفاع نوک · مرجع ۳۰۰"],
+      ["toe_tip_height_mm", "ارتفاع نوک · مرجع 300"],
       ["heel_bevel_pct", "طول پخ پاشنه"],
-      ["heel_bevel_height_mm", "ارتفاع پخ · مرجع ۳۰۰"],
+      ["heel_bevel_height_mm", "ارتفاع پخ · مرجع 300"],
       ["rocker_radius_pct", "شعاع راکر"],
       ["rocker_rise_angle_deg", "زاویه افزایش راکر"],
       ["toe_angle_deg", "زاویه پنجه"],
@@ -105,7 +119,7 @@ export const metricGroups: { title: string; keys: [string, string][] }[] = [
     keys: [
       ["midsole_firmness_asker_c", "سفتی فوم · Asker C"],
       ["midsole_softness_shore_a", "سفتی فوم · Shore A"],
-      ["bending_force_30deg_n", "نیروی خم‌کردن ۳۰ درجه"],
+      ["bending_force_30deg_n", "نیروی خم‌کردن 30 درجه"],
       ["insole_thickness_mm", "ضخامت کفی"],
       ["outsole_thickness_mm", "ضخامت زیره خارجی"],
       ["tongue_padding_mm", "ضخامت زبانه"],
@@ -127,7 +141,7 @@ export const metricGroups: { title: string; keys: [string, string][] }[] = [
       ["traction_coefficient", "ضریب اصطکاک"],
       ["outsole_wear_mm", "سایش زیره در آزمایش"],
       ["breathability_br", "تهویه · روش BR"],
-      ["breathability_score_5", "تهویه · روش قدیمی ۱ تا ۵"],
+      ["breathability_score_5", "تهویه · روش قدیمی 1 تا 5"],
     ],
   },
   {

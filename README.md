@@ -1,6 +1,6 @@
 # راد · RAD — footwear, understood
 
-A working Persian/RTL footwear discovery and comparison application, now using the Glass Studio dark glass interface. React 19 + TypeScript + Vite + TanStack Query + Motion + Three.js; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
+A working Persian/RTL footwear discovery and comparison application, now using the Glass Studio dark glass interface. React 19 + TypeScript + Vite + TanStack Query + Motion; FastAPI + PostgreSQL + SQLAlchemy + Alembic + Pydantic Settings. No account is needed to browse or compare.
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
@@ -14,7 +14,7 @@ The catalog contains all **1167** original models, **27048** measurements, **384
 - A focused home with four real featured shoes; dedicated `/shoes`, `/shoes/:slug`, `/compare`, `/finder`, `/brands`, `/categories` and `/about` pages.
 - Native scroll, Motion and CSS interactions with reduced-motion support, responsive filters and horizontally contained mobile comparison.
 
-The opening is a dark WebGL studio with four volumetric reconstructions. The [3D introduction report](docs/3d-intro/delivery.md) covers the models, recorded tour, switches, and previous Glass Studio baseline (`baseline/glass-studio-2026-11-21`).
+The opening rotates four photo-textured GLBs. Wheel distance or finger travel directly controls the angle. After a full revolution, continued input slides the next model into view. The shapes are reconstructed from catalog silhouettes and use photographs of the same colorway for surface detail. The [photo manifest](frontend/src/components/shoe-studio/photos.json) records the exact assets and their sources. The [previous 3D prototype](docs/3d-intro/delivery.md) is documented separately.
 
 ## Run locally
 

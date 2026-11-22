@@ -5,7 +5,7 @@ test("reduced motion exposes all products and catalog browser back preserves fil
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator(".intro-flow article")).toHaveCount(4);
-  await expect(page.locator(".intro-canvas")).toHaveCount(0);
+  await expect(page.locator(".intro-photo-frame")).toHaveCount(0);
   await page.goto("/shoes?brand=Nike&q=Pegasus&sort=weight");
   await page
     .getByRole("link", { name: "بررسی Nike Pegasus 41", exact: true })
@@ -85,8 +85,12 @@ test("mapped galleries, fullscreen keyboard, focus, swipe and Persian reviews", 
   for (const text of await page.locator(".pros li,.cons li").allTextContents())
     expect(text).toMatch(/[\u0600-\u06ff]/);
   const visible = await page.locator("main").innerText();
+  const chartCredits = page.locator(".lab-charts figcaption small");
+  await expect(chartCredits).toHaveText(["RunRepeat"]);
+  expect(visible.match(/RunRepeat/g)).toHaveLength(await chartCredits.count());
+  expect(visible).not.toMatch(/[۰-۹٠-٩]/);
   expect(visible).not.toMatch(
-    /RunRepeat|SoleHunt|ShoeGeometry|ثبت نشده|نامشخص|MSRP|€|\$\d|پیشنهادهای فروشگاه/,
+    /SoleHunt|ShoeGeometry|ثبت نشده|نامشخص|MSRP|€|\$\d|پیشنهادهای فروشگاه/,
   );
   await expect(page.locator(".histogram")).toHaveCount(4);
 });

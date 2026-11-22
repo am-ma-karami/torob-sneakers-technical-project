@@ -15,7 +15,7 @@ import { Catalog } from "./pages/Catalog";
 import { Loading } from "./components/Shared";
 import { ComparisonTray } from "./components/ComparisonTray";
 import { useComparison } from "./lib/comparison";
-import { fa } from "./lib/format";
+import { formatNumber } from "./lib/format";
 const Detail = lazy(() =>
   import("./pages/Detail").then((m) => ({ default: m.Detail })),
 );
@@ -40,6 +40,7 @@ export function App() {
       "/": "راد | از فرم تا احساس حرکت",
       "/shoes": "راد | کشف و مقایسه کفش",
       "/compare": "راد | مقایسه کفش‌ها",
+      "/compare/select": "راد | انتخاب کفش برای مقایسه",
       "/finder": "راد | کفش مناسب من",
       "/brands": "راد | برندها",
       "/categories": "راد | دسته‌های کفش",
@@ -71,7 +72,8 @@ export function App() {
             </NavLink>
             <NavLink to="/finder">کفش من</NavLink>
             <NavLink to="/compare">
-              مقایسه{items.length > 0 && <small>{fa(items.length)}</small>}
+              مقایسه
+              {items.length > 0 && <small>{formatNumber(items.length)}</small>}
             </NavLink>
           </nav>
           <span className="header-note">
@@ -95,6 +97,7 @@ export function App() {
               <Route path="/shoes/:slug" element={<Detail />} />
               <Route path="/shoe/:slug" element={<LegacyDetail />} />
               <Route path="/compare" element={<Compare />} />
+              <Route path="/compare/select" element={<Compare />} />
               <Route path="/finder" element={<Finder />} />
               <Route path="/brands" element={<Directory kind="brands" />} />
               <Route

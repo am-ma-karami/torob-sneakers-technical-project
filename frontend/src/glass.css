@@ -176,6 +176,7 @@ body {
 .sort-control select,
 .score-filter select,
 .finder-category select,
+.finder-category input,
 .compare-color select {
   background: #1b2a3bb3;
   border-color: #7589a1;
@@ -350,6 +351,43 @@ body {
   background: #2533475c;
   border-radius: 14px;
 }
+.lab-charts {
+  margin-block: 24px;
+}
+.lab-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: 20px;
+  max-inline-size: 1040px;
+}
+.lab-chart {
+  min-inline-size: 0;
+  margin: 0;
+}
+.lab-chart a {
+  display: block;
+  border-radius: 10px;
+}
+.lab-chart img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: inherit;
+}
+.lab-chart figcaption {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-block-start: 8px;
+}
+.lab-chart figcaption p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.9;
+}
 .measurement-grid {
   background: transparent;
 }
@@ -378,6 +416,15 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
+/* Keep the long brand list on the browser's native scrolling path. */
+body:has(.brand-directory) {
+  background-attachment: scroll;
+}
+body:has(.brand-directory) .site-header {
+  background: #1e2a3a;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 .brand-directory > a {
   min-height: 108px;
   padding: 22px;
@@ -386,6 +433,9 @@ body {
   column-gap: 20px;
   row-gap: 4px;
   align-items: center;
+  background: linear-gradient(145deg, #283547, #212d3e);
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 64px;
 }
 .brand-directory > a > b {
   grid-column: 2;
@@ -417,6 +467,11 @@ body {
   border-radius: 10px;
 }
 .brand-logo.has-mark {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.brand-logo.has-mark.has-carrier {
   background: #edf1f3;
   box-shadow: inset 0 1px 0 #fff8;
   border: 1px solid #fff4;
@@ -1064,4 +1119,228 @@ body {
 .anatomy.compact .segmented button {
   font-size: 10px;
   padding: 6px;
+}
+
+.shoe-card .compare-add {
+  display: inline-flex;
+  gap: 4px;
+  width: auto;
+  padding-inline: 9px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.compare-picker {
+  padding-block: 12px 48px;
+}
+.compare-picker header h1 {
+  font-size: clamp(28px, 4vw, 46px);
+  margin: 0;
+}
+.compare-picker header p,
+.picker-selection p,
+.picker-pagination {
+  color: var(--muted);
+  font-size: 14px;
+}
+.picker-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(240px, 0.9fr);
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: 12px 24px;
+  margin-top: 22px;
+}
+.picker-catalog {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  min-width: 0;
+}
+.picker-selection,
+.picker-action {
+  grid-column: 2;
+}
+.picker-selection,
+.picker-catalog {
+  padding: clamp(16px, 2vw, 28px);
+  min-width: 0;
+}
+.picker-selection h2,
+.picker-catalog > label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 650;
+  margin: 0 0 12px;
+}
+.picker-selection h2 span {
+  font: 13px var(--mono);
+  color: var(--muted);
+}
+.picker-layout ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.picker-selection p {
+  margin: 10px 0 0;
+}
+.picker-input,
+.picker-results button,
+.picker-selection li,
+.picker-pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.picker-input {
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.picker-input:focus-within {
+  outline: 2px solid var(--cool);
+}
+.picker-input input {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: 10px 0;
+  min-height: 46px;
+  color: var(--ink);
+  font: inherit;
+}
+.picker-input input:focus-visible {
+  outline: none;
+}
+.picker-results {
+  margin-top: 10px !important;
+}
+.picker-results button {
+  width: 100%;
+  text-align: start;
+  min-height: 60px;
+  background: transparent;
+  color: var(--ink);
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-bottom-color: var(--line);
+  border-radius: 6px;
+}
+.picker-results button[aria-pressed="true"] {
+  background: #839bb41c;
+  border-color: var(--cool);
+}
+.picker-results button:not(:disabled):hover {
+  background: #839bb426;
+}
+.picker-results button:disabled,
+.picker-action button:disabled,
+.picker-pagination button:disabled {
+  opacity: 0.46;
+  cursor: default;
+}
+.picker-results button > span {
+  flex: 1;
+  min-width: 0;
+}
+.picker-results bdi,
+.picker-selection bdi {
+  display: block;
+  text-align: start;
+  direction: ltr;
+  overflow-wrap: anywhere;
+}
+.picker-results bdi {
+  text-align: right;
+  font-size: 15px;
+}
+.picker-results small {
+  display: block;
+  color: var(--muted);
+}
+.picker-layout img,
+.picker-layout .image-fallback {
+  flex: none;
+  width: 60px;
+  height: 40px;
+  object-fit: contain;
+  padding: 3px;
+  border-radius: 6px;
+  background: #f0f1f1;
+}
+.picker-layout .image-fallback span {
+  display: none;
+}
+.picker-selection li + li {
+  border-top: 1px solid var(--line);
+}
+.picker-selection li {
+  padding-block: 6px;
+}
+.picker-selection li bdi {
+  flex: 1;
+  text-align: right;
+}
+.picker-selection .icon-button {
+  flex: none;
+}
+.picker-action .button {
+  width: 100%;
+  min-height: 46px;
+}
+.picker-pagination {
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.picker-pagination button,
+.picker-empty button {
+  min-height: 44px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+}
+@media (max-width: 760px) {
+  .picker-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .picker-layout > * {
+    width: 100%;
+  }
+  .picker-selection h2 {
+    margin-bottom: 4px;
+  }
+  .picker-selection ul {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .picker-selection li,
+  .picker-selection li + li {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0 6px 0 0;
+    gap: 2px;
+    max-width: 100%;
+  }
+  .picker-selection li img,
+  .picker-selection li .image-fallback {
+    display: none;
+  }
+  .picker-selection li bdi {
+    font-size: 12px;
+  }
+  .picker-action {
+    position: sticky;
+    bottom: 8px;
+    z-index: 3;
+    border-radius: 10px;
+    box-shadow: 0 3px 16px #0005;
+    background: var(--paper);
+  }
 }

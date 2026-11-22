@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Shoe, ScoreContext } from "../lib/types";
 import { api } from "../lib/api";
-import { fa, label } from "../lib/format";
+import { formatNumber, label } from "../lib/format";
 const usage: Record<string, string> = {
   daily_running: "دویدن روزانه",
   tempo: "تمرین سرعت",
@@ -58,8 +58,8 @@ export function ScorePanel({ shoe }: { shoe: Shoe }) {
               <div className="score-row-title">
                 <h3>{usage[row.key] || row.key.replaceAll("_", " ")}</h3>
                 <strong dir="ltr">
-                  {fa(row.value)}
-                  <small> / ۱۰۰</small>
+                  {formatNumber(row.value)}
+                  <small> / 100</small>
                 </strong>
               </div>
               {d ? (
@@ -67,7 +67,7 @@ export function ScorePanel({ shoe }: { shoe: Shoe }) {
                   <div
                     className="histogram"
                     role="img"
-                    aria-label={`توزیع واقعی ${usage[row.key] || row.key}؛ صدک ${fa(d.percentile)} در ${fa(d.population_size)} مدل`}
+                    aria-label={`توزیع واقعی ${usage[row.key] || row.key}؛ صدک ${formatNumber(d.percentile)} در ${formatNumber(d.population_size)} مدل`}
                   >
                     <div className="histogram-bars">
                       {d.bins.map((n, i) => (
@@ -86,7 +86,8 @@ export function ScorePanel({ shoe }: { shoe: Shoe }) {
                     />
                   </div>
                   <p className="fine-print">
-                    صدک {fa(d.percentile)} · {fa(d.population_size)} مدل هم‌دسته
+                    صدک {formatNumber(d.percentile)} ·{" "}
+                    {formatNumber(d.population_size)} مدل هم‌دسته
                   </p>
                 </div>
               ) : (

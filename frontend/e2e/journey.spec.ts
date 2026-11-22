@@ -28,22 +28,17 @@ test("search, filter, inspect layers, select a verified color and compare two mo
   await upper.focus();
   await upper.press("Enter");
   await expect(upper).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("link", { name: "مقایسه با کفش دیگر" }).click();
+  const display = page.getByRole("button", { name: /نمایش مقایسه/ });
+  await expect(display).toBeDisabled();
   await page
-    .getByRole("button", { name: "افزودن به مقایسه", exact: true })
-    .click();
+    .getByRole("searchbox", { name: "جستجو و انتخاب کفش" })
+    .fill("Nike Pegasus");
   await page
-    .getByRole("navigation", { name: "ناوبری اصلی" })
-    .getByRole("link", { name: "کشف کفش", exact: true })
+    .getByRole("button", { name: "انتخاب Nike Pegasus 41", exact: true })
     .click();
-  await page.getByRole("searchbox").fill("Nike Pegasus");
-  await expect(page).toHaveURL(/q=Nike\+Pegasus/);
-  await page
-    .getByRole("link", { name: "بررسی Nike Pegasus 41", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "افزودن به مقایسه", exact: true })
-    .click();
-  await page.getByRole("link", { name: "مقایسه کن", exact: true }).click();
+  await expect(display).toBeEnabled();
+  await display.click();
   const table = page.locator(".comparison-table");
   await expect(
     table.getByRole("link", { name: "adidas Adizero EVO SL", exact: true }),
@@ -148,16 +143,34 @@ test("empty results, broken images and API retry have usable fallbacks", async (
 });
 test("preference finder explains real recommendations", async ({ page }) => {
   await page.goto("/finder");
+  const brand = page.getByRole("combobox", { name: "افزودن برند" });
+  await brand.selectOption("adidas");
+  await brand.selectOption("Nike");
+  await page.getByText("سقف وزن و دراپ", { exact: true }).click();
+  await page.getByLabel("حداکثر وزن (گرم)").fill("۲۵۰");
+  await page.getByLabel("حداکثر دراپ (میلی‌متر)").fill("۸");
   await page.getByRole("radio", { name: "جادار", exact: true }).check();
   await page
-    .getByRole("radio", { name: "سبک · تا ۲۵۰ گرم", exact: true })
+    .getByRole("radio", { name: "سبک · تا 250 گرم", exact: true })
     .check();
+  const submitted = page.waitForRequest(
+    (request) => new URL(request.url()).pathname === "/api/finder",
+  );
   await page
     .getByRole("button", { name: "پیدا کردن گزینه‌ها", exact: true })
     .click();
+  expect((await submitted).postDataJSON()).toMatchObject({
+    brands: ["adidas", "Nike"],
+    weight_max: 250,
+    drop_max: 8,
+  });
   await expect(page.locator(".match-explanation").first()).toContainText(
     "امتیاز قواعد",
   );
+  for (const check of await page.locator(".finder-result .card-meta").all()) {
+    await expect(check.getByRole("link").first()).toHaveText(/^(adidas|Nike)$/);
+  }
+  await expect(page.locator("#finder-results")).toBeFocused();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -189,4 +202,48 @@ test("numeric bounds apply together and restore from the URL", async ({
   await expect
     .poll(() => page.locator(".shoe-card").count())
     .toBeGreaterThan(0);
+});
+
+test("comparison selection is searchable from navigation, keeps four picks and edits a shared result", async ({
+  page,
+}) => {
+  await page.goto("/compare");
+  const picker = page.locator(".compare-picker");
+  const search = picker.getByRole("searchbox");
+  const submit = picker.getByRole("button", { name: /نمایش مقایسه/ });
+  await expect(submit).toBeDisabled();
+  await search.fill("zz-missing-12345");
+  await expect(picker.getByText("کفشی با این نام پیدا نشد.")).toBeVisible();
+  await picker.getByRole("button", { name: "پاک کردن جستجو" }).click();
+  const choices = picker.locator(".picker-results button");
+  for (let i = 0; i < 4; i++) await choices.nth(i).click();
+  await expect(choices.nth(4)).toBeDisabled();
+  await expect(submit).toContainText("4");
+  await picker.locator(".picker-selection li button").first().click();
+  await expect(choices.nth(4)).toBeEnabled();
+  await page.reload();
+  await expect(page.locator(".picker-selection li")).toHaveCount(3);
+  await page.goto("/compare?ids=40586,40390&variant_40586=1986833");
+  await page.getByRole("link", { name: "ویرایش انتخاب‌ها" }).click();
+  await expect(page.locator(".picker-selection li")).toHaveCount(2);
+  await search.fill("Saucony Endorphin Speed 5");
+  await picker
+    .getByRole("button", {
+      name: "انتخاب Saucony Endorphin Speed 5",
+      exact: true,
+    })
+    .click();
+  await page.reload();
+  await expect(page.locator(".picker-selection li")).toHaveCount(3);
+  await submit.click();
+  await expect(page.locator(".comparison-product")).toHaveCount(3);
+  await expect(page).toHaveURL(/variant_40586=1986833/);
+  await expect(
+    page.getByRole("checkbox", { name: "فقط تفاوت‌ها" }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

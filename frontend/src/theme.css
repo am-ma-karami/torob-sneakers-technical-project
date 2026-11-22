@@ -1193,15 +1193,6 @@ small,
   color: var(--accent);
   border-color: var(--accent);
 }
-.ranking-rule {
-  border-color: var(--line);
-}
-.ranking-rule > b {
-  color: var(--accent);
-}
-.ranking-rule p {
-  color: var(--muted);
-}
 .match-explanation b {
   color: var(--positive);
 }

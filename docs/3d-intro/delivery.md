@@ -1,5 +1,7 @@
 # RAD 3D introduction — 21 November 2026
 
+> Historical prototype at `ecb1d89`. The active homepage now uses four silhouette-based GLBs textured with [product photographs](../../frontend/src/components/shoe-studio/photos.json) and an input-driven 360-degree orbit.
+
 Open the local app at <http://127.0.0.1:5173>. The introduction uses one Three.js WebGL2 canvas. Scroll through four shoes, see their upper, heel, toe, sides and tread, then keep scrolling to the homepage. Previous/next and numbered chapter controls jump to a product. «رفتن به صفحهٔ اصلی» skips the scene and focuses the main homepage. Product links still open the matching catalog colorway.
 
 ## Models and references

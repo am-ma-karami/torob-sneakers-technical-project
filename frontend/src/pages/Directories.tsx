@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, Footprints } from "lucide-react";
 import { api } from "../lib/api";
 import type { Taxonomy } from "../lib/types";
-import { fa } from "../lib/format";
+import { formatNumber } from "../lib/format";
 import { BrandLogo } from "../components/BrandLogo";
 import { Breadcrumb, ErrorState, Loading } from "../components/Shared";
 export function Directory({ kind }: { kind: "brands" | "categories" }) {
@@ -42,7 +42,7 @@ export function Directory({ kind }: { kind: "brands" | "categories" }) {
                 <Footprints size={20} />
               )}
               <b dir="auto">{c.label}</b>
-              <span>{fa(c.count)} کفش</span>
+              <span>{formatNumber(c.count)} کفش</span>
               <ChevronLeft size={18} />
             </Link>
           ))}
@@ -61,8 +61,8 @@ export function About() {
         </span>
         <h1>داده‌ها، روش‌ها و محدودیت‌ها</h1>
         <p>
-          راد ۱٬۱۶۷ مدل پایه از RunRepeat را به صورت مجزا نگه می‌دارد. ۲۳۹ مدل
-          با ShoeGeometry و ۱۰۹ مدل با SoleHunt تطبیق داده شده‌اند. نسل، مدل
+          راد 1,167 مدل پایه از RunRepeat را به صورت مجزا نگه می‌دارد. 239 مدل
+          با ShoeGeometry و 109 مدل با SoleHunt تطبیق داده شده‌اند. نسل، مدل
           کودک، نسخه ضدآب و اطلاعات عرض جایگزین مدل دیگر نشده‌اند.
         </p>
         <h2>هر عدد چه معنایی دارد؟</h2>
@@ -76,13 +76,13 @@ export function About() {
         <p>
           تصویر لایه‌ها، رویه و خطوط اتصال شماتیک است؛ CAD، اسکن یا قالب واقعی
           کارخانه نداریم. ارتفاع‌ها و طول راکر با داده تغییر می‌کنند. تخمین‌های
-          عکس ShoeGeometry بر طول مرجع ۳۰۰ میلی‌متر تکیه دارند و برای تمام
+          عکس ShoeGeometry بر طول مرجع 300 میلی‌متر تکیه دارند و برای تمام
           سایزها دقیق نیستند. در نبود داده راکر، فقط مقطع ساده ارتفاع نشان داده
           می‌شود.
         </p>
         <h2>قیمت‌ها و رنگ‌ها</h2>
         <p>
-          قیمت‌ها و پیشنهادها اسنپ‌شات برداشت ۲۰ نوامبر ۲۰۲۶ هستند؛ زنده تأیید
+          قیمت‌ها و پیشنهادها اسنپ‌شات برداشت 20 نوامبر 2026 هستند؛ زنده تأیید
           نشده‌اند. پیشنهادهای فروشگاه‌ها در رابط نمایش داده نمی‌شوند. رنگ‌ها از
           رکورد رنگ فروشگاه با شناسه متناظر استخراج شده‌اند. رنگ ثبت‌نشده یعنی
           نامشخص. جدول سایز برند، موجودی فروشگاه نیست.

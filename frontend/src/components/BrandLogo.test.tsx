@@ -12,8 +12,8 @@ describe("verified brand artwork", () => {
     expect(brandLogos.ASICS.src).toBe("/media/brands/asics.svg");
   });
   it("uses an honest text fallback for unmapped and failed logos", () => {
-    const { rerender } = render(<BrandLogo brand="HIRACER" />);
-    expect(screen.getByLabelText("نام برند HIRACER")).toBeVisible();
+    const { rerender } = render(<BrandLogo brand="Unknown Brand" />);
+    expect(screen.getByLabelText("نام برند Unknown Brand")).toBeVisible();
     expect(screen.queryByRole("img")).toBeNull();
     rerender(<BrandLogo brand="Nike" />);
     fireEvent.error(screen.getByRole("img"));

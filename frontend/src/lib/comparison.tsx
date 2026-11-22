@@ -5,6 +5,7 @@ type ComparisonState = {
   items: Summary[];
   toggle: (s: Summary) => void;
   remove: (id: number) => void;
+  replaceItems: (items: Summary[]) => void;
   clear: () => void;
   message: string;
 };
@@ -51,6 +52,7 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
       value={{
         items,
         toggle,
+        replaceItems: save,
         remove: (id) => save(items.filter((x) => x.shoe_id !== id)),
         clear: () => save([]),
         message,

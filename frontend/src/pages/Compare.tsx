@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronDown, Columns3, Copy, Plus, X } from "lucide-react";
 import { comparableMetric } from "../lib/compareValues";
 import { api } from "../lib/api";
 import type { Shoe } from "../lib/types";
-import { metricGroups, origins, value, label, fa } from "../lib/format";
+import {
+  metricGroups,
+  origins,
+  value,
+  label,
+  formatNumber,
+} from "../lib/format";
 import { useComparison } from "../lib/comparison";
 import { comparisonUrl } from "../components/ComparisonTray";
+import { ComparisonPicker } from "../components/ComparisonPicker";
 import { AnatomyViewer } from "../components/AnatomyViewer";
 import {
   Breadcrumb,
@@ -32,7 +39,7 @@ const basics: Row[] = [
   { title: "صفحه تقویتی", key: "plate" },
   { title: "کفی جداشدنی", key: "removable_insole" },
   { title: "بازتابنده", key: "reflective" },
-  { title: "امتیاز کلی / ۱۰۰", key: "runrepeat_score" },
+  { title: "امتیاز کلی / 100", key: "runrepeat_score" },
   { title: "نقاط قوت", key: "pros_fa" },
   { title: "ملاحظات", key: "cons_fa" },
 ];
@@ -46,6 +53,7 @@ const groups = [
 export function Compare() {
   const { items: stored, remove } = useComparison(),
     [params, setParams] = useSearchParams();
+  const picking = useLocation().pathname === "/compare/select";
   const raw = params.get("ids");
   const ids = raw
     ? raw
@@ -65,7 +73,7 @@ export function Compare() {
         "/compare?" + ids.map((id) => "ids=" + id).join("&"),
         signal,
       ),
-    enabled: valid,
+    enabled: Boolean(raw) && valid,
   });
   const [differences, setDifferences] = useState(false),
     [expanded, setExpanded] = useState<string[]>([
@@ -109,6 +117,22 @@ export function Compare() {
     );
     return new Set(values.map((v) => JSON.stringify(v ?? null))).size > 1;
   };
+  if (!raw || picking) {
+    if (!picking) return <Navigate to="/compare/select" replace />;
+    if (!raw) return <ComparisonPicker initial={stored} />;
+    if (valid && query.isPending) return <Loading />;
+    if (valid && query.isError)
+      return <ErrorState retry={() => query.refetch()} />;
+    if (valid)
+      return (
+        <ComparisonPicker
+          initial={shoes.map((s) => ({
+            ...s.summary,
+            selected_colorway: selected(s)?.key,
+          }))}
+        />
+      );
+  }
   return (
     <>
       <Breadcrumb name="مقایسه کفش‌ها" />
@@ -134,9 +158,9 @@ export function Compare() {
               ? "حداکثر چهار کفش انتخاب کن."
               : "کفش‌هایت را برای مقایسه انتخاب کن."}
           </h2>
-          <p>از کاتالوگ، کنار هر کفش علامت + را بزن.</p>
-          <Link className="button" to="/shoes">
-            کشف کفش‌ها
+          <p>برای مقایسه، 2 تا 4 مدل متفاوت انتخاب کن.</p>
+          <Link className="button" to="/compare/select">
+            انتخاب کفش‌ها
           </Link>
         </div>
       ) : query.isPending ? (
@@ -189,8 +213,17 @@ export function Compare() {
               {copied ? <Check size={16} /> : <Copy size={16} />}{" "}
               {copied ? "پیوند کپی شد" : "کپی پیوند"}
             </button>
-            <Link to="/shoes" className="text-link">
-              <Plus size={16} /> افزودن کفش
+            <Link
+              to={comparisonUrl(
+                shoes.map((s) => ({
+                  shoe_id: s.shoe_id,
+                  selected_colorway: selected(s)?.key ?? "",
+                })),
+                "/compare/select",
+              )}
+              className="text-link"
+            >
+              <Plus size={16} /> ویرایش انتخاب‌ها
             </Link>
           </div>
           {copyFallback && (
@@ -226,7 +259,7 @@ export function Compare() {
               <thead>
                 <tr>
                   <th className="row-label">
-                    {fa(shoes.length)} کفش
+                    {formatNumber(shoes.length)} کفش
                     <br />
                     <small>مقایسه بر اساس داده موجود</small>
                   </th>
@@ -365,7 +398,7 @@ export function Compare() {
           </div>
           <p className="comparison-note">
             واحدها و روش‌های اندازه‌گیری مستقل‌اند؛ عدد بزرگ‌تر لزوماً بهتر نیست.
-            هندسهٔ تخمینی با طول مرجع ۳۰۰ میلی‌متر نمایش داده می‌شود.
+            هندسهٔ تخمینی با طول مرجع 300 میلی‌متر نمایش داده می‌شود.
           </p>
         </>
       )}

@@ -74,7 +74,7 @@ npm run test:e2e
 
 Backend tests use explicitly created temporary PostgreSQL schemas and four small, credited fixtures; no raw archive is needed in CI. PostgreSQL must allow schema creation and have `pg_trgm` available. `TEST_DATABASE_URL` can target a dedicated test database. The test suite checks its schema before inserting fixture data.
 
-[Verification results](docs/verification.md) · [Screenshots](docs/screenshots.md) · [Five-minute demo](docs/demo.md) · [Design system](docs/design-system.md) · [Tool status](docs/tooling.md) · [Security and tradeoffs](docs/architecture.md)
+[Verification results](docs/verification.md) · [Screenshots](docs/screenshots.md) · [Design system](docs/design-system.md) · [Tool status](docs/tooling.md) · [Security and tradeoffs](docs/architecture.md)
 
 ## Sources
 

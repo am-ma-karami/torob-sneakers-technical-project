@@ -1,6 +1,9 @@
 from alembic import context
 from app.db.session import Base, engine
-from app.models import catalog  # noqa: F401
+from app.models import (
+    admin,  # noqa: F401
+    catalog,  # noqa: F401
+)
 from sqlalchemy import text
 
 if context.is_offline_mode():

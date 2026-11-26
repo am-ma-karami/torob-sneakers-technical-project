@@ -31,10 +31,15 @@ const Directory = lazy(() =>
 const About = lazy(() =>
   import("./pages/Directories").then((m) => ({ default: m.About })),
 );
+const Admin = lazy(() =>
+  import("./pages/Admin").then((m) => ({ default: m.Admin })),
+);
 export function App() {
   const reduce = useReducedMotion();
   const location = useLocation(),
     { items } = useComparison();
+  const adminRoute =
+    location.pathname === "/admin" || location.pathname.startsWith("/admin/");
   useEffect(() => {
     const titles: Record<string, string> = {
       "/": "راد | از فرم تا احساس حرکت",
@@ -45,6 +50,7 @@ export function App() {
       "/brands": "راد | برندها",
       "/categories": "راد | دسته‌های کفش",
       "/about": "راد | درباره ما",
+      "/admin": "راد | مدیریت",
     };
     if (titles[location.pathname]) document.title = titles[location.pathname];
     window.scrollTo({ top: 0 });
@@ -55,35 +61,43 @@ export function App() {
       <a href="#main" className="skip-link">
         رفتن به محتوای اصلی
       </a>
-      <header className="site-header">
-        <div className="header-inner">
-          <Link className="brand" to="/" aria-label="راد، صفحه اصلی">
-            <span className="brand-mark">
-              <Layers3 />
-            </span>
-            <strong>
-              راد<span>RAD</span>
-            </strong>
-          </Link>
-          <nav aria-label="ناوبری اصلی">
-            <NavLink to="/shoes">کشف کفش</NavLink>
-            <NavLink to="/brands" className="nav-brands">
-              برندها
-            </NavLink>
-            <NavLink to="/finder">کفش من</NavLink>
-            <NavLink to="/compare">
-              مقایسه
-              {items.length > 0 && <small>{formatNumber(items.length)}</small>}
-            </NavLink>
-          </nav>
-          <span className="header-note">
-            <Link to="/shoes" aria-label="جستجوی کفش" className="nav-search">
-              <Search size={18} /> جستجو
+      {!adminRoute && (
+        <header className="site-header">
+          <div className="header-inner">
+            <Link className="brand" to="/" aria-label="راد، صفحه اصلی">
+              <span className="brand-mark">
+                <Layers3 />
+              </span>
+              <strong>
+                راد<span>RAD</span>
+              </strong>
             </Link>
-          </span>
-        </div>
-      </header>
-      <main id="main" tabIndex={-1} className="container">
+            <nav aria-label="ناوبری اصلی">
+              <NavLink to="/shoes">کشف کفش</NavLink>
+              <NavLink to="/brands" className="nav-brands">
+                برندها
+              </NavLink>
+              <NavLink to="/finder">کفش من</NavLink>
+              <NavLink to="/compare">
+                مقایسه
+                {items.length > 0 && (
+                  <small>{formatNumber(items.length)}</small>
+                )}
+              </NavLink>
+            </nav>
+            <span className="header-note">
+              <Link to="/shoes" aria-label="جستجوی کفش" className="nav-search">
+                <Search size={18} /> جستجو
+              </Link>
+            </span>
+          </div>
+        </header>
+      )}
+      <main
+        id="main"
+        tabIndex={-1}
+        className={adminRoute ? "container admin-container" : "container"}
+      >
         <motion.div
           key={location.pathname}
           initial={reduce ? false : { opacity: 0 }}
@@ -92,6 +106,7 @@ export function App() {
         >
           <Suspense fallback={<Loading />}>
             <Routes>
+              <Route path="/admin/*" element={<Admin />} />
               <Route path="/" element={<Home />} />
               <Route path="/shoes" element={<Catalog />} />
               <Route path="/shoes/:slug" element={<Detail />} />
@@ -120,21 +135,23 @@ export function App() {
           </Suspense>
         </motion.div>
       </main>
-      <footer className="site-footer">
-        <div>
-          <Link to="/" className="footer-brand">
-            راد <span>RAD</span>
-          </Link>
-          <p>هر قدم، با شناخت بیشتر.</p>
-        </div>
-        <nav aria-label="پیوندهای تکمیلی">
-          <Link to="/categories">دسته‌بندی‌ها</Link>
-          <Link to="/brands">برندها</Link>
-          <Link to="/finder">کفش مناسب من</Link>
-          <Link to="/about">درباره راد</Link>
-        </nav>
-      </footer>
-      <ComparisonTray />
+      {!adminRoute && (
+        <footer className="site-footer">
+          <div>
+            <Link to="/" className="footer-brand">
+              راد <span>RAD</span>
+            </Link>
+            <p>هر قدم، با شناخت بیشتر.</p>
+          </div>
+          <nav aria-label="پیوندهای تکمیلی">
+            <Link to="/categories">دسته‌بندی‌ها</Link>
+            <Link to="/brands">برندها</Link>
+            <Link to="/finder">کفش مناسب من</Link>
+            <Link to="/about">درباره راد</Link>
+          </nav>
+        </footer>
+      )}
+      {!adminRoute && <ComparisonTray />}
     </>
   );
 }

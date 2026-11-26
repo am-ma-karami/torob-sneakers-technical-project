@@ -85,3 +85,5 @@ Development branch: `feat/shoe-discovery`, connected to the requested GitHub rep
 Retailer ingestion, stock freshness, source mappings and paginated offer API: [commerce backend contract](docs/commerce-backend.md). New retailer data and storefront UI remain a separate step.
 
 Domestic/foreign store links and sourced toman conversion: [store prices and refresh instructions](docs/store-links.md). Product pages show the supplied CSV listings with their original price, converted amount and rate source/time.
+
+Admin store view/click analytics and private account setup: [admin panel](docs/admin-panel.md). Open `/admin`; counts start when tracking is enabled and are unique by browser, shoe and store.

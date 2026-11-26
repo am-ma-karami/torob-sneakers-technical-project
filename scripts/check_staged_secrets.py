@@ -9,6 +9,8 @@ files = (
     .split("\0")
 )
 for name in filter(None, files):
+    if name.startswith(".local/") or name.rsplit("/", 1)[-1] == "admin-access.json":
+        raise SystemExit("A private local artifact or admin credential file is staged; commit refused.")
     if name.rsplit("/", 1)[-1] == ".env":
         raise SystemExit("A private environment file is staged; commit refused.")
     content = subprocess.check_output(["git", "show", ":" + name])

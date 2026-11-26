@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpLeft, Globe2, Store } from "lucide-react";
+import { useStoreImpressions } from "../lib/storeTracking";
 import { api } from "../lib/api";
 import { formatNumber, latinDigits } from "../lib/format";
 import type { StoreOffersResult } from "../lib/types";
@@ -46,6 +47,12 @@ export function StoreOffers({ slug }: { slug: string }) {
     },
   });
   const data = query.data;
+  const root = useRef<HTMLElement>(null);
+  useStoreImpressions(
+    root,
+    data?.shoe_id,
+    (data?.items || []).map((offer) => offer.key).join(":"),
+  );
   const rateEntries = new Map(
     (data?.items || [])
       .filter((offer) => offer.conversion?.kind === "free_market")
@@ -53,6 +60,7 @@ export function StoreOffers({ slug }: { slug: string }) {
   );
   return (
     <section
+      ref={root}
       id="stores"
       className="panel store-offers"
       aria-labelledby="stores-title"
@@ -111,7 +119,11 @@ export function StoreOffers({ slug }: { slug: string }) {
         <>
           <ul className="store-offer-list">
             {data.items.map((offer) => (
-              <li key={offer.key} className="store-offer">
+              <li
+                key={offer.key}
+                className="store-offer"
+                data-offer-key={offer.key}
+              >
                 <div className="store-offer-identity">
                   <span className="store-market-icon" aria-hidden="true">
                     {offer.market === "iran" ? (
@@ -172,7 +184,11 @@ export function StoreOffers({ slug }: { slug: string }) {
                   </small>
                 </div>
                 <a
-                  href={offer.url}
+                  href={
+                    data.shoe_id
+                      ? `/api/out/${data.shoe_id}/${offer.key}`
+                      : offer.url
+                  }
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   className="button secondary store-visit"

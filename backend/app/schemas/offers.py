@@ -204,6 +204,7 @@ class OffersQuery(BaseModel):
 
 
 class OffersResponse(BaseModel):
+    shoe_id: int | None = None
     items: list[OfferResponse]
     total: int
     page: int

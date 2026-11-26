@@ -12,6 +12,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.gzip import GZipMiddleware
 
+from app.api.admin import router as admin_router
 from app.api.routes import router
 from app.core.config import get_settings
 from app.core.security import BodyLimitMiddleware
@@ -80,13 +81,17 @@ async def controls(request: Request, call_next):
         window.append(now)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    if request.url.path.startswith("/api/admin/"):
+        response.headers["Cache-Control"] = "no-store"
     return response
 
 
 @app.exception_handler(StarletteHTTPException)
 async def http_error(request, exc):
-    return JSONResponse({"error": {"code": "http_error", "message": str(exc.detail)}}, exc.status_code)
+    return JSONResponse(
+        {"error": {"code": "http_error", "message": str(exc.detail)}}, exc.status_code, headers=exc.headers
+    )
 
 
 @app.exception_handler(NotFound)
@@ -117,3 +122,4 @@ async def unexpected(request, exc):
 
 
 app.include_router(router)
+app.include_router(admin_router)

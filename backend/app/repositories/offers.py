@@ -68,6 +68,7 @@ def list_offers(session, shoe_id: int, query: OffersQuery):
         .limit(query.page_size)
     )
     return dict(
+        shoe_id=shoe_id,
         items=[present_offer(o, now, rates) for o in rows],
         total=total,
         page=query.page,

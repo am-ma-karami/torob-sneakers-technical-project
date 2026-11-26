@@ -13,6 +13,7 @@ export default defineConfig({
   retries: 0,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
+    extraHTTPHeaders: { DNT: "1" },
     baseURL: process.env.E2E_BASE_URL || "http://127.0.0.1:5173",
     launchOptions: { args: ["--enable-unsafe-swiftshader"] },
     trace: "retain-on-failure",

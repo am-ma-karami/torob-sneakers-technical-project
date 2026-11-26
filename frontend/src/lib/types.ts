@@ -120,6 +120,7 @@ export type StoreConversion = {
   stale: boolean;
 };
 export type StoreOffersResult = {
+  shoe_id?: number;
   items: Offer[];
   total: number;
   page: number;

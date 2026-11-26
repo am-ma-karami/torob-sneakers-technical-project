@@ -25,6 +25,8 @@ services:
       ENVIRONMENT: production
       RATE_LIMIT_BACKEND: proxy
       FX_AUTO_REFRESH: "true"
+      ADMIN_COOKIE_SECURE: ${ADMIN_COOKIE_SECURE:-false}
+      ADMIN_SESSION_HOURS: ${ADMIN_SESSION_HOURS:-12}
       CORS_ORIGINS: '["http://127.0.0.1:8080","http://localhost:8080"]'
     depends_on:
       db:

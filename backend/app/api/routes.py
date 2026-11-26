@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path, Query, Response
+from fastapi import APIRouter, Depends, Path, Query, Request, Response
 from pydantic import PositiveInt
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
@@ -12,6 +12,7 @@ from app.repositories.catalog import CatalogRepository
 from app.repositories.offers import list_offers
 from app.schemas.catalog import CatalogQuery, CatalogResponse, DetailResponse, FinderRequest
 from app.schemas.offers import OffersQuery, OffersResponse
+from app.services.analytics import visitor_cookie
 from app.services.catalog import CatalogService, NotFound, featured_catalog, score_context
 
 router = APIRouter(prefix="/api")
@@ -63,10 +64,14 @@ def offers(
     slug: Annotated[str, Path(max_length=240, pattern=r"^[a-z0-9-]+$")],
     query: Annotated[OffersQuery, Query()],
     repo: Repo,
+    request: Request,
+    response: Response,
 ):
     shoe_id = repo.session.scalar(select(Shoe.id).where(Shoe.slug == slug))
     if shoe_id is None:
         raise NotFound("Shoe not found")
+    visitor_cookie(request, response)
+    response.headers["Cache-Control"] = "no-store"
     return list_offers(repo.session, shoe_id, query)
 
 

@@ -2820,9 +2820,9 @@ td {
 }
 .finder-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
-  align-items: start;
+  align-items: stretch;
 }
 .finder-form {
   padding: 32px;

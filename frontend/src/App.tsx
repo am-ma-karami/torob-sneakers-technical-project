@@ -19,7 +19,6 @@ import { formatNumber } from "./lib/format";
 const Detail = lazy(() =>
   import("./pages/Detail").then((m) => ({ default: m.Detail })),
 );
-const SemanticSearch = lazy(() => import("./pages/SemanticSearch").then((m) => ({ default: m.SemanticSearch })));
 const Compare = lazy(() =>
   import("./pages/Compare").then((m) => ({ default: m.Compare })),
 );
@@ -76,7 +75,6 @@ export function App() {
             </Link>
             <nav aria-label="ناوبری اصلی">
               <NavLink to="/shoes">کشف کفش</NavLink>
-              <NavLink to="/semantic-search" className="nav-semantic">جست‌وجوی معنایی</NavLink>
               <NavLink to="/brands" className="nav-brands">
                 برندها
               </NavLink>
@@ -112,7 +110,7 @@ export function App() {
               <Route path="/admin/*" element={<Admin />} />
               <Route path="/" element={<Home />} />
               <Route path="/shoes" element={<Catalog />} />
-              <Route path="/semantic-search" element={<SemanticSearch />} />
+              <Route path="/semantic-search" element={<Navigate to="/finder" replace />} />
               <Route path="/shoes/:slug" element={<Detail />} />
               <Route path="/shoe/:slug" element={<LegacyDetail />} />
               <Route path="/compare" element={<Compare />} />
@@ -148,7 +146,6 @@ export function App() {
             <p>هر قدم، با شناخت بیشتر.</p>
           </div>
           <nav aria-label="پیوندهای تکمیلی">
-            <Link to="/semantic-search">جست‌وجوی معنایی</Link>
             <Link to="/categories">دسته‌بندی‌ها</Link>
             <Link to="/brands">برندها</Link>
             <Link to="/finder">کفش مناسب من</Link>

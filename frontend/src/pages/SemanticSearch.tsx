@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
@@ -9,7 +10,7 @@ import "./semantic-search.css";
 
 type Result = { items: (Summary & { search_explanation: string })[]; mode: "hybrid" | "lexical_fallback" };
 
-export function SemanticSearch() {
+export function SemanticSearch({ embedded = false, resultsContainer = null }: { embedded?: boolean; resultsContainer?: HTMLElement | null }) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<Result | null>(null);
   const [submitted, setSubmitted] = useState("");
@@ -43,11 +44,34 @@ export function SemanticSearch() {
     }
   }
 
+  const results = result ? (
+      <section aria-labelledby="semantic-results" aria-busy={loading}>
+        <header className="semantic-result-heading">
+          <h2 id="semantic-results" tabIndex={-1} ref={heading}>{result ? `${formatNumber(result.items.length)} محصول نزدیک` : "نتیجه‌های جست‌وجوی تو"}</h2>
+          <p>{submitted ? `برای «${submitted}»` : "بعد از جست‌وجو، محصولات اینجا نمایش داده می‌شوند."}</p>
+        </header>
+        {result?.mode === "lexical_fallback" && <p className="semantic-notice" role="status">
+          جست‌وجوی معنایی فعلاً در دسترس نیست؛ نتیجه‌های جست‌وجوی متنی نمایش داده می‌شوند.
+        </p>}
+        {result && !result.items.length && <p className="state-panel">محصولی پیدا نشد. نام مدل یا توضیح کوتاه‌تری را امتحان کن.</p>}
+        <div className="semantic-grid" aria-label="جایگاه 10 نتیجه">
+          {result?.items.slice(0, 10).map((shoe, index) => <article key={shoe.shoe_id} className="semantic-card">
+              <Link to={`/shoes/${shoe.slug}`} className="semantic-card-link">
+                <ProductImage src={shoe.catalog_image_url || shoe.image_url} name={shoe.name} />
+                <span className="semantic-rank">{formatNumber(index + 1)}</span>
+                <h3 dir="ltr">{shoe.name}</h3>
+              </Link>
+              <p>{shoe.search_explanation}</p>
+            </article>)}
+        </div>
+      </section>
+  ) : null;
+
   return (
-    <section className="semantic-search" aria-labelledby="semantic-title">
+    <section className={`semantic-search ${embedded ? "semantic-embedded panel" : ""}`} aria-labelledby="semantic-title">
       <header className="semantic-intro">
-        <span className="semantic-eyebrow">کفشی برای قدم‌های تو</span>
-        <h1 id="semantic-title">جست‌وجوی معنایی</h1>
+        {!embedded && <span className="semantic-eyebrow">کفشی برای قدم‌های تو</span>}
+        {embedded ? <h2 id="semantic-title">جست‌وجوی معنایی</h2> : <h1 id="semantic-title">جست‌وجوی معنایی</h1>}
         <p>بگو چه کفشی می‌خواهی؛ از کاربرد و حس راحتی تا رنگ و ظاهرش.</p>
       </header>
       <form onSubmit={submit} className="semantic-form">
@@ -66,31 +90,7 @@ export function SemanticSearch() {
         {loading && "داریم کفش‌های نزدیک به توضیحت را پیدا می‌کنیم…"}
       </div>
       {error && <p role="alert" className="state-panel">{error}</p>}
-      <section aria-labelledby="semantic-results" aria-busy={loading}>
-        <header className="semantic-result-heading">
-          <h2 id="semantic-results" tabIndex={-1} ref={heading}>{result ? `${formatNumber(result.items.length)} محصول نزدیک` : "نتیجه‌های جست‌وجوی تو"}</h2>
-          <p>{submitted ? `برای «${submitted}»` : "بعد از جست‌وجو، محصولات اینجا نمایش داده می‌شوند."}</p>
-        </header>
-        {result?.mode === "lexical_fallback" && <p className="semantic-notice" role="status">
-          جست‌وجوی معنایی فعلاً در دسترس نیست؛ نتیجه‌های جست‌وجوی متنی نمایش داده می‌شوند.
-        </p>}
-        {result && !result.items.length && <p className="state-panel">محصولی پیدا نشد. نام مدل یا توضیح کوتاه‌تری را امتحان کن.</p>}
-        <div className="semantic-grid" aria-label="جایگاه 10 نتیجه">
-          {Array.from({ length: 10 }, (_, index) => {
-            const shoe = result?.items[index];
-            return shoe ? <article key={index} className="semantic-card">
-              <Link to={`/shoes/${shoe.slug}`} className="semantic-card-link">
-                <ProductImage src={shoe.catalog_image_url || shoe.image_url} name={shoe.name} />
-                <span className="semantic-rank">{formatNumber(index + 1)}</span>
-                <h3 dir="ltr">{shoe.name}</h3>
-              </Link>
-              <p>{shoe.search_explanation}</p>
-            </article> : <div key={index} className="semantic-placeholder" aria-hidden="true">
-              <span>{formatNumber(index + 1)}</span><div /><div />
-            </div>;
-          })}
-        </div>
-      </section>
+      {embedded && resultsContainer ? createPortal(results, resultsContainer) : results}
     </section>
   );
 }

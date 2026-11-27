@@ -10,6 +10,7 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import { SemanticSearch } from "./SemanticSearch";
 import { api } from "../lib/api";
 import type {
   FacetOption,
@@ -77,6 +78,7 @@ function catalogPath(prefs: FinderPrefs) {
 }
 
 export function Finder() {
+  const [semanticTarget, setSemanticTarget] = useState<HTMLDivElement | null>(null);
   const [prefs, setPrefs] = useState<FinderPrefs>(empty);
   const [numbers, setNumbers] = useState(emptyLimits);
   const [invalid, setInvalid] = useState<Limit | null>(null);
@@ -353,32 +355,9 @@ export function Finder() {
             </button>
           </div>
         </form>
-        <aside className="finder-explanation panel">
-          <h2>پیشنهادها چطور انتخاب می‌شوند؟</h2>
-          <div className="finder-rule">
-            <b>شرط‌ها تعیین می‌کنند چه مدل‌هایی وارد فهرست شوند.</b>
-            <p>
-              کاربری، برند و سقف‌های عددی رعایت می‌شوند. اگر اندازهٔ لازم برای یک
-              سقف موجود نباشد، آن مدل در فهرست نمی‌آید.
-            </p>
-          </div>
-          <div className="finder-rule">
-            <b>ترجیح‌ها ترتیب پیشنهادها را تعیین می‌کنند.</b>
-            <p>
-              کنار هر کفش می‌بینی کدام ترجیح‌ها منطبق‌اند و کدام اندازه‌گیری‌ها
-              موجود نیستند. امتیاز، برآورد احتمال تناسب نیست.
-            </p>
-          </div>
-          <details>
-            <summary>آستانه‌های دقیق قواعد</summary>
-            <p>
-              کاربری 40 امتیاز و هر ترجیح منطبق 20 امتیاز دارد. جادار یعنی عرض
-              داخلی حداقل 100 میلی‌متر و متوسط یعنی 94 تا کمتر از 100. نرم‌تر
-              یعنی Asker C حداکثر 35 یا، فقط در نبود آن، Shore A حداکثر 20.
-            </p>
-          </details>
-        </aside>
+        <SemanticSearch embedded resultsContainer={semanticTarget} />
       </div>
+      <div ref={setSemanticTarget} className="finder-semantic-results" />
       {applied && (
         <section
           id="finder-results"

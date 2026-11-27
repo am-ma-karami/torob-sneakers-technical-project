@@ -401,7 +401,7 @@ unapproved; future expansion needs fresh exact identity/stock/local-dispatch rev
 Embedding stage 1 and hybrid API are populated/validated and committed locally; not pushed. Source
 and docs are in this working tree; vectors/weights/private reports are not in Git.
 Another machine must obtain a private DB backup or rerun the documented worker.
-Hybrid search is now implemented in the backend; see docs/hybrid-search.md. The existing catalog remains lexical; /semantic-search now exposes hybrid search independently.
+Hybrid search is now implemented in the backend; see docs/hybrid-search.md. The existing catalog remains lexical; /finder now embeds hybrid search beside manual selection.
 Persian labeled relevance evaluation, weight tuning, public load/cost tests and UI integration remain pending.
 Do not treat roadmap recommendations as approved implementation work.
 
@@ -473,7 +473,7 @@ Frontend/browser/load/relevance evaluation not run. No commit/push authorized.
 Authorized scope now includes local commits for embedding/search prerequisites and this UI; no push requested.
 Embedding infrastructure is committed at 78acae1. Hybrid API is committed at 1efe140. This final commit delivers the independently linked semantic UI.
 Unrelated retailer importer/data changes remain uncommitted and must be preserved.
-Page /semantic-search is independently linked as جست‌وجوی معنایی in primary/footer navigation.
+Current entry is /finder; the semantic form replaces the left explanation panel.
 frontend/src/pages/SemanticSearch.tsx and semantic-search.css submit POST /api/search with
 limit=10 only on explicit submit; compact dedicated cards now render returned order below the form.
 Visible loading, retryable error, empty results and explicit lexical-fallback notices; abort on
@@ -486,16 +486,18 @@ Backend 8000 and frontend 5173 were already running and reused; no duplicate ser
 Semantic UI final checks: 30 unit tests, ESLint, TypeScript and production build passed;
 four desktop/mobile real-API/error/fallback journeys passed after the navigation fix.
 Three local feature commits preserve established author/co-author attribution. No push performed.
-Site available at http://127.0.0.1:5173/semantic-search; backend on 8000.
+Site available at http://127.0.0.1:5173/finder; backend on 8000.
 
-Semantic result-card refinement (2026-11-27): /semantic-search always reserves 10 gray
-slots, replaced in place after explicit submit; compact cards use 5 desktop / 2 mobile
-columns, linked image/name and one grounded sentence. API search_explanation is built
-by services/search_explanations.py from known terrain/weight/category or actual retrieval
-channels; no extra LLM calls or fabricated suitability/unknown metrics. Negations suppress
-positive preference assertions. Fewer results retain empty gray slots with an explicit count.
-Fresh checks: 6 search backend tests, Ruff/mypy, frontend ESLint/TypeScript/build and all
-4 desktop/mobile real-API/error journeys passed; tests verify initial 10 slots, replacement
-and nonempty explanation. Full backend/frontend unit suites not rerun for this refinement.
-The user’s preceding semantic-search commit authorization covers this same-feature follow-up;
-commit only task-owned files plus this memory; preserve pending retailer changes, no push.
+Finder integration (2026-11-27, supersedes standalone semantic UI): semantic form is
+now in /finder, replacing the old left explanation panel. Manual form remains right;
+desktop layout uses equal 1fr columns and stretches panels to the same height. Mobile
+stacks them. SemanticSearch supports embedded mode and portals real result cards below
+both forms to avoid expanding the left panel. No gray placeholder cards remain;
+results appear only after submission, up to 10 cards with grounded explanations.
+Removed standalone semantic navigation; /semantic-search redirects to /finder.
+Affected: Finder.tsx, SemanticSearch.tsx, semantic-search.css, App.tsx, styles.css,
+e2e/semantic-search.spec.ts. Manual state/rules and backend ranking unchanged.
+Frontend ESLint/TypeScript/build passed; two desktop/mobile manual-finder journeys passed.
+Initial parallel browser suites collided in Playwright artifact output (ENOENT, not an
+application assertion); semantic suite reran in its own output directory: all 4 desktop/mobile cases passed, including equal size/right-left assertions.
+No backend/DB/dependency changes, no backend suites rerun. Preserve pending retailer edits.

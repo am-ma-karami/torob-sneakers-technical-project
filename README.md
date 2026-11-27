@@ -88,4 +88,4 @@ Domestic/foreign store links and sourced toman conversion: [store prices and ref
 
 Admin store view/click analytics and private account setup: [admin panel](docs/admin-panel.md). Open `/admin`; counts start when tracking is enabled and are unique by browser, shoe and store.
 
-Independent [semantic search page](http://127.0.0.1:5173/semantic-search): submit a description to see up to 10 hybrid-ranked products, with explicit loading/error/fallback states.
+[My shoe](http://127.0.0.1:5173/finder) combines manual selection on the right with semantic search on the left in equal desktop panels; semantic results appear below after submission without placeholders.

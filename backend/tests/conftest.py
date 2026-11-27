@@ -7,6 +7,7 @@ import pytest
 from app.core.config import get_settings
 from app.db.session import Base, get_session
 from app.main import app, windows
+from app.models import embeddings  # noqa: F401
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
@@ -21,6 +22,7 @@ def store(tmp_path, monkeypatch):
     admin = create_engine(url)
     with admin.begin() as con:
         con.execute(text("CREATE EXTENSION IF NOT EXISTS pg_trgm"))
+        con.execute(text("CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public"))
         con.execute(text(f'CREATE SCHEMA "{schema}"'))
     engine = create_engine(url, connect_args={"options": f"-c search_path={schema},public"})
     with engine.connect() as connection:

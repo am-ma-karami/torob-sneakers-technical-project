@@ -24,3 +24,9 @@ rates:
 	.venv/bin/python -m app.services.exchange_rates
 import-stores:
 	.venv/bin/python -m app.importers.store_links $(FILE)
+
+.PHONY: embeddings embeddings-status
+embeddings:
+	.venv/bin/python -m app.embeddings --apply $(ARGS)
+embeddings-status:
+	.venv/bin/python -m app.embeddings --status

@@ -1,6 +1,6 @@
 # Reproducing setup
 
-Use Python 3.11+, Node 22.12+ and PostgreSQL with `pg_trgm`. Keep all development inside this repository. Dependency versions are locked in `requirements.lock` and `frontend/package-lock.json`. Native/system libraries and container image minor tags can still change; pin image digests for release-grade reproducibility.
+Use Python 3.11+, Node 22.12+ and PostgreSQL with `pg_trgm` and `vector` (pgvector). Install the server extension before migration 005; the Python pgvector package alone is insufficient. Keep all development inside this repository. Dependency versions are locked in `requirements.lock` and `frontend/package-lock.json`; optional local CLIP inference uses `requirements-embeddings.lock`. Native/system libraries and container image minor tags can still change; pin image digests for release-grade reproducibility. See [embedding setup and refresh](embeddings.md).
 
 ## Data provision
 
@@ -39,7 +39,7 @@ Run `make backend` and `make frontend` in separate terminals. Vite proxies `/api
 
 The compose default starts db, backend and frontend. The backend waits for PostgreSQL health, migrates, then starts the API. Its liveness health check enables the frontend and import job; catalog readiness stays empty until data is imported. After `docker compose up --build -d`, run `docker compose --profile tools run --rm importer`. Imports do not run on every API startup. There is no public database port or import API. No raw archive is baked into images.
 
-Backend runs as UID 10001. Frontend uses an unprivileged Nginx image on port 8080. PostgreSQL uses its official image and persistent volume. `docker compose down` preserves the database volume; do not add `--volumes` unless intentionally deleting development data. The compose database is distinct from the host project-local PostgreSQL cluster.
+Backend runs as UID 10001. Frontend uses an unprivileged Nginx image on port 8080. PostgreSQL uses the pgvector PostgreSQL 18 image and a persistent volume. Existing volumes from the former Alpine image require a reviewed logical backup/restore into a separate compatible volume; don't switch their base image blindly. `docker compose down` preserves the database volume; do not add `--volumes` unless intentionally deleting development data. The compose database is distinct from the host project-local PostgreSQL cluster. Optional offline embeddings are run separately; HTTP workers don't download model weights.
 
 ## Design tools and credentials
 

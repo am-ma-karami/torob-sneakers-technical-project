@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:18-alpine
+        image: pgvector/pgvector:0.8.7-pg18
         env:
           POSTGRES_USER: rad
           POSTGRES_PASSWORD: ci-only-password

@@ -9,6 +9,7 @@ from app.models.embeddings import ProductEmbedding
 from app.repositories.catalog import CatalogRepository
 from app.repositories.embeddings import documents
 from app.services.presentation import reference_price
+from app.services.search_explanations import explain
 
 
 def fuse(channels):
@@ -62,7 +63,8 @@ def retrieve(session, request, english, vector, degraded=None):
     selected = ordered[:request.limit]
     summaries = {row["shoe_id"]: row for row in session.scalars(select(Shoe.summary).where(Shoe.id.in_(selected)))}
     return dict(items=[dict(summaries[sid], reference_price=reference_price(summaries[sid]),
-                            search_score=scores[sid], search_channels=reasons[sid]) for sid in selected],
+                            search_score=scores[sid], search_channels=reasons[sid],
+                            search_explanation=explain(summaries[sid], request.q, english, reasons[sid])) for sid in selected],
                 mode="lexical_fallback" if degraded else "hybrid", degraded_reason=degraded,
                 translated_query=english if not degraded else None, returned=len(selected),
                 candidate_count=len(ordered), model_key=MODEL_KEY, score_kind="weighted_rrf_not_probability")

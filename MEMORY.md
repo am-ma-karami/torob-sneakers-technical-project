@@ -475,7 +475,7 @@ Embedding infrastructure is committed at 78acae1. Hybrid API is committed at 1ef
 Unrelated retailer importer/data changes remain uncommitted and must be preserved.
 Page /semantic-search is independently linked as جست‌وجوی معنایی in primary/footer navigation.
 frontend/src/pages/SemanticSearch.tsx and semantic-search.css submit POST /api/search with
-limit=10 only on explicit submit; existing ShoeCard renders returned order below the form.
+limit=10 only on explicit submit; compact dedicated cards now render returned order below the form.
 Visible loading, retryable error, empty results and explicit lexical-fallback notices; abort on
 unmount, prevent duplicate submits, labeled textarea capped at 400 characters, Latin digits.
 frontend/e2e/semantic-search.spec.ts verifies real hybrid results (10 cards), navigation, no
@@ -487,3 +487,15 @@ Semantic UI final checks: 30 unit tests, ESLint, TypeScript and production build
 four desktop/mobile real-API/error/fallback journeys passed after the navigation fix.
 Three local feature commits preserve established author/co-author attribution. No push performed.
 Site available at http://127.0.0.1:5173/semantic-search; backend on 8000.
+
+Semantic result-card refinement (2026-11-27): /semantic-search always reserves 10 gray
+slots, replaced in place after explicit submit; compact cards use 5 desktop / 2 mobile
+columns, linked image/name and one grounded sentence. API search_explanation is built
+by services/search_explanations.py from known terrain/weight/category or actual retrieval
+channels; no extra LLM calls or fabricated suitability/unknown metrics. Negations suppress
+positive preference assertions. Fewer results retain empty gray slots with an explicit count.
+Fresh checks: 6 search backend tests, Ruff/mypy, frontend ESLint/TypeScript/build and all
+4 desktop/mobile real-API/error journeys passed; tests verify initial 10 slots, replacement
+and nonempty explanation. Full backend/frontend unit suites not rerun for this refinement.
+The user’s preceding semantic-search commit authorization covers this same-feature follow-up;
+commit only task-owned files plus this memory; preserve pending retailer changes, no push.

@@ -7,6 +7,15 @@ existing catalog search UI and `/api/catalog` are unchanged. A separate page at
 and displays up to 10 ranked ShoeCards below the form. It includes loading, retryable
 error, empty and lexical-fallback states; desktop/mobile real-API and error journeys passed.
 
+The result UI now reserves 10 gray slots, replaced by compact linked product cards
+(5 columns desktop, 2 mobile). Each result includes `search_explanation`: one Persian
+sentence based on recorded terrain/weight/category evidence or the actual retrieval
+channel. These are deterministic evidence summaries, not LLM-generated claims about
+why a neural model chose a shoe or a guarantee of suitability. Negative requests do
+not become positive preference assertions, and unknown measurements are not invented.
+No additional provider request is needed for explanations. Fresh refinement checks:
+6 search tests, Ruff/mypy, frontend lint/type/build and 4 desktop/mobile browser cases.
+
 ```json
 {"q":"کفش سبک برای دویدن روی آسفالت","limit":12,"filters":{"brand":["adidas"],"weight_max":250}}
 ```

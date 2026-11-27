@@ -7,6 +7,7 @@ test("semantic search submits once and shows ten products below the form", async
   await expect(page.getByRole("navigation", { name: "ناوبری اصلی" }).getByRole("link", { name: "جست‌وجوی معنایی" })).toBeVisible();
   let requests = 0;
   page.on("request", r => { if (r.url().endsWith("/api/search")) requests++; });
+  await expect(page.locator(".semantic-placeholder")).toHaveCount(10);
   await page.getByLabel("کفش مورد نظرت را توصیف کن").fill("کفش سبک برای دویدن روی آسفالت");
   expect(requests).toBe(0);
   const response = page.waitForResponse(r => r.url().endsWith("/api/search"));
@@ -14,9 +15,10 @@ test("semantic search submits once and shows ten products below the form", async
   const result = await response;
   expect(result.status()).toBe(200);
   expect((await result.json()).mode).toBe("hybrid");
-  await expect(page.locator(".semantic-grid .shoe-card")).toHaveCount(10);
+  await expect(page.locator(".semantic-grid .semantic-card")).toHaveCount(10);
   expect(requests).toBe(1);
-  await expect(page.locator(".semantic-grid .shoe-card").first()).toHaveCSS("opacity", "1");
+  await expect(page.locator(".semantic-placeholder")).toHaveCount(0);
+  await expect(page.locator(".semantic-card p").first()).not.toBeEmpty();
   await expect(page.getByRole("heading", { name: "10 محصول نزدیک" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `../.local/semantic-${info.project.name}.png`, fullPage: true });

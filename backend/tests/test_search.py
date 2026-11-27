@@ -57,3 +57,15 @@ def test_hybrid_uses_both_modalities_and_excludes_stale_spec_vectors(store):
     result = retrieve(session, request, "EVO SL", unit)
     row = next(r for r in result["items"] if r["shoe_id"] == 40586)
     assert "text" not in row["search_channels"] and "image" in row["search_channels"]
+
+
+def test_explanations_use_known_facts_and_do_not_invert_negations():
+    from app.services.search_explanations import explain
+    summary = {"name": "Example 1", "weight_g": 275, "terrain": "Road"}
+    text = explain(summary, "کفش سبک برای آسفالت", "lightweight shoes for asphalt", {"image": 1})
+    assert "275" in text and "جاده" in text
+    assert "سبک است" not in text  # Recorded weight is not a suitability guarantee.
+    negative = explain(summary, "کفش جاده‌ای نمیخوام", "not road shoes", {"text": 1})
+    assert "هم‌راستاست" not in negative
+    unknown = explain({"name": "Other"}, "lightweight", "lightweight", {"text": 1})
+    assert "گرم" not in unknown

@@ -154,19 +154,18 @@ test("preference finder explains real recommendations", async ({ page }) => {
     .getByRole("radio", { name: "سبک · تا 250 گرم", exact: true })
     .check();
   const submitted = page.waitForRequest(
-    (request) => new URL(request.url()).pathname === "/api/finder",
+    (request) => new URL(request.url()).pathname === "/api/search",
   );
   await page
     .getByRole("button", { name: "پیدا کردن گزینه‌ها", exact: true })
     .click();
   expect((await submitted).postDataJSON()).toMatchObject({
-    brands: ["adidas", "Nike"],
-    weight_max: 250,
-    drop_max: 8,
+    filters: { brand: ["adidas", "Nike"], weight_max: 250, drop_max: 8 },
+    limit: 9,
   });
-  await expect(page.locator(".match-explanation").first()).toContainText(
-    "امتیاز قواعد",
-  );
+  expect((await submitted).postDataJSON().q).toContain("برندهای انتخابی: adidas، Nike");
+  expect((await submitted).postDataJSON().q).toContain("ترجیح فضای جلوی پا: جادار");
+  await expect(page.locator(".match-explanation").first()).not.toBeEmpty();
   for (const check of await page.locator(".finder-result .card-meta").all()) {
     await expect(check.getByRole("link").first()).toHaveText(/^(adidas|Nike)$/);
   }

@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
   Footprints,
@@ -11,19 +10,20 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { SemanticSearch } from "./SemanticSearch";
+import { buildFinderSearch } from "../lib/finderSearch";
 import { api } from "../lib/api";
 import type {
   FacetOption,
   FinderPrefs,
-  FinderResult,
+  Summary,
   Taxonomy,
 } from "../lib/types";
-import { formatNumber, label, latinDigits, value } from "../lib/format";
+import { formatNumber, latinDigits } from "../lib/format";
 import { ShoeCard } from "../components/ShoeCard";
-import { Breadcrumb, ErrorState, Loading } from "../components/Shared";
+import { Breadcrumb, ErrorState } from "../components/Shared";
 
 const empty: FinderPrefs = {
-  category: "running-shoes",
+  category: "",
   brands: [],
   weight_max: null,
   drop_max: null,
@@ -51,38 +51,22 @@ const limits = [
 ] as const;
 type Limit = (typeof limits)[number]["key"];
 const emptyLimits: Record<Limit, string> = { weight_max: "", drop_max: "" };
-const preferenceTitles = {
-  width: "فضای جلوی پا",
-  weight: "وزن",
-  cushion: "حس فوم",
-};
-const checkLabels = {
-  match: "مطابق ترجیح",
-  miss: "خارج از ترجیح",
-  unknown: "اندازه‌گیری موجود نیست",
-};
-
 function parseLimit(raw: string) {
   const text = latinDigits(raw.trim()).replace(/−/g, "-");
   if (!text) return null;
   return /^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text) ? Number(text) : NaN;
 }
 
-function catalogPath(prefs: FinderPrefs) {
-  const params = new URLSearchParams({ category: prefs.category });
-  for (const brand of prefs.brands) params.append("brand", brand);
-  for (const { key } of limits) {
-    if (prefs[key] != null) params.set(key, String(prefs[key]));
-  }
-  return "/shoes?" + params.toString();
-}
+type SearchResult = { items: (Summary & { search_explanation: string })[]; mode: "hybrid" | "lexical_fallback" };
+
 
 export function Finder() {
-  const [semanticTarget, setSemanticTarget] = useState<HTMLDivElement | null>(null);
+  const [text, setText] = useState("");
+  const [emptyError, setEmptyError] = useState(false);
   const [prefs, setPrefs] = useState<FinderPrefs>(empty);
   const [numbers, setNumbers] = useState(emptyLimits);
   const [invalid, setInvalid] = useState<Limit | null>(null);
-  const [applied, setApplied] = useState<FinderPrefs | null>(null);
+  const [applied, setApplied] = useState<ReturnType<typeof buildFinderSearch> | null>(null);
   const taxonomy = useQuery({
     queryKey: ["taxonomy"],
     queryFn: ({ signal }) => api<Taxonomy>("/taxonomy", signal),
@@ -94,14 +78,18 @@ export function Finder() {
         "/finder/brands?category=" + encodeURIComponent(prefs.category),
         signal,
       ),
+    enabled: !!prefs.category,
     staleTime: 5 * 60_000,
   });
   const result = useQuery({
-    queryKey: ["finder", applied],
-    queryFn: ({ signal }) => api<FinderResult>("/finder", signal, applied),
+    queryKey: ["finder-hybrid", applied],
+    queryFn: ({ signal }) => api<SearchResult>("/search", signal, applied),
     enabled: !!applied,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
   });
-  const availableBrands = (brands.data?.items ?? []).filter(
+  const availableBrands = ((prefs.category ? brands.data?.items : taxonomy.data?.brands) ?? []).filter(
     ({ value }) => !prefs.brands.includes(value),
   );
 
@@ -126,7 +114,11 @@ export function Finder() {
       filters[key] = parsed;
     }
     setInvalid(null);
-    setApplied(filters);
+    const request = buildFinderSearch(text, filters);
+    setEmptyError(!request.q);
+    if (!request.q) return;
+    if (applied && JSON.stringify(applied) === JSON.stringify(request)) void result.refetch();
+    else setApplied(request);
     requestAnimationFrame(() => {
       document.getElementById("finder-results")?.focus();
     });
@@ -134,6 +126,8 @@ export function Finder() {
 
   function reset() {
     setPrefs(empty);
+    setText("");
+    setEmptyError(false);
     setNumbers(emptyLimits);
     setInvalid(null);
     setApplied(null);
@@ -181,11 +175,10 @@ export function Finder() {
           کن.
         </p>
       </div>
+      <form onSubmit={submit} id="finder-filters">
       <div className="finder-layout">
-        <form
+        <section
           className="finder-form panel"
-          id="finder-filters"
-          onSubmit={submit}
         >
           <h2>شرط‌های انتخاب</h2>
           <div className="finder-controls">
@@ -197,11 +190,12 @@ export function Finder() {
                   setPrefs({ ...prefs, category: e.target.value, brands: [] })
                 }
               >
+                <option value="">بدون انتخاب</option>
                 {taxonomy.data?.categories.map((c) => (
                   <option value={c.value} key={c.value}>
                     {c.label}
                   </option>
-                )) || <option value="running-shoes">دویدن</option>}
+                )) || null}
               </select>
             </label>
             <label className="finder-category">
@@ -219,7 +213,7 @@ export function Finder() {
                 }}
               >
                 <option value="">
-                  {brands.isPending
+                  {(prefs.category ? brands.isPending : taxonomy.isPending)
                     ? "در حال دریافت برندها…"
                     : brands.isError
                       ? "برندها در دسترس نیستند"
@@ -342,110 +336,27 @@ export function Finder() {
             ],
             Layers3,
           )}
-          <div className="finder-actions">
-            <button className="button" type="submit">
-              پیدا کردن گزینه‌ها
-            </button>
-            <button
-              className="finder-text-action"
-              type="button"
-              onClick={reset}
-            >
-              پاک کردن انتخاب‌ها
-            </button>
-          </div>
-        </form>
-        <SemanticSearch embedded resultsContainer={semanticTarget} />
-      </div>
-      <div ref={setSemanticTarget} className="finder-semantic-results" />
-      {applied && (
-        <section
-          id="finder-results"
-          className="finder-results"
-          tabIndex={-1}
-          aria-labelledby="finder-results-title"
-        >
-          <div className="section-head">
-            <div>
-              <h2 id="finder-results-title">گزینه‌هایی برای مقایسه</h2>
-              <p className="fine-print finder-applied">
-                <span>{label(applied.category)}</span>
-                {applied.brands.map((brand) => (
-                  <bdi key={brand}>{brand}</bdi>
-                ))}
-                {limits.map(
-                  ({ key, title, unit }) =>
-                    applied[key] !== null && (
-                      <span key={key}>
-                        {title} {formatNumber(applied[key])} {unit}
-                      </span>
-                    ),
-                )}
-              </p>
-            </div>
-          </div>
-          {result.isPending ? (
-            <Loading />
-          ) : result.isError ? (
-            <ErrorState retry={() => result.refetch()} />
-          ) : result.data?.items.length ? (
-            <>
-              <div className="finder-result-summary">
-                <p role="status">
-                  {formatNumber(result.data.total)} مدل با شرایط انتخابی
-                  {result.data.total > result.data.items.length && (
-                    <>
-                      {" "}
-                      · نمایش {formatNumber(result.data.items.length)} پیشنهاد
-                      اول
-                    </>
-                  )}
-                </p>
-                {result.data.total > result.data.items.length && (
-                  <Link className="text-link" to={catalogPath(applied)}>
-                    دیدن همهٔ مدل‌ها در کاتالوگ
-                  </Link>
-                )}
-              </div>
-              <div className="finder-grid">
-                {result.data.items.map((item, i) => (
-                  <div className="finder-result" key={item.shoe.shoe_id}>
-                    <div className="match-explanation">
-                      <b>{formatNumber(item.points)} امتیاز قواعد</b>
-                      {item.checks.length > 0 ? (
-                        <ul className="finder-checks">
-                          {item.checks.map((check) => (
-                            <li key={check.key} data-state={check.state}>
-                              <span>{preferenceTitles[check.key]}</span>
-                              {check.value !== null && (
-                                <bdi>
-                                  {value(check.value, check.unit ?? undefined)}
-                                </bdi>
-                              )}
-                              <small>{checkLabels[check.state]}</small>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p>مطابق شرط‌های انتخابی</p>
-                      )}
-                    </div>
-                    <ShoeCard shoe={item.shoe} index={i} />
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="state-panel finder-empty" role="status">
-              <h3>کفشی با این شرط‌ها پیدا نشد.</h3>
-              <p>برندهای بیشتری انتخاب کن یا سقف وزن و دراپ را تغییر بده.</p>
-              <a className="text-link" href="#finder-filters">
-                ویرایش شرط‌ها
-              </a>
-            </div>
-          )}
         </section>
-      )}
+        <SemanticSearch text={text} onChange={setText} />
+      </div>
+      <div className="finder-actions">
+        <button className="button" type="submit" disabled={result.isFetching}> {result.isFetching ? "در حال جست‌وجو…" : "پیدا کردن گزینه‌ها"}</button>
+        <button className="finder-text-action" type="button" onClick={reset}>پاک کردن انتخاب‌ها</button>
+      </div>
+      {emptyError && <p role="alert">توضیحت را بنویس یا حداقل یک فیلتر انتخاب کن.</p>}
+      </form>
+      {applied && <section id="finder-results" className="finder-results" tabIndex={-1} aria-labelledby="finder-results-title" aria-busy={result.isFetching}>
+        <div className="section-head"><h2 id="finder-results-title">گزینه‌هایی برای مقایسه</h2></div>
+        {result.isFetching ? <p role="status">در حال پیدا کردن گزینه‌های نزدیک به درخواستت…</p> : result.isError ? <ErrorState retry={() => result.refetch()} /> : <>
+          {result.data?.mode === "lexical_fallback" && <p role="status" className="semantic-notice">جست‌وجوی معنایی فعلاً در دسترس نیست؛ نتیجه‌های جست‌وجوی متنی نمایش داده می‌شوند.</p>}
+          <p role="status">{formatNumber(result.data?.items.length ?? 0)} گزینه برای مقایسه</p>
+          <div className="finder-grid">{result.data?.items.map((shoe, index) => <div className="finder-result" key={shoe.shoe_id}>
+            <div className="match-explanation"><p>{shoe.search_explanation}</p></div>
+            <ShoeCard shoe={shoe} index={index} />
+          </div>)}</div>
+          {!result.data?.items.length && <div className="state-panel finder-empty"><h3>محصولی پیدا نشد.</h3><p>توضیح یا شرط‌ها را تغییر بده و دوباره جست‌وجو کن.</p></div>}
+        </>}
+      </section>}
     </>
   );
 }

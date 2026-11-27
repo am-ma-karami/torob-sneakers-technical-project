@@ -69,3 +69,17 @@ def test_explanations_use_known_facts_and_do_not_invert_negations():
     assert "هم‌راستاست" not in negative
     unknown = explain({"name": "Other"}, "lightweight", "lightweight", {"text": 1})
     assert "گرم" not in unknown
+
+
+def test_combined_query_keeps_all_text_chunks(monkeypatch):
+    seen = []
+    class FakeEncoder:
+        def text(self, document):
+            seen.append(document)
+            return [1.] + [0.] * 511, {}
+    monkeypatch.setattr(search, "encoder", lambda: FakeEncoder())
+    search.query_vector.cache_clear()
+    long_query = "running shoes " * 80 + "maximum drop 0 mm"
+    search.query_vector(long_query)
+    assert seen[0].statements == [long_query]
+    search.query_vector.cache_clear()

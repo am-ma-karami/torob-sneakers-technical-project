@@ -488,16 +488,25 @@ four desktop/mobile real-API/error/fallback journeys passed after the navigation
 Three local feature commits preserve established author/co-author attribution. No push performed.
 Site available at http://127.0.0.1:5173/finder; backend on 8000.
 
-Finder integration (2026-11-27, supersedes standalone semantic UI): semantic form is
-now in /finder, replacing the old left explanation panel. Manual form remains right;
-desktop layout uses equal 1fr columns and stretches panels to the same height. Mobile
-stacks them. SemanticSearch supports embedded mode and portals real result cards below
-both forms to avoid expanding the left panel. No gray placeholder cards remain;
-results appear only after submission, up to 10 cards with grounded explanations.
-Removed standalone semantic navigation; /semantic-search redirects to /finder.
-Affected: Finder.tsx, SemanticSearch.tsx, semantic-search.css, App.tsx, styles.css,
-e2e/semantic-search.spec.ts. Manual state/rules and backend ranking unchanged.
-Frontend ESLint/TypeScript/build passed; two desktop/mobile manual-finder journeys passed.
-Initial parallel browser suites collided in Playwright artifact output (ENOENT, not an
-application assertion); semantic suite reran in its own output directory: all 4 desktop/mobile cases passed, including equal size/right-left assertions.
-No backend/DB/dependency changes, no backend suites rerun. Preserve pending retailer edits.
+Unified finder flow — 2026-11-27 (supersedes two independent searches):
+/finder has one parent form and one submit button. Right controls and left semantic
+textarea build a single POST /api/search request via frontend/src/lib/finderSearch.ts.
+Selected filters are appended to the user's text; category/brand/weight_max/drop_max
+are also explicit hard CatalogQuery filters. Width/weight/foam preferences remain soft
+text preferences. Category defaults to empty (no implicit running); unset/any fields
+are omitted. Brand choices use taxonomy for no category and the category-specific
+endpoint after selection. Text-only, filters-only and combined input work; fully
+blank submission asks for input without an API call. No /api/finder result request.
+One output section “گزینه‌هایی برای مقایسه” requests up to 9 results and uses existing
+ShoeCard/comparison-tray behavior, with factual explanations and no rule-score claims.
+No gray placeholder/loading cards. /semantic-search still redirects to /finder.
+SemanticSearch.tsx is now a controlled input panel; independent state/results/portal
+were removed. Same query can be explicitly resubmitted; no paid-query automatic retry,
+focus/reconnect refetch. Existing backend /api/finder remains for compatibility.
+Combined q cap is now 1800 chars (user textarea remains 400); Metis translation budget
+is 320 tokens / 120 words. Long English queries use the existing lossless chunk pooling
+with generic “Footwear search” identity, preserving all appended constraints rather
+than truncating or rejecting them at 77 tokens. No product re-embedding/schema changes.
+Fresh checks: 24 backend search/embedding tests, Ruff/mypy, 32 frontend unit tests,
+ESLint and TypeScript/production build passed. All six desktop/mobile browser cases passed again after final loading-text cleanup and comparison assertions. Full backend suite not rerun.
+Unrelated retailer work remains untouched; only this feature is staged/committed.

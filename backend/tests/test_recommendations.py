@@ -125,6 +125,35 @@ def test_malformed_provider_json_becomes_controlled_failure(monkeypatch):
     search_intent.extract_intent.cache_clear()
 
 
+@pytest.mark.parametrize("model", ["gpt-6-luna", "gpt-4o"])
+def test_provider_generation_options_match_model(monkeypatch, model):
+    from pydantic import SecretStr
+    monkeypatch.setattr(search_intent, "get_settings", lambda: SimpleNamespace(
+        metis_api_key=SecretStr("test-only"), metis_model=model))
+    seen = []
+    def respond(request):
+        import json
+        seen.append(json.loads(request.content))
+        return httpx.Response(200, json={"choices": [{"message": {"content": '{"semantic_query":"shoes"}'}}]})
+    client_class = httpx.Client
+    monkeypatch.setattr(search_intent.httpx, "Client", lambda **kwargs: client_class(
+        transport=httpx.MockTransport(respond), **kwargs))
+    search_intent.extract_intent.cache_clear()
+    try:
+        search_intent.extract_intent("shoes", ("Nike",))
+        assert seen[0]["model"] == model
+        if model == "gpt-6-luna":
+            assert seen[0]["max_completion_tokens"] == 4000
+            assert seen[0]["reasoning_effort"] == "low"
+            assert "max_tokens" not in seen[0] and "temperature" not in seen[0]
+        else:
+            assert seen[0]["max_tokens"] == 1200
+            assert seen[0]["temperature"] == 0
+            assert "max_completion_tokens" not in seen[0]
+    finally:
+        search_intent.extract_intent.cache_clear()
+
+
 def test_soft_preference_scoring_and_missing_coverage_are_separate():
     def doc(weight=None):
         shoe = SimpleNamespace(id=1, name="Example", brand="Example", summary={})

@@ -1,8 +1,9 @@
 # Shared search and recommendation engine (v2)
 
-Implemented 2026-11-27. `/finder` keeps its two input panels, one submit button,
-up to nine existing comparable ShoeCards and RTL styling. The visual redesign is
-separate work. Catalog browsing and legacy `/api/finder` remain unchanged.
+Implemented 2026-11-27. `/finder` now offers advanced, advisor and hybrid mode
+selection with shared drafts and results; see [frontend experience](finder-experience.md).
+Up to nine existing comparable ShoeCards preserve product detail/comparison behavior.
+Catalog browsing and legacy `/api/finder` remain unchanged.
 
 ## Why v1 failed
 
@@ -73,8 +74,11 @@ win with conflict information. No criterion is counted twice or silently relaxed
 
 ## Intent and vector evidence
 
-Metis OpenAI-compatible Chat Completions, configured model (default gpt-4o), JSON
-object response, temperature 0, 15-second timeout. Only the query, supported schema
+Metis OpenAI-compatible Chat Completions, configured model (default `gpt-6-luna`), JSON
+object response, 15-second timeout. Luna uses `max_completion_tokens=4000`
+(including reasoning) and `reasoning_effort=low`, without temperature or legacy
+max_tokens. Other configured models retain the former temperature0/max_tokens1200
+request options. Only the query, supported schema
 and catalog brand/category ontology are sent. User text is data. JSON is untrusted:
 Pydantic schema, allowed values, quoted source evidence, numeric units and boundary
 semantics are checked. Persian/Arabic digits, kg→g and cm→mm are supported.
@@ -184,6 +188,17 @@ This small smoke set does not establish general relevance accuracy. Remaining:
 provider variability and broader negation/ambiguous-language tests; human-labeled
 Persian/English relevance judgments and calibrated weights; load/latency evaluation;
 optional better image-angle/text document representation. Scoring all 1167 products
-is acceptable locally but is not a production load guarantee. Next requested task is
-a separate UI redesign, including richer presentation of interpreted criteria,
-conflicts, score breakdowns and suggestions already exposed by this API.
+is acceptable locally but is not a production load guarantee. The frontend redesign is now implemented: mode-specific forms, applied-criteria
+chips, scores/coverage, conflict evidence and empty suggestions. See the frontend
+document for actual browser checks and remaining interaction limits.
+
+
+Model switch check (2026-11-27): Metis authenticated model catalog listed gpt-6-luna.
+A real request rejected legacy max_tokens with400; the Luna-specific options above
+resolved that incompatibility. A real Persian /api/search advisor request returned
+200/ok, nine results, running category and inclusive250g hard constraint, no degradation.
+31 recommendation tests, Ruff and mypy passed. One earlier English probe lacked a
+semantic description and was rejected; provider variability remains a limitation.
+Model selection changes intent extraction only; existing CLIP vectors/encoder and
+SQL filtering/ranking remain unchanged. METIS_MODEL overrides the default; restart
+non-reloading servers after configuration changes. Never commit private .env.

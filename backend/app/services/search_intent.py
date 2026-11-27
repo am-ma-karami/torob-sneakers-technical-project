@@ -154,10 +154,14 @@ def extract_intent(query, brands):
         "No product IDs, recommendations, scores or SQL. Empty fields stay absent."
     )
     try:
+        # Luna uses completion tokens (including reasoning), not legacy max_tokens.
+        generation = ({"max_completion_tokens": 4000, "reasoning_effort": "low"}
+                      if settings.metis_model == "gpt-6-luna"
+                      else {"temperature": 0, "max_tokens": 1200})
         with httpx.Client(timeout=15, follow_redirects=False) as client:
             response = client.post("https://api.metisai.ir/openai/v1/chat/completions",
                 headers={"Authorization": "Bearer " + key}, json={
-                    "model": settings.metis_model, "temperature": 0, "max_tokens": 1200,
+                    "model": settings.metis_model, **generation,
                     "response_format": {"type": "json_object"},
                     "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": query}],
                 })

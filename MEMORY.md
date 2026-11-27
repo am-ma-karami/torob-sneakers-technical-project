@@ -570,4 +570,6 @@ Fresh pre-publication checks:183 backend tests passed (four existing deprecation
 warnings), Ruff/mypy53 modules passed;32 frontend tests, ESLint and production
 build/TypeScript passed (existing Three.js chunk warning). Initial browser attempts
 failed because local servers were stopped; backend8000/frontend5173 were restarted.
-Browser results and final category semantics are recorded after the regression run.
+Reviewed retailer source/tests/docs are committed at cdc7882. Finder/Luna and
+category navigation delivery follow as separate commits. Store and search browser
+journeys passed on desktop/tablet/mobile; final category regression is being verified.

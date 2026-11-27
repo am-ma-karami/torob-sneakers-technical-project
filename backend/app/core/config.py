@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     retailer_domains: dict[str, list[str]] = Field(default_factory=dict)
     fx_auto_refresh: bool = False
     metis_api_key: SecretStr = SecretStr("")
-    metis_model: str = "gpt-4o"
+    metis_model: str = "gpt-6-luna"
     fx_refresh_seconds: int = Field(default=3600, ge=300, le=86400)
     fx_stale_hours: int = Field(default=24, ge=1, le=168)
     admin_session_hours: int = Field(default=12, ge=1, le=168)

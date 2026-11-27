@@ -38,7 +38,7 @@ export function ShoeCard({
           <span>مقایسه</span>
         </button>
         {s.runrepeat_score != null && (
-          <span className="card-score" title="امتیاز کلی از 100">
+          <span className="card-score" title="امتیاز کلی از 100" dir="ltr">
             {formatNumber(s.runrepeat_score)}
             <small>/ 100</small>
           </span>

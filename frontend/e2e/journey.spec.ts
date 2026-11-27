@@ -143,6 +143,10 @@ test("empty results, broken images and API retry have usable fallbacks", async (
 });
 test("preference finder explains real recommendations", async ({ page }) => {
   await page.goto("/finder");
+  await page
+    .getByRole("group", { name: "روش جست‌وجو" })
+    .getByRole("button", { name: "جست‌وجوی پیشرفته", exact: false })
+    .click();
   const brand = page.getByRole("combobox", { name: "افزودن برند" });
   await brand.selectOption("adidas");
   await brand.selectOption("Nike");
@@ -150,22 +154,33 @@ test("preference finder explains real recommendations", async ({ page }) => {
   await page.getByLabel("حداکثر وزن (گرم)").fill("۲۵۰");
   await page.getByLabel("حداکثر دراپ (میلی‌متر)").fill("۸");
   await page.getByRole("radio", { name: "جادار", exact: true }).check();
-  await page
-    .getByRole("radio", { name: "سبک · تا 250 گرم", exact: true })
-    .check();
+  await page.getByRole("radio", { name: "سبک‌تر", exact: true }).check();
   const submitted = page.waitForRequest(
     (request) => new URL(request.url()).pathname === "/api/search",
   );
   await page
-    .getByRole("button", { name: "پیدا کردن گزینه‌ها", exact: true })
+    .getByRole("button", { name: "پیدا کردن کفش مناسب", exact: true })
     .click();
   expect((await submitted).postDataJSON()).toMatchObject({
     hard_filters: { brand: ["adidas", "Nike"], weight_max: 250, drop_max: 8 },
     limit: 9,
   });
   expect((await submitted).postDataJSON().q).toBe("");
-  expect((await submitted).postDataJSON().preferences).toMatchObject({ width: "wide", weight: "light" });
-  await expect(page.locator(".match-explanation").first()).not.toBeEmpty();
+  expect((await submitted).postDataJSON().preferences).toMatchObject({
+    width: "wide",
+    weight: "light",
+  });
+  await expect(page.locator(".match-explanation h3")).toHaveCount(0);
+  await expect(page.locator(".match-explanation p")).toHaveCount(0);
+  await expect(page.locator(".card-score").first()).toHaveAttribute(
+    "dir",
+    "ltr",
+  );
+  await expect(page.locator(".finder-scoreline bdi").first()).toHaveAttribute(
+    "dir",
+    "ltr",
+  );
+  await expect(page.locator("#finder-results")).not.toContainText("پوشش داده");
   for (const check of await page.locator(".finder-result .card-meta").all()) {
     await expect(check.getByRole("link").first()).toHaveText(/^(adidas|Nike)$/);
   }

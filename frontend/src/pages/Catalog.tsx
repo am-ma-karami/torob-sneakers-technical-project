@@ -124,6 +124,7 @@ export function Catalog() {
         <nav className="category-tabs" aria-label="دسته‌های کفش">
           <button
             className={!category.length ? "active" : ""}
+            aria-pressed={!category.length}
             onClick={() => {
               setParams((previous) => {
                 const next = new URLSearchParams(previous);
@@ -141,9 +142,13 @@ export function Catalog() {
             return (
               <button
                 key={c.value}
-                className={category.includes(c.value) ? "active" : ""}
-                aria-pressed={category.includes(c.value)}
-                onClick={() => update("category", c.value, true)}
+                className={
+                  category.length === 1 && category[0] === c.value
+                    ? "active"
+                    : ""
+                }
+                aria-pressed={category.length === 1 && category[0] === c.value}
+                onClick={() => update("category", c.value)}
               >
                 <Icon size={17} />
                 {c.label}

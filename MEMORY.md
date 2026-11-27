@@ -85,7 +85,7 @@ The browser never downloads the raw dataset. No import HTTP endpoint exists.
 | Feature/status | Implementation and important behavior |
 | --- | --- |
 | Home: implemented | `pages/Home.tsx`, `components/FeaturedShowcase.tsx`: four featured products, rotating intro, then normal homepage; skip/chapter controls and static fallback |
-| Catalog/search: implemented | `pages/Catalog.tsx`, `FilterPanel.tsx`, `lib/catalogState.ts`; `/shoes`, debounced Persian/English aliases, server pagination, numeric ranges, stable sorting, URL restoration; OR within facet, AND across facets, disjunctive counts |
+| Catalog/search: implemented | `pages/Catalog.tsx`, `FilterPanel.tsx`, `lib/catalogState.ts`; `/shoes`, debounced Persian/English aliases, server pagination, numeric ranges, stable sorting, URL restoration; single-category top navigation and multi-select sidebar facets, AND across groups, disjunctive counts |
 | Directories: implemented | `pages/Directories.tsx`, `BrandLogo.tsx`, `SportIcons.tsx`; `/brands`, `/categories`; **64** local brand-logo manifest entries; tree/tennis racket/basketball icons; retain responsive scrolling performance |
 | Detail/color: implemented | `pages/Detail.tsx`, `ProductGallery.tsx`; `/shoes/:slug` (`/shoe/:slug` redirects), genuine product photos, explicit colorway URL selection, zoom dialog, measurements, source scores, translated pros/cons when available, fit/brand-size context |
 | Lab charts: implemented | `lib/gallery.ts` separates recognized shock-absorption charts from photo thumbnails; detail renders a separate chart section with one shared explanatory caption, not invented per-image analysis |
@@ -570,6 +570,19 @@ Fresh pre-publication checks:183 backend tests passed (four existing deprecation
 warnings), Ruff/mypy53 modules passed;32 frontend tests, ESLint and production
 build/TypeScript passed (existing Three.js chunk warning). Initial browser attempts
 failed because local servers were stopped; backend8000/frontend5173 were restarted.
-Reviewed retailer source/tests/docs are committed at cdc7882. Finder/Luna and
-category navigation delivery follow as separate commits. Store and search browser
-journeys passed on desktop/tablet/mobile; final category regression is being verified.
+Reviewed retailer source/tests/docs are committed at cdc7882; finder/Luna/score UI
+at b362876. `frontend/src/pages/Catalog.tsx` top category buttons now replace the
+entire category list (reclick is idempotent); all-shoes clears only categories.
+Top active/aria-pressed states represent exact single-category selection, not each
+member of a sidebar multi-selection. Sidebar checkbox toggleFacet remains unchanged.
+Other filters/sort persist and page resets. Regression in
+`frontend/e2e/category-navigation.spec.ts` covers replacement, same-category reclick,
+all-shoes, sidebar OR add/remove, back navigation and no overflow on all three sizes.
+Fresh browser verification:18 search/store cases passed on desktop/tablet/mobile;
+then all3 final category regressions passed (8.8s). Early category test assumptions
+about Adidas walking inventory/ambiguous labels and immediate controlled-checkbox
+updates were corrected in test code; application checkbox behavior was preserved.
+No production data/schema/dependency change in this navigation fix. Source work is
+included in three logically scoped commits, all using established attribution.
+Push is authorized for this batch; verify exact branch/head against origin when
+checking delivery. Do not infer future authorization from this checkpoint.

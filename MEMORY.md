@@ -38,16 +38,17 @@ do not assume servers survive a reboot or a new session.
 - Before initialization, HEAD and freshly fetched upstream both pointed to
   `90714cc` and working/staging trees were clean. All seven local branches had been
   published previously. Saved `baseline/*` branches are historical recovery points.
-- Current user authorization permits committing/pushing **only AGENTS.md and
-  MEMORY.md for initialization**. Future commits/pushes require authorization.
-  When authorized, retain both collaborators' established Git attribution. Recover
-  exact author/co-author metadata with `git show -s --format=full 46977f6`.
+- User explicitly authorized committing **all completed changes to date and pushing
+  the current branch on 2026-11-27**, including pending retailer/search/UI work and
+  the category navigation fix. This is not standing authorization for future tasks.
+  Preserve established Git author/co-author attribution; recover exact metadata
+  from recent commits. Never commit private datasets, local configuration or caches.
 - Fresh sessions must recheck synchronization. Do not infer remote state from this
   checkpoint or rewrite history to remove a normally deleted file.
 - At domestic-ingestion task start, fresh fetch showed 0 ahead/behind at `d5e8c3e`.
   Fresh fetch on 2026-11-27 again showed 0 ahead/behind at that commit, with no staged
   changes. The domestic importer/host registry/tests/docs changes described below are currently
-  **uncommitted and unpushed**; no publication authorization was given for that task.
+  included in the current authorized delivery batch; use Git for exact commit/push state.
 
 ## Stack and architecture map
 
@@ -89,7 +90,7 @@ The browser never downloads the raw dataset. No import HTTP endpoint exists.
 | Detail/color: implemented | `pages/Detail.tsx`, `ProductGallery.tsx`; `/shoes/:slug` (`/shoe/:slug` redirects), genuine product photos, explicit colorway URL selection, zoom dialog, measurements, source scores, translated pros/cons when available, fit/brand-size context |
 | Lab charts: implemented | `lib/gallery.ts` separates recognized shock-absorption charts from photo thumbnails; detail renders a separate chart section with one shared explanatory caption, not invented per-image analysis |
 | Comparison: implemented | `pages/Compare.tsx`, `ComparisonPicker.tsx`, `ComparisonTray.tsx`, `lib/comparison.tsx`; `/compare/select` searchable selection → `/compare` results; **2–4** shoes, persistent tray, shareable IDs/colorways, differences-only, technical groups; preserve the established result layout |
-| My shoe/finder: implemented v2 | `pages/Finder.tsx`, `lib/finderSearch.ts`, backend `services/recommendations.py`; original text and typed hard/soft fields, one submit, up to 9 comparable cards, explicit conflict/failure states; score is not fit probability; details below |
+| My shoe/finder: implemented v2 | `pages/Finder.tsx`, `lib/finderSearch.ts`, backend `services/recommendations.py`; three mode selection cards, mode-specific original text and typed hard/soft fields, shared drafts/results, up to 9 comparable cards, score/coverage and explicit conflict/failure states; details below |
 | Technical anatomy: implemented schematic | `AnatomyViewer.tsx`, `lib/anatomy.ts`: assembled/exploded/profile/internal-fit SVG modes, Motion, mouse/touch/keyboard layer selection, replay and missing-data gating; not factory CAD or the home GLBs |
 | Retailers: implemented snapshot UI | `StoreOffers.tsx`, offers backend; direct `#stores` anchor, domestic/foreign/all filters, six rows/page, ascending toman price, original foreign currency, explicit errors/unknown states; model-level CSV links, not exact color/size inventory |
 | Domestic crawls: implemented reviewed subset | `backend/app/importers/domestic_crawls.py`, `docs/domestic-crawls.md`: nine registered merchants, 641 exact-reviewed listings from five stores; Allsport's 6727 additional rows remain pending; existing storefront/admin automatically include approved offers |
@@ -391,65 +392,33 @@ expose the backend directly in proxy rate-limit mode. See `docs/commerce-backend
 
 ## Pending work and handoff
 
-The domestic-ingestion and Iranian coverage batches are loaded locally and validated;
-Allsport is integrated as a private pending review with no valid purchase rows yet.
-Source/tests/docs are uncommitted/unpushed, awaiting publication authorization.
-Preserve this working tree. No P0 blocker is established. Next developer should
-check status/upstream, read `docs/{domestic-crawls,iran-coverage}.md` for retailer work
-and obtain private snapshots/review copies if importing on another machine. Remaining
-9299 source rows require evidence or canonical coverage; do not approve them en masse.
-819 models still have no Iranian link. Partial cached specialist discovery is
-unapproved; future expansion needs fresh exact identity/stock/local-dispatch review.
-Embedding stage 1 and hybrid API are populated/validated and committed locally; not pushed. Source
-and docs are in this working tree; vectors/weights/private reports are not in Git.
-Another machine must obtain a private DB backup or rerun the documented worker.
-Hybrid search is now implemented in the backend; see docs/hybrid-search.md. The existing catalog remains lexical; /finder now embeds hybrid search beside manual selection.
-Persian labeled relevance evaluation, weight tuning, public load/cost tests and UI integration remain pending.
-Do not treat roadmap recommendations as approved implementation work.
+Reviewed domestic ingestion/coverage is implemented and loaded locally, including
+641 crawl links and54 discovery links. Allsport and9299 unapproved rows remain
+private/pending;819 models still lack an Iranian link. No new data import occurred
+in the publication task. Obtain private snapshots/reviews/DB backup separately on
+another machine; source files in Git are not a copy of the production database.
+2334 CLIP vectors and local model weights/reports are not in Git; rerun the documented
+worker or restore a private backup. Catalog remains lexical, while /finder uses the
+shared recommendation engine with three mode-specific forms. Remaining work:
 
-- **P1 recommendations before deployment:** validate Docker/nginx/HTTPS operation,
-  secure-cookie/origin configuration and real-device intro performance. Container
-  setup is supplied but unexecuted here.
-- **P2 explicit future intent:** extend admin modules gradually. Scope beyond current
-  store-funnel reports is unspecified. A live feed/stock refresh scheduler is absent;
-  integrate only with verified source IDs, currency, timestamps and mapping rules.
-- **P2 recommendation:** reconcile historical README/design/dataset reports with
-  current delivery; this initialization intentionally edits only the two root files.
-- **P3 exploratory:** user mentioned Jev for AI-product differentiation, but no
-  provider contract or approved integration spec is present. Clarify intended role
-  before implementation; keep existing deterministic recommendations functioning.
+- Human-labeled Persian/English relevance and intent evaluation, heuristic weight
+  calibration, load/cost tests and broader ambiguous/negative-language coverage.
+- Production Docker/nginx/HTTPS, cookie/proxy rate limits and physical-device checks.
+- Further Iranian coverage only after exact identity/current stock/domestic dispatch
+  review; never approve pending rows in bulk or infer exact size/color inventory.
+- Jev remains exploratory with no approved integration contract. Recommendations
+  here are not approval to implement new work.
 
 ## Recent significant changes
 
-For committed entries, developer attribution is the verified author/co-author in
-Git history; no private identities are duplicated here. Use `git show COMMIT` for detail.
-
-- **2026-11-27, current session (uncommitted):** pgvector migration 005, optional
-  pinned local CLIP worker, normalized separate image/spec vectors for all 1167 shoes,
-  resume/cache/hash/provenance guards, 17 tests, CLI/Make targets and setup/embedding docs.
-  Base/optional dependencies and Compose/CI DB image updated; no search/UI integration
-  or publication. Validation/counts/private backup paths above.
-- **2026-11-27, current session (uncommitted):** expanded reviewed Iranian model
-  coverage 296→348 with 54 purchase links; registered Allsport and preserved its
-  6727-row pending review without fabricating stock/authenticity. Added guards/tests,
-  updated registry, README and `docs/{domestic-crawls,iran-coverage}.md`; validation
-  and private audit/backup paths above. No commit/push authorization given.
-- **2026-11-26, current session (uncommitted):** added eight-host domestic crawl
-  adapter, source review/price/edition guards, 26 new backend test cases and adapted
-  store e2e assertions; imported 641 links. Files: `backend/app/importers/domestic_crawls.py`,
-  `backend/app/content/store-retailers.json`, `backend/tests/test_domestic_crawls.py`,
-  `frontend/e2e/stores.spec.ts`, `docs/domestic-crawls.md`, README.md and MEMORY.md.
-  No migration/dependency/UI production change; checks/counts/limitations above.
-  Next: additional exact review if evidence arrives; commit/push only when authorized.
-
-- **2026-11-26, this initialization:** populated root AGENTS.md/MEMORY.md; repository
-  memory only, no runtime/schema/dependency/UI edits. Validation is listed above;
-  authorized Git delivery uses subject `docs: initialize shared persistent project memory`.
-  Verify its exact hash/publication from Git, rather than a self-referential hash.
-- **2026-11-26, `90714cc`:** removed `docs/demo.md` and its README link; committed
-  and pushed to the default branch. Do not restore the demo guide unintentionally.
-- **2026-11-26, `46977f6`:** admin store-view/click reporting, authentication,
-  migration 004, frontend tracking/admin page, regressions and `docs/admin-panel.md`.
+Use Git history for full implementation history and verified developer attribution.
+- **2026-11-27:** authorized publication batch includes reviewed domestic adapter/
+  registry/docs, three finder experiences/Luna/score presentation and single-choice
+  top category navigation. Feature contracts and fresh checks are documented below.
+- **2026-11-27, bc6babe:** shared typed search/recommendation engine replaces prose
+  filtering/RRF; earlier local embedding/search prerequisites are also queued to push.
+- **2026-11-26:** repository-local AGENTS/MEMORY initialized; docs/demo.md intentionally
+  removed at90714cc. Admin funnel/authentication was delivered at46977f6.
 
 ## Shared search/recommendation engine v2 — 2026-11-27
 
@@ -461,7 +430,7 @@ Current contract and engineering report: `docs/hybrid-search.md`; evaluation CLI
   hard_filters brand/category/weight/drop min/max + exclusive flags; preferences
   weight/width/foam/surface/usage/breathability/durability/flexibility/cushioning and
   priorities0.25–4. Strict schema/units, neutral empty input, no implicit category.
-- `services/search_intent.py`: Metis gpt-4o JSON intent only when text exists;
+- `services/search_intent.py`: Metis gpt-6-luna JSON intent only when text exists;
   schema/ontology/source-quote/unit/bound checks, controlled surface-term recovery,
   bounded guard against missing explicit numerical clauses. English semantic query.
   Timeout15s, cached128, sanitized errors; no key/provider-body/query logs.
@@ -486,8 +455,9 @@ Current contract and engineering report: `docs/hybrid-search.md`; evaluation CLI
 - `services/search.py` retains pinned cached local CLIP encoder with lossless chunks.
   Old `repositories/search.py` remains offline evaluation baseline only.
 - Frontend `lib/finderSearch.ts`, `pages/{Finder,SemanticSearch}.tsx`: raw text and
-  typed criteria sent separately, no concatenation. Existing two panels, one submit,
-  nine common ShoeCards/comparison tray preserved; status/degradation notices added.
+  typed criteria sent separately, no concatenation. Three mode cards now select
+  advanced (manual only), advisor (text only), or hybrid (both), with shared drafts
+  and results; nine common ShoeCards/comparison tray preserved.
   Legacy /semantic-search redirects to /finder. /api/finder preserved but unused by UI.
 - Compatibility: legacy filters supports only brand/category/weight/drop; other
   nondefault facets rejected422. Mode/status and score/channel semantics intentionally
@@ -514,10 +484,90 @@ not full historical replay. No general relevance/comfort accuracy claim.
 Limits/next: provider extraction can fail or miss ambiguous language; numerical guard
 is bounded, not full grammar. Scoring thresholds need human-labeled calibration;
 CLIP name-heavy pooled docs/image-angle quality and same-URL image freshness remain
-limits. No load benchmark. Next user prompt is UI redesign; API already exposes
-interpreted criteria/conflicts/score breakdown/adjustments for richer presentation.
+limits. No load benchmark. UI redesign is implemented below; API provides interpreted criteria/conflicts/
+score breakdown/adjustments. Broader intent reliability remains backend work.
 
 Git delivery: six prior local feature commits existed at c74b0b0, fresh fetch at
 refactor start showed6 ahead/0 behind. User's ongoing search task authorized local
 commits with established author/coauthor; no push. Preserve unrelated retailer
 importer/registry/docs/README/store e2e edits and staging. Recheck current Git state.
+
+## My Shoe frontend redesign — 2026-11-27
+
+`docs/finder-experience.md` documents current behavior/limits. `SearchModes.tsx` and
+`FinderResults.tsx` under `frontend/src/components/finder/` are new shared components;
+`pages/Finder.tsx`, `SemanticSearch.tsx` and scoped `finder.css` handle the experience.
+Initial view has three mode cards, subtle advisor emphasis, no automatic search.
+Mode-specific forms share drafts: advanced excludes text; advisor excludes all manual
+fields; hybrid sends original text and typed fields separately. Selection is explicit
+via mode field. Existing form retains mandatory category/brand/weight/drop and soft
+width/weight/foam, plus disclosed supported surface/breathability/flexibility/durability.
+No unsupported stack-height/stability filter. Technical terms have concise help.
+Auto-growing dir=auto textarea, four editable examples, Ctrl/Cmd+Enter (Enter newline),
+400-character limit. Mode switching preserves drafts, clears results and old observer;
+reset clears all drafts/results. Explicit submission revisions and AbortSignal avoid
+stale UI; guarded in-flight submits, no automatic paid retry or focus/reconnect calls.
+Applied criteria shown as chips, edit action focuses existing inputs without reset;
+arbitrary inferred JSON is not directly editable—change the source text. Actual
+manual/text conflicts, unavailable AI + manual alternative, optional empty-adjustment
+counts, valid match scores are visible; evidence coverage remains in the API but is hidden in the UI. No fake results.
+Latest presentation refinement: `components/finder/FinderResults.tsx` omits the
+recommendation heading/explanation/missing-data block for advanced/manual results;
+if no valid preference score exists, no empty block is rendered. Advisor/hybrid
+explanations remain. Data coverage is no longer rendered in any finder mode.
+Preference-score fractions use isolated LTR bdi (`93 / 100`). Shared `ShoeCard.tsx`
+score badge now has dir=ltr, fixing the same source-score order everywhere.
+Fresh refinement checks: production build/TypeScript and ESLint passed; all four
+focused manual/advisor desktop/mobile browser journeys passed (12.1s), verifying
+manual explanation absence, score directions and coverage absence. Existing Three.js
+chunk warning remains; no backend or data edits. Fresh fetch still7 ahead/0 behind;
+no commit/push. Earlier broad test results below belong to the prior redesign.
+Nine existing ShoeCards/details/comparison behavior unchanged; unrelated pages untouched.
+Desktop hybrid manual right/advisor left, mobile stacked/collapsible manual, visible
+focus/native controls, Latin digits and reduced-motion support. No dependency/backend/
+schema/production-data changes. Draft persistence lasts only this mounted page.
+Fresh checks: frontend ESLint, 32 unit tests, TypeScript/build passed (existing large
+Three.js chunk warning). Ten updated desktop/mobile journeys passed with real API
+advanced/advisor/hybrid, hidden-field isolation/reset, comparison and controlled fault/
+empty/conflict cases; two additional layout cases passed (375px, landscape, reduced
+motion, desktop alignment/no overflow). Desktop/mobile screenshots inspected.
+Initial live short-query provider failure was correctly surfaced; repeat used known
+validated query and passed. Provider variability is not fixed by this UI. External
+image CDNs remain slow/unavailable in some screenshot captures. Full backend tests
+not rerun (no backend edits; preceding task181 passed). Fresh fetch before this task:
+7 ahead/0 behind at bc6babe, no staged edits. This UI is included in the current authorized publication batch. Unrelated
+retailer/README/store-e2e edits preserved. Next: user review at /finder; optional
+follow-up refinement and wider provider/relevance evaluation.
+
+## Search model configuration — 2026-11-27
+
+User requested GPT-6 Luna for search. Authenticated Metis /openai/v1/models returned
+`gpt-6-luna`; `backend/app/core/config.py` default and ignored local METIS_MODEL now
+select it. `services/search_intent.py` uses max_completion_tokens4000 (includes
+reasoning) and reasoning_effort=low for Luna, omitting unsupported legacy max_tokens
+and temperature. Old configured models retain prior options. No automatic fallback
+to another model. Existing validation/failure behavior preserved. CLIP embeddings,
+SQL eligibility, scores and frontend unchanged by this model switch.
+Fresh checks: 31 recommendation tests passed (one existing Starlette warning), Ruff
+and mypy53 modules passed. Real Persian POST /api/search returned HTTP200, statusok,
+9 products, category running-shoes and weight_max250, no degradation. Earlier probes:
+legacy max_tokens caused400; a corrected English probe had missing semantic text
+and failed closed. This is a smoke check, not general intent/relevance evaluation.
+No keys/provider credentials printed or committed; private .env changed only via
+METIS_MODEL setter. No migration/dependency/data changes. Fresh fetch:7 ahead/0 behind
+at bc6babe. UI and unrelated retailer edits/staging preserved. Model switch is included
+in the current authorized publication batch.
+
+## Current delivery checkpoint — 2026-11-27
+
+At task start, fresh origin fetch showed7 ahead/0 behind at bc6babe; staging was
+empty. All seven existing local commits have the established primary author and
+Co-authored-by metadata. User authorized all work to date to be committed/pushed.
+Delivery is organized as reviewed retailer ingestion/docs, finder experiences/Luna/
+score presentation, and the category navigation fix; only public source/tests/docs
+are included. Private .env/.local/raw datasets remain ignored and untracked.
+Fresh pre-publication checks:183 backend tests passed (four existing deprecation
+warnings), Ruff/mypy53 modules passed;32 frontend tests, ESLint and production
+build/TypeScript passed (existing Three.js chunk warning). Initial browser attempts
+failed because local servers were stopped; backend8000/frontend5173 were restarted.
+Browser results and final category semantics are recorded after the regression run.

@@ -12,11 +12,33 @@ test("domestic and foreign store prices stay in toman with a visible conversion 
   await iran.focus();
   await iran.press("Enter");
   await expect(iran).toHaveAttribute("aria-pressed", "true");
-  await expect(
-    stores.getByRole("heading", { name: "digizenith.ir" }),
-  ).toBeVisible();
-  await expect(stores.getByText("38,990,000", { exact: true })).toBeVisible();
-  await expect(stores.getByText("38,890,000", { exact: true })).toBeVisible();
+  const domestic = await page.request.get(
+    "/api/shoes/adidas-adizero-evo-sl/offers?source=ShoeStoreLinks&market=iran&sort=price_toman&page_size=6",
+  );
+  expect(domestic.status()).toBe(200);
+  const domesticBody = await domestic.json();
+  expect(domesticBody.total).toBeGreaterThan(0);
+  const firstDomestic = domesticBody.items[0];
+  const firstRow = stores.locator(".store-offer").first();
+  await expect(firstRow.getByRole("heading")).toHaveText(firstDomestic.retailer);
+  await expect(firstRow.locator(".store-offer-price strong")).toContainText(
+    new Intl.NumberFormat("en-US").format(firstDomestic.price_toman),
+  );
+  const domesticLink = firstRow.locator(".store-visit");
+  const gateway = `/api/out/${domesticBody.shoe_id}/${firstDomestic.key}`;
+  await expect(domesticLink).toHaveAttribute("href", gateway);
+  const outbound = await page.request.get(gateway, { maxRedirects: 0 });
+  expect(outbound.status()).toBe(302);
+  expect(outbound.headers().location).toBe(firstDomestic.url);
+  // Additional retailers can move older listings to later pages. They remain
+  // independently accessible rather than being replaced by the new crawl.
+  const legacy = await page.request.get(
+    "/api/shoes/adidas-adizero-evo-sl/offers?source=ShoeStoreLinks&market=iran&retailer_id=digizenith.ir",
+  );
+  expect(legacy.status()).toBe(200);
+  expect((await legacy.json()).items.some(
+    (offer: { price_toman: number }) => offer.price_toman === 38990000,
+  )).toBe(true);
   await stores.getByRole("button", { name: /^خارج از ایران/ }).click();
   await expect(
     stores.getByRole("heading", { name: "مبنای تبدیل قیمت خارجی" }),

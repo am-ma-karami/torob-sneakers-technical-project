@@ -4,7 +4,7 @@ A working Persian/RTL footwear discovery and comparison application, now using t
 
 **Local application:** <http://127.0.0.1:5173> · **API readiness:** <http://127.0.0.1:8000/api/ready> · **Development API docs:** <http://127.0.0.1:8000/api/docs>
 
-The catalog contains all **1167** original models, **27048** measurements and **3845** verified colorway records. Retailer storage keeps **4824** dated catalog offers plus **7551** accepted CSV store links, including **277** explicitly unpriced entries. Imported data is in PostgreSQL; the browser never downloads the raw archive. Exact generations and variants retain their identity.
+The catalog contains all **1167** original models, **27048** measurements and **3845** verified colorway records. Retailer storage keeps **13070** listings: **4824** dated catalog offers, **7551** accepted original CSV store links, **641** reviewed domestic crawl links and **54** reviewed Iranian discovery links. The original CSV includes **277** explicitly unpriced entries. Imported data is in PostgreSQL; the browser never downloads the raw archive. Exact generations and variants retain their identity.
 
 - Debounced Persian/English search with aliases, server pagination, disjunctive multi-select facets, numeric ranges and shareable URLs.
 - Category and brand directories, real product photography, verified color galleries, with stale retailer offers retained internally and removed from the interface.
@@ -37,6 +37,8 @@ pg_ctl -D .local/postgres -l .local/postgres.log -o '-p 55432 -h 127.0.0.1 -k /t
 ```
 
 Apply migrations and import:
+
+Migration 005 requires the pgvector server extension to be installed first; see [embedding setup](docs/embeddings.md).
 
 ```sh
 .venv/bin/alembic upgrade head
@@ -72,7 +74,7 @@ PLAYWRIGHT_BROWSERS_PATH=../.local/playwright npm exec -- playwright install chr
 npm run test:e2e
 ```
 
-Backend tests use explicitly created temporary PostgreSQL schemas and four small, credited fixtures; no raw archive is needed in CI. PostgreSQL must allow schema creation and have `pg_trgm` available. `TEST_DATABASE_URL` can target a dedicated test database. The test suite checks its schema before inserting fixture data.
+Backend tests use explicitly created temporary PostgreSQL schemas and four small, credited fixtures; no raw archive is needed in CI. PostgreSQL must allow schema creation and have `pg_trgm` and `vector` available. `TEST_DATABASE_URL` can target a dedicated test database. The test suite checks its schema before inserting fixture data.
 
 [Verification results](docs/verification.md) · [Screenshots](docs/screenshots.md) · [Design system](docs/design-system.md) · [Tool status](docs/tooling.md) · [Security and tradeoffs](docs/architecture.md)
 
@@ -86,6 +88,12 @@ Retailer ingestion, stock freshness, source mappings and paginated offer API: [c
 
 Domestic/foreign store links and sourced toman conversion: [store prices and refresh instructions](docs/store-links.md). Product pages show the supplied CSV listings with their original price, converted amount and rate source/time.
 
+Nine domestic crawl packages and reviewed exact-model imports: [domestic crawl workflow](docs/domestic-crawls.md). [Iranian coverage review](docs/iran-coverage.md) added 54 links for 52 previously uncovered models. There are now **871** domestic listings covering **348** models. The Allsport package remains pending because stock and product identity/originality are unresolved; its 6727 rows are not purchase offers.
+
 Admin store view/click analytics and private account setup: [admin panel](docs/admin-panel.md). Open `/admin`; counts start when tracking is enabled and are unique by browser, shoe and store.
+
+Offline [CLIP embeddings](docs/embeddings.md): all **1167** canonical products now have separate 512-dimensional primary-photo and specification vectors in pgvector (**2334** total). Use `make embeddings-status` to inspect stored counts or `make embeddings` to resume/update. Model inference is optional and local; the shared search engine reuses these vectors.
+
+[Hybrid search and recommendations](docs/hybrid-search.md): `POST /api/search` merges typed criteria and validated Metis intent, applies mandatory SQL filters, then ranks eligible products using evidence-based preferences and CLIP similarity. The catalog search UI remains on its existing endpoint. Provider credentials are backend-only.
 
 [My shoe](http://127.0.0.1:5173/finder) uses the [shared recommendation engine](docs/hybrid-search.md): typed hard filters, soft preferences and validated text intent produce up to 9 comparable cards through one submit. Manual-only search needs no AI call.

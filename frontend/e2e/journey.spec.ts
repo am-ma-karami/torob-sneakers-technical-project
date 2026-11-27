@@ -160,11 +160,11 @@ test("preference finder explains real recommendations", async ({ page }) => {
     .getByRole("button", { name: "پیدا کردن گزینه‌ها", exact: true })
     .click();
   expect((await submitted).postDataJSON()).toMatchObject({
-    filters: { brand: ["adidas", "Nike"], weight_max: 250, drop_max: 8 },
+    hard_filters: { brand: ["adidas", "Nike"], weight_max: 250, drop_max: 8 },
     limit: 9,
   });
-  expect((await submitted).postDataJSON().q).toContain("برندهای انتخابی: adidas، Nike");
-  expect((await submitted).postDataJSON().q).toContain("ترجیح فضای جلوی پا: جادار");
+  expect((await submitted).postDataJSON().q).toBe("");
+  expect((await submitted).postDataJSON().preferences).toMatchObject({ width: "wide", weight: "light" });
   await expect(page.locator(".match-explanation").first()).not.toBeEmpty();
   for (const check of await page.locator(".finder-result .card-meta").all()) {
     await expect(check.getByRole("link").first()).toHaveText(/^(adidas|Nike)$/);

@@ -1,3 +1,4 @@
+"""Pre-refactor RRF baseline, retained only for offline evaluation, not public requests."""
 from collections import defaultdict
 
 from sqlalchemy import and_, func, or_, select

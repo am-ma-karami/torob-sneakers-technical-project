@@ -21,8 +21,8 @@ test("semantic search submits once and shows nine products below the form", asyn
   await page.getByRole("button", { name: "پیدا کردن گزینه‌ها" }).click();
   const result = await response;
   expect(result.status()).toBe(200);
-  expect(result.request().postDataJSON()).toMatchObject({ filters: {}, limit: 9 });
-  expect((await result.json()).mode).toBe("hybrid");
+  expect(result.request().postDataJSON()).toMatchObject({ hard_filters: {}, preferences: {}, limit: 9 });
+  expect((await result.json()).mode).toBe("advisor");
   await expect(page.locator(".finder-grid .shoe-card")).toHaveCount(9);
   expect(requests).toBe(1);
   await expect(page.locator("#finder-results")).toHaveCount(1);
@@ -36,15 +36,15 @@ test("semantic search submits once and shows nine products below the form", asyn
   await page.screenshot({ path: `../.local/semantic-${info.project.name}.png`, fullPage: true });
 });
 
-test("semantic search shows retryable error and explicit lexical fallback", async ({ page }) => {
+test("semantic search shows retryable error and explicit manual-only fallback", async ({ page }) => {
   await page.goto("/finder");
   await page.route("**/api/search", route => route.fulfill({ status: 503, body: "{}" }));
   await page.getByLabel("کفش مورد نظرت را توصیف کن").fill("کفش نرم");
   await page.getByRole("button", { name: "پیدا کردن گزینه‌ها" }).click();
   await expect(page.getByRole("alert")).toContainText("ارتباط با کاتالوگ");
   await page.unroute("**/api/search");
-  await page.route("**/api/search", route => route.fulfill({ json: { items: [], mode: "lexical_fallback" } }));
+  await page.route("**/api/search", route => route.fulfill({ json: { items: [], mode: "hybrid", status: "manual_filter_only" } }));
   await page.getByRole("button", { name: "پیدا کردن گزینه‌ها" }).click();
-  await expect(page.getByText("جست‌وجوی معنایی فعلاً در دسترس نیست", { exact: false })).toBeVisible();
+  await expect(page.getByText("متن درخواست بررسی نشد", { exact: false })).toBeVisible();
   await expect(page.getByText("محصولی پیدا نشد.", { exact: false })).toBeVisible();
 });

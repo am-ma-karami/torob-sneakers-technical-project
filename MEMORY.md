@@ -11,8 +11,10 @@ then visit a retailer. Browsing needs no account. It is a working local full-sta
 product with a dark RTL interface, catalog, explainable finder, comparison, technical
 diagrams, store listings with toman conversion and a protected admin analytics panel.
 Backend is **FastAPI, not Django**. Offline local CLIP image/specification embeddings
-are implemented. Hybrid retrieval is available through POST /api/search; a separate semantic search UI is now available.
-Metis gpt-4o translates queries, then local CLIP encodes them; no AI agent/Jev integration. The finder uses deterministic rules.
+are implemented. POST /api/search now uses one shared typed recommendation engine for manual, AI advisor
+and hybrid input in /finder. Metis extracts validated Persian/English intent; SQL
+enforces hard constraints, local CLIP scores eligible products, deterministic rules
+rank soft preferences and produce evidence-based explanations. No AI agent/Jev integration.
 Public deployment is not verified.
 
 Current local DB was checked on 2026-11-27 after Iranian coverage review: **1167 shoes,
@@ -87,12 +89,12 @@ The browser never downloads the raw dataset. No import HTTP endpoint exists.
 | Detail/color: implemented | `pages/Detail.tsx`, `ProductGallery.tsx`; `/shoes/:slug` (`/shoe/:slug` redirects), genuine product photos, explicit colorway URL selection, zoom dialog, measurements, source scores, translated pros/cons when available, fit/brand-size context |
 | Lab charts: implemented | `lib/gallery.ts` separates recognized shock-absorption charts from photo thumbnails; detail renders a separate chart section with one shared explanatory caption, not invented per-image analysis |
 | Comparison: implemented | `pages/Compare.tsx`, `ComparisonPicker.tsx`, `ComparisonTray.tsx`, `lib/comparison.tsx`; `/compare/select` searchable selection → `/compare` results; **2–4** shoes, persistent tray, shareable IDs/colorways, differences-only, technical groups; preserve the established result layout |
-| My shoe/finder: implemented | `pages/Finder.tsx`, `services/catalog.py`; `/finder`, category/activity, category-specific brand choices, hard weight/drop maxima, soft width/weight/foam preferences; top 12, explicit match/miss/unknown reasons; rule points are not probability |
+| My shoe/finder: implemented v2 | `pages/Finder.tsx`, `lib/finderSearch.ts`, backend `services/recommendations.py`; original text and typed hard/soft fields, one submit, up to 9 comparable cards, explicit conflict/failure states; score is not fit probability; details below |
 | Technical anatomy: implemented schematic | `AnatomyViewer.tsx`, `lib/anatomy.ts`: assembled/exploded/profile/internal-fit SVG modes, Motion, mouse/touch/keyboard layer selection, replay and missing-data gating; not factory CAD or the home GLBs |
 | Retailers: implemented snapshot UI | `StoreOffers.tsx`, offers backend; direct `#stores` anchor, domestic/foreign/all filters, six rows/page, ascending toman price, original foreign currency, explicit errors/unknown states; model-level CSV links, not exact color/size inventory |
 | Domestic crawls: implemented reviewed subset | `backend/app/importers/domestic_crawls.py`, `docs/domestic-crawls.md`: nine registered merchants, 641 exact-reviewed listings from five stores; Allsport's 6727 additional rows remain pending; existing storefront/admin automatically include approved offers |
 | Iranian coverage: applied reviewed batch | `docs/iran-coverage.md`: 54 links from PL Kicks, Mahabad Running, Colobis and Fandug gave 52 models their first Iranian link; source identities and prices use existing store-link services |
-| CLIP embeddings: implemented/populated | `docs/embeddings.md`: pgvector, 1167 canonical primary-photo vectors plus 1167 pooled specification vectors; resumable CLI; POST /api/search now adds Metis translation/local CLIP hybrid retrieval; no ANN index/UI changes |
+| CLIP embeddings: implemented/populated | `docs/embeddings.md`: pgvector, 1167 canonical primary-photo vectors plus 1167 pooled specification vectors; resumable CLI; POST /api/search reuses these vectors after SQL eligibility; no ANN index or re-embedding |
 | Admin: implemented first module | `/admin`, `pages/Admin.tsx`, `pages/admin.css`, `lib/admin.ts`; protected shoe × store unique viewers/clickers/CTR, dates, search, merchant/market filters, active-only, sorting, pagination, mobile cards; no general catalog/store CRUD yet |
 
 ## UI/UX and assets to preserve
@@ -449,64 +451,73 @@ Git history; no private identities are duplicated here. Use `git show COMMIT` fo
 - **2026-11-26, `46977f6`:** admin store-view/click reporting, authentication,
   migration 004, frontend tracking/admin page, regressions and `docs/admin-panel.md`.
 
-## Hybrid search API checkpoint — 2026-11-27
+## Shared search/recommendation engine v2 — 2026-11-27
 
-POST /api/search accepts q, limit (1–48), filters (CatalogQuery). Metis OpenAI-compatible
-Chat Completions translates queries to English; local cached pinned CLIP CPU query vectors
-rank the existing spec/photo embeddings. Never compare OpenAI text embeddings to CLIP.
-New paths: backend/app/{schemas,services,repositories}/search.py, api/routes.py, tests/test_search.py;
-docs/hybrid-search.md. METIS_API_KEY is a SecretStr in ignored owner-only .env; never print/read
-its contents into docs. METIS_MODEL defaults gpt-4o; only user query goes to provider.
-No migration or re-embedding. Weighted RRF (lexical 1, specs 1, image 0.7; k=60) combines
-bounded top-100 channels; exact pgvector cosine scans, structured hard SQL filters, stale
-text hash/changed-primary-URL exclusion. Numeric prose is not automatically a hard filter.
-Explicit lexical fallback handles provider/encoder failure. Existing catalog UI/API unchanged.
-API search now lazily loads optional CLIP dependencies; stage-1 statements about no HTTP
-inference are historical for the embedding-only stage. Cached weights only, no HTTP-time downloads.
-Fresh checks: 156 full backend tests passed, then 22 search/embedding targeted tests passed
-after adding positive dual-modality/stale-vector coverage; Ruff/mypy passed. Real Persian
-Metis translation succeeded; live POST /api/search returned 200 hybrid and exact EVO SL first.
-Frontend/browser/load/relevance evaluation not run. No commit/push authorized.
+Supersedes the old translation/RRF and appended-filter-prose implementation.
+Current contract and engineering report: `docs/hybrid-search.md`; evaluation CLI:
+`scripts/evaluate_search.py`. Public endpoint remains POST /api/search.
 
-## Semantic search UI delivery — 2026-11-27
+- `backend/app/schemas/search.py`: q optional max1800, limit default9/max48,
+  hard_filters brand/category/weight/drop min/max + exclusive flags; preferences
+  weight/width/foam/surface/usage/breathability/durability/flexibility/cushioning and
+  priorities0.25–4. Strict schema/units, neutral empty input, no implicit category.
+- `services/search_intent.py`: Metis gpt-4o JSON intent only when text exists;
+  schema/ontology/source-quote/unit/bound checks, controlled surface-term recovery,
+  bounded guard against missing explicit numerical clauses. English semantic query.
+  Timeout15s, cached128, sanitized errors; no key/provider-body/query logs.
+- `services/search_query.py`: manual authority, numeric intersection, explicit
+  blocking conflicts, manual soft preference priority. No silent relaxation.
+- `repositories/recommendations.py`: SQL filters before retrieval; mandatory numeric
+  values require canonical g/mm metric and lab/manufacturer provenance, unknown and
+  estimates excluded. Actual canonical IDs only; exact eligible-ID pgvector cosine,
+  stale text hash/changed photo URL excluded; no top100 truncation before scoring.
+- `services/recommendation_scoring.py`: centralized v2 heuristics. Requested-weighted
+  match0–100 and evidence coverage separately, missing contributes zero; unspecified
+  preferences unscored. Text rank .8 preference/.15 semantic/.05 exact-name lexical;
+  without preferences .7 semantic/.3 lexical; semantic .8spec/.2photo. Stable ties.
+  Match is engineering evidence, not validated comfort/fit probability.
+- `services/recommendations.py`: common advanced/advisor/hybrid pipeline; manual mode
+  never calls LLM/vector encoder. Final SQL/evidence revalidation and ID deduplication.
+  Text-only provider failure returns none; hybrid labels manual-only fallback.
+  Unsupported mandatory claims need clarification; empty result diagnoses optional
+  adjustments without applying them. Encoder/evidence degradation explicit.
+  Per-result criteria, provenance, missing data and deterministic Persian explanations;
+  optional LLM explanation rewriting intentionally unused (no per-product calls).
+- `services/search.py` retains pinned cached local CLIP encoder with lossless chunks.
+  Old `repositories/search.py` remains offline evaluation baseline only.
+- Frontend `lib/finderSearch.ts`, `pages/{Finder,SemanticSearch}.tsx`: raw text and
+  typed criteria sent separately, no concatenation. Existing two panels, one submit,
+  nine common ShoeCards/comparison tray preserved; status/degradation notices added.
+  Legacy /semantic-search redirects to /finder. /api/finder preserved but unused by UI.
+- Compatibility: legacy filters supports only brand/category/weight/drop; other
+  nondefault facets rejected422. Mode/status and score/channel semantics intentionally
+  changed; catalog endpoint unchanged. No dependency, schema, migration, product-vector
+  regeneration or production data changes. Existing2334 CLIP vectors reused.
 
-Authorized scope now includes local commits for embedding/search prerequisites and this UI; no push requested.
-Embedding infrastructure is committed at 78acae1. Hybrid API is committed at 1efe140. This final commit delivers the independently linked semantic UI.
-Unrelated retailer importer/data changes remain uncommitted and must be preserved.
-Current entry is /finder; the semantic form replaces the left explanation panel.
-frontend/src/pages/SemanticSearch.tsx and semantic-search.css submit POST /api/search with
-limit=10 only on explicit submit; compact dedicated cards now render returned order below the form.
-Visible loading, retryable error, empty results and explicit lexical-fallback notices; abort on
-unmount, prevent duplicate submits, labeled textarea capped at 400 characters, Latin digits.
-frontend/e2e/semantic-search.spec.ts verifies real hybrid results (10 cards), navigation, no
-requests while typing, mobile overflow, error and fallback. Frontend lint, TypeScript/build
-and 30 unit tests passed; four desktop/mobile e2e journeys passed again with final mobile navigation visibility assertions.
-Backend 8000 and frontend 5173 were already running and reused; no duplicate server started.
+Fresh validation in this refactor: `.venv/bin/pytest -q` **181 passed**, four existing
+Starlette/Alembic warnings; Ruff and mypy passed (53 source modules). Frontend ESLint,
+32 unit tests, TypeScript and production build passed (existing large Three.js chunk
+warning). Final browser repeat after the numeric guard and degradation notice: all six
+desktop/mobile scenarios passed (11.2s), including manual payloads, real advisor
+results, comparison toggles and visible provider/error fallback.
 
-Semantic UI final checks: 30 unit tests, ESLint, TypeScript and production build passed;
-four desktop/mobile real-API/error/fallback journeys passed after the navigation fix.
-Three local feature commits preserve established author/co-author attribution. No push performed.
-Site available at http://127.0.0.1:5173/finder; backend on 8000.
+Read-only actual-catalog evaluation: `.venv/bin/python -m scripts.evaluate_search
+--live-ai --output .local/recommendations/evaluation-final.json` **7/8** expected
+intent/status cases, **zero mandatory constraint violations**. Persian/English
+250g and exact/inclusive/exclusive223g cases passed; one hybrid intent/provider
+failure correctly returned labeled manual-only results. An isolated retry produced
+valid hybrid JSON, demonstrating variability rather than guaranteed availability.
+Offline old-RRF baseline violated inferred hard constraints9/9 Persian,9/9 English;
+an earlier completed hybrid case3/9. This uses the same validated semantic query,
+not full historical replay. No general relevance/comfort accuracy claim.
 
-Unified finder flow — 2026-11-27 (supersedes two independent searches):
-/finder has one parent form and one submit button. Right controls and left semantic
-textarea build a single POST /api/search request via frontend/src/lib/finderSearch.ts.
-Selected filters are appended to the user's text; category/brand/weight_max/drop_max
-are also explicit hard CatalogQuery filters. Width/weight/foam preferences remain soft
-text preferences. Category defaults to empty (no implicit running); unset/any fields
-are omitted. Brand choices use taxonomy for no category and the category-specific
-endpoint after selection. Text-only, filters-only and combined input work; fully
-blank submission asks for input without an API call. No /api/finder result request.
-One output section “گزینه‌هایی برای مقایسه” requests up to 9 results and uses existing
-ShoeCard/comparison-tray behavior, with factual explanations and no rule-score claims.
-No gray placeholder/loading cards. /semantic-search still redirects to /finder.
-SemanticSearch.tsx is now a controlled input panel; independent state/results/portal
-were removed. Same query can be explicitly resubmitted; no paid-query automatic retry,
-focus/reconnect refetch. Existing backend /api/finder remains for compatibility.
-Combined q cap is now 1800 chars (user textarea remains 400); Metis translation budget
-is 320 tokens / 120 words. Long English queries use the existing lossless chunk pooling
-with generic “Footwear search” identity, preserving all appended constraints rather
-than truncating or rejecting them at 77 tokens. No product re-embedding/schema changes.
-Fresh checks: 24 backend search/embedding tests, Ruff/mypy, 32 frontend unit tests,
-ESLint and TypeScript/production build passed. All six desktop/mobile browser cases passed again after final loading-text cleanup and comparison assertions. Full backend suite not rerun.
-Unrelated retailer work remains untouched; only this feature is staged/committed.
+Limits/next: provider extraction can fail or miss ambiguous language; numerical guard
+is bounded, not full grammar. Scoring thresholds need human-labeled calibration;
+CLIP name-heavy pooled docs/image-angle quality and same-URL image freshness remain
+limits. No load benchmark. Next user prompt is UI redesign; API already exposes
+interpreted criteria/conflicts/score breakdown/adjustments for richer presentation.
+
+Git delivery: six prior local feature commits existed at c74b0b0, fresh fetch at
+refactor start showed6 ahead/0 behind. User's ongoing search task authorized local
+commits with established author/coauthor; no push. Preserve unrelated retailer
+importer/registry/docs/README/store e2e edits and staging. Recheck current Git state.

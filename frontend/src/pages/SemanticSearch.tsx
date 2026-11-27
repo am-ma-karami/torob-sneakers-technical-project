@@ -3,7 +3,7 @@ import "./semantic-search.css";
 export function SemanticSearch({ text, onChange }: { text: string; onChange: (text: string) => void }) {
   return <section className="semantic-search semantic-embedded panel" aria-labelledby="semantic-title">
     <header className="semantic-intro"><h2 id="semantic-title">جست‌وجوی معنایی</h2>
-      <p>نیازت را توضیح بده؛ فیلترهای انتخابی هم به همین درخواست اضافه می‌شوند.</p>
+      <p>نیازت را توضیح بده؛ شرط‌های قطعی و ترجیح‌ها جداگانه بررسی می‌شوند.</p>
     </header>
     <div className="semantic-form">
       <label htmlFor="semantic-query">کفش مورد نظرت را توصیف کن</label>

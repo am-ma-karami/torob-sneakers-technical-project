@@ -57,7 +57,7 @@ function parseLimit(raw: string) {
   return /^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(text) ? Number(text) : NaN;
 }
 
-type SearchResult = { items: (Summary & { search_explanation: string })[]; mode: "hybrid" | "lexical_fallback" };
+type SearchResult = { items: (Summary & { search_explanation: string })[]; mode: "advanced" | "advisor" | "hybrid"; status: string; degraded_reason?: string | null; conflicts?: { field: string; blocking: boolean }[]; unsupported_requirements?: string[] };
 
 
 export function Finder() {
@@ -115,8 +115,9 @@ export function Finder() {
     }
     setInvalid(null);
     const request = buildFinderSearch(text, filters);
-    setEmptyError(!request.q);
-    if (!request.q) return;
+    const blank = !request.q && !Object.keys(request.hard_filters).length && !Object.keys(request.preferences).length;
+    setEmptyError(blank);
+    if (blank) return;
     if (applied && JSON.stringify(applied) === JSON.stringify(request)) void result.refetch();
     else setApplied(request);
     requestAnimationFrame(() => {
@@ -348,7 +349,11 @@ export function Finder() {
       {applied && <section id="finder-results" className="finder-results" tabIndex={-1} aria-labelledby="finder-results-title" aria-busy={result.isFetching}>
         <div className="section-head"><h2 id="finder-results-title">گزینه‌هایی برای مقایسه</h2></div>
         {result.isFetching ? <p role="status">در حال پیدا کردن گزینه‌های نزدیک به درخواستت…</p> : result.isError ? <ErrorState retry={() => result.refetch()} /> : <>
-          {result.data?.mode === "lexical_fallback" && <p role="status" className="semantic-notice">جست‌وجوی معنایی فعلاً در دسترس نیست؛ نتیجه‌های جست‌وجوی متنی نمایش داده می‌شوند.</p>}
+          {result.data?.status === "manual_filter_only" && <p role="status" className="semantic-notice">متن درخواست بررسی نشد؛ فقط نتیجه‌های فیلترهای دستی نمایش داده می‌شوند. برای بررسی متن دوباره تلاش کن.</p>}
+          {result.data?.status === "ok" && result.data.degraded_reason && <p role="status" className="semantic-notice">شرط‌های درخواست بررسی شدند، اما شباهت معنایی در دسترس نیست؛ ترتیب نتیجه‌ها بر اساس شواهد و ترجیح‌های قابل بررسی است.</p>}
+          {result.data?.status === "conflict" && <p role="alert">شرط‌های متن با انتخاب‌ها ناسازگارند؛ متن یا فیلترها را اصلاح کن.</p>}
+          {result.data?.status === "intent_unavailable" && <p role="alert">درخواست متنی قابل بررسی نبود؛ دوباره تلاش کن. نتیجه‌ای بدون بررسی شرط‌ها نمایش داده نشده است.</p>}
+          {result.data?.status === "unsupported_requirements" && <p role="alert">بخشی از درخواست با داده‌های موجود قابل بررسی نیست؛ درخواستت را دقیق‌تر کن.</p>}
           <p role="status">{formatNumber(result.data?.items.length ?? 0)} گزینه برای مقایسه</p>
           <div className="finder-grid">{result.data?.items.map((shoe, index) => <div className="finder-result" key={shoe.shoe_id}>
             <div className="match-explanation"><p>{shoe.search_explanation}</p></div>

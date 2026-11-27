@@ -88,4 +88,4 @@ Domestic/foreign store links and sourced toman conversion: [store prices and ref
 
 Admin store view/click analytics and private account setup: [admin panel](docs/admin-panel.md). Open `/admin`; counts start when tracking is enabled and are unique by browser, shoe and store.
 
-[My shoe](http://127.0.0.1:5173/finder) submits selected filters and free text together through one semantic search button, returning up to 9 comparable product cards in a single results section.
+[My shoe](http://127.0.0.1:5173/finder) uses the [shared recommendation engine](docs/hybrid-search.md): typed hard filters, soft preferences and validated text intent produce up to 9 comparable cards through one submit. Manual-only search needs no AI call.

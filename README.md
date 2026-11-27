@@ -87,3 +87,5 @@ Retailer ingestion, stock freshness, source mappings and paginated offer API: [c
 Domestic/foreign store links and sourced toman conversion: [store prices and refresh instructions](docs/store-links.md). Product pages show the supplied CSV listings with their original price, converted amount and rate source/time.
 
 Admin store view/click analytics and private account setup: [admin panel](docs/admin-panel.md). Open `/admin`; counts start when tracking is enabled and are unique by browser, shoe and store.
+
+Independent [semantic search page](http://127.0.0.1:5173/semantic-search): submit a description to see up to 10 hybrid-ranked products, with explicit loading/error/fallback states.

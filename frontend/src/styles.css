@@ -124,6 +124,10 @@ bdi {
   margin: auto;
   padding: 0 48px 80px;
 }
+header.site-header nav a.nav-semantic { display: inline-flex; }
+@media (max-width: 600px) {
+  .site-header nav { flex-wrap: wrap; gap: 8px 12px; }
+}
 .site-header {
   height: 90px;
   background: rgba(255, 255, 255, 0.95);

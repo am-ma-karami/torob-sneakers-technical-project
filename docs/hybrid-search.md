@@ -2,7 +2,10 @@
 
 Implemented 2026-11-27. `POST /api/search` combines lexical matching with the existing
 CLIP specification and primary-photo indexes. This is a new backend endpoint; the
-existing catalog search UI and `/api/catalog` are unchanged.
+existing catalog search UI and `/api/catalog` are unchanged. A separate page at
+`/semantic-search`, linked as «جست‌وجوی معنایی», now submits descriptions explicitly
+and displays up to 10 ranked ShoeCards below the form. It includes loading, retryable
+error, empty and lexical-fallback states; desktop/mobile real-API and error journeys passed.
 
 ```json
 {"q":"کفش سبک برای دویدن روی آسفالت","limit":12,"filters":{"brand":["adidas"],"weight_max":250}}
@@ -54,4 +57,4 @@ Tests: `backend/tests/test_search.py`. Real Persian Metis translation and hybrid
 retrieval were verified locally. Full backend suite passed 156 tests before the
 additional positive dual-modality/stale-vector regression; final targeted results
 are recorded in MEMORY.md. Relevance evaluation on labeled Persian queries, load/
-cost testing and wiring this endpoint into the catalog UI remain next steps.
+cost testing and integrating semantic ranking into the existing catalog remain next steps.

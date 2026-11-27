@@ -398,7 +398,7 @@ and obtain private snapshots/review copies if importing on another machine. Rema
 9299 source rows require evidence or canonical coverage; do not approve them en masse.
 819 models still have no Iranian link. Partial cached specialist discovery is
 unapproved; future expansion needs fresh exact identity/stock/local-dispatch review.
-Embedding stage 1 is also populated/validated locally, uncommitted/unpushed. Source
+Embedding stage 1 and hybrid API are populated/validated and committed locally; not pushed. Source
 and docs are in this working tree; vectors/weights/private reports are not in Git.
 Another machine must obtain a private DB backup or rerun the documented worker.
 Hybrid search is now implemented in the backend; see docs/hybrid-search.md. The existing catalog remains lexical; /semantic-search now exposes hybrid search independently.
@@ -471,7 +471,7 @@ Frontend/browser/load/relevance evaluation not run. No commit/push authorized.
 ## Semantic search UI delivery — 2026-11-27
 
 Authorized scope now includes local commits for embedding/search prerequisites and this UI; no push requested.
-Embedding infrastructure is committed at 78acae1. Hybrid API and semantic UI delivery follow in separate commits.
+Embedding infrastructure is committed at 78acae1. Hybrid API is committed at 1efe140. This final commit delivers the independently linked semantic UI.
 Unrelated retailer importer/data changes remain uncommitted and must be preserved.
 Page /semantic-search is independently linked as جست‌وجوی معنایی in primary/footer navigation.
 frontend/src/pages/SemanticSearch.tsx and semantic-search.css submit POST /api/search with
@@ -480,5 +480,10 @@ Visible loading, retryable error, empty results and explicit lexical-fallback no
 unmount, prevent duplicate submits, labeled textarea capped at 400 characters, Latin digits.
 frontend/e2e/semantic-search.spec.ts verifies real hybrid results (10 cards), navigation, no
 requests while typing, mobile overflow, error and fallback. Frontend lint, TypeScript/build
-and 30 unit tests passed; four desktop/mobile e2e journeys passed before the final nav check.
+and 30 unit tests passed; four desktop/mobile e2e journeys passed again with final mobile navigation visibility assertions.
 Backend 8000 and frontend 5173 were already running and reused; no duplicate server started.
+
+Semantic UI final checks: 30 unit tests, ESLint, TypeScript and production build passed;
+four desktop/mobile real-API/error/fallback journeys passed after the navigation fix.
+Three local feature commits preserve established author/co-author attribution. No push performed.
+Site available at http://127.0.0.1:5173/semantic-search; backend on 8000.

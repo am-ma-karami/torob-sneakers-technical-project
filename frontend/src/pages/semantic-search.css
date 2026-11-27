@@ -1,0 +1,20 @@
+.semantic-search { padding-block: clamp(32px, 6vw, 80px); }
+.semantic-intro { max-width: 760px; margin-bottom: 28px; }
+.semantic-eyebrow { color: #c7ac88; font-size: .85rem; }
+.semantic-intro h1 { font-size: clamp(2rem, 4vw, 3.4rem); margin-block: 12px; }
+.semantic-intro p, .semantic-result-heading p { color: #b8c4d3; line-height: 1.9; overflow-wrap: anywhere; }
+.semantic-form { padding: clamp(18px, 3vw, 32px); border: 1px solid #45556b; border-radius: 24px; background: #263448; }
+.semantic-form label { display: block; margin-bottom: 12px; font-weight: 600; }
+.semantic-form textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 110px; padding: 16px; border: 1px solid #56677d; border-radius: 14px; background: #171d27; color: #f3f2ee; font: inherit; line-height: 1.9; }
+.semantic-form textarea:focus-visible { outline: 2px solid #a6c8e9; outline-offset: 3px; }
+.semantic-form-footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 18px; }
+.semantic-form-footer span { color: #b8c4d3; font-size: .85rem; }
+.semantic-form-footer button { display: inline-flex; align-items: center; gap: 8px; }
+.semantic-form-footer button:disabled { opacity: .55; cursor: default; }
+.semantic-status { min-height: 32px; padding-block: 12px; color: #a6c8e9; }
+.semantic-result-heading { margin-block: 20px 24px; }
+.semantic-result-heading h2 { font-size: 1.5rem; }
+.semantic-notice { padding: 16px; border-inline-start: 3px solid #c7ac88; background: #263448; line-height: 1.9; }
+.semantic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 900px) { .semantic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .semantic-grid { grid-template-columns: minmax(0, 1fr); } .semantic-form-footer { align-items: stretch; flex-direction: column; } }

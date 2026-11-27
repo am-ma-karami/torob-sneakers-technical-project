@@ -471,7 +471,7 @@ Frontend/browser/load/relevance evaluation not run. No commit/push authorized.
 ## Semantic search UI delivery — 2026-11-27
 
 Authorized scope now includes local commits for embedding/search prerequisites and this UI; no push requested.
-Changes are being split into three commits: embeddings, hybrid API, semantic search UI.
+Embedding infrastructure is committed at 78acae1. Hybrid API and semantic UI delivery follow in separate commits.
 Unrelated retailer importer/data changes remain uncommitted and must be preserved.
 Page /semantic-search is independently linked as جست‌وجوی معنایی in primary/footer navigation.
 frontend/src/pages/SemanticSearch.tsx and semantic-search.css submit POST /api/search with

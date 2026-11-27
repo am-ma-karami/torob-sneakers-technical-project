@@ -12,6 +12,7 @@ from app.repositories.catalog import CatalogRepository
 from app.repositories.offers import list_offers
 from app.schemas.catalog import CatalogQuery, CatalogResponse, DetailResponse, FinderRequest
 from app.schemas.offers import OffersQuery, OffersResponse
+from app.schemas.search import SearchRequest
 from app.services.analytics import visitor_cookie
 from app.services.catalog import CatalogService, NotFound, featured_catalog, score_context
 
@@ -47,6 +48,14 @@ def catalog(query: Annotated[CatalogQuery, Query()], repo: Repo):
 @router.get("/facets")
 def facets(query: Annotated[CatalogQuery, Query()], repo: Repo):
     return repo.facets(query)
+
+
+@router.post("/search")
+def hybrid_search(request_body: "SearchRequest", repo: Repo, response: Response):
+    from app.services.search import search
+
+    response.headers["Cache-Control"] = "no-store"
+    return search(repo.session, request_body)
 
 
 @router.get("/taxonomy")

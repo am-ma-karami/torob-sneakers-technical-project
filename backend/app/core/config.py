@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     offer_ttl_hours: int = Field(default=24, ge=1, le=168)
     retailer_domains: dict[str, list[str]] = Field(default_factory=dict)
     fx_auto_refresh: bool = False
+    metis_api_key: SecretStr = SecretStr("")
+    metis_model: str = "gpt-4o"
     fx_refresh_seconds: int = Field(default=3600, ge=300, le=86400)
     fx_stale_hours: int = Field(default=24, ge=1, le=168)
     admin_session_hours: int = Field(default=12, ge=1, le=168)
